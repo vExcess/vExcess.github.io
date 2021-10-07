@@ -1,16 +1,84 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>New webpage</title>
-        <style>
-            body {
-                font-family: sans-serif;
-            }
-        </style>
-    </head>
-    <body>
-      <h1>VEXCESS' Website</h1>
-      <p>Unfortunately nothing to see here yet...</p>
-    </body>
+<head>
+  <meta charset="utf-8">
+  <title>Vexcess.io</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 10px;
+    }
+    
+    #navTool {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      background-color: rgb(10, 42, 102);
+      z-index: 10;
+      border-bottom: 2px solid rgb(84, 106, 148);
+      font-size: 17px;
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      padding-top: 10px;
+      padding-bottom: 9px;
+    }
+    #navTool a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 25px;
+    }
+    #navTool a:hover {
+      background-color: rgb(0, 24, 69);
+    }
+    
+    .page {
+      margin-top: 50px;
+      animation: fadeIn 0.2s linear;
+    }
+    
+  </style>
+</head>
+<body>
+  <!-- NAV TOOL -->
+  <div id="navTool">
+    <div style="">
+      <span style="margin-right: 10px;"><strong>VEXCESS.io</strong></span>
+      <a href="javascript:changePage(1);">Page1</a>
+      <a href="javascript:changePage(2);">Page2</a>
+    </div>
+    
+  </div>
+  
+  <!-- MAIN PAGE -->
+  <div class="page">
+    <h1>Hello World</h1>
+    
+    <p>
+      Nothing much here yet. Enjoy the following:
+      <br><br>
+      <a href="https://vexcess.github.io/RankedPairsVoting">Ranked Pairs Voting Calculator</a>
+      <br><br>
+      <a href="https://vexcess.github.io/code-editor">Code Editor</a>
+    </p>
+    
+  </div>
+  
+  <!-- CHANGE PAGE SCRIPT -->
+  <script>
+var page = document.getElementsByClassName('page');
+function changePage(index) {
+  KAInfiniteLoopProtect();
+  for (var i = 0; i < page.length; i++) {
+      KAInfiniteLoopProtect();
+      page[i].style.display = 'none';
+  }
+  page[index - 1].style.display = 'block';
+  window.scroll(0, 0);
+}
+changePage(1);
+  </script>
+  
+</body>
 </html>
