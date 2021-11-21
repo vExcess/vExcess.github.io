@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: sans-serif;
-      margin: 10px;
+      margin: 20px;
     }
     
     #navTool {
@@ -56,11 +56,23 @@
     <h1>Hello World</h1>
     
     <p>
-      Nothing much here yet. Enjoy the following:
+      Nothing much here yet, but enjoy the following:
+      
       <br><br>
+      
       <a href="https://vexcess.github.io/RankedPairsVoting">Ranked Pairs Voting Calculator</a>
+      <br>
+      Calculates results from a ranked pairs voting election given CSV file
+      
       <br><br>
       <a href="https://vexcess.github.io/code-editor">Code Editor</a>
+      <br>
+      Lightweight easy to use code editor for HTML or Processing.js
+      
+      <br><br>
+      <a href="https://vexcess.github.io/code-editor">Imagenator</a>
+      <br>
+      Convert images to JS code that can be run on Khan Academy
     </p>
     
   </div>
@@ -70,7 +82,7 @@
 var page = document.getElementsByClassName('page');
 function changePage(index) {
   for (var i = 0; i < page.length; i++) {
-      page[i].style.display = 'none';
+    page[i].style.display = 'none';
   }
   page[index - 1].style.display = 'block';
   window.scroll(0, 0);
