@@ -2,27 +2,25 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Vexcess.io</title>
+  <title>vExcess.github.io</title>
   <style>
     body {
       font-family: sans-serif;
-      margin: 20px;
+      margin: 0px;
+      font-size: 16px;
     }
     
     #navTool {
       position: fixed;
-      top: -1px;
+      top: 0px;
       left: 0px;
       right: 0px;
-      background-color: rgb(10, 42, 102);
+      background-color: rgba(0, 0, 0, 0.75);
       z-index: 10;
-      border-bottom: 2px solid rgb(84, 106, 148);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.5);
       font-size: 17px;
-      color: white;
-      text-decoration: none;
-      padding: 15px;
-      padding-top: 15px;
-      padding-bottom: 12px;
+      font-family: "trebuchet ms", sans-serif;
+      padding: 12px;
     }
     #navTool a {
       color: white;
@@ -34,47 +32,134 @@
     }
     
     .page {
-      margin-top: 65px;
+      margin-top: 46px;
       animation: fadeIn 0.2s linear;
+      z-index: 1;
+    }
+    
+    .page-top {
+      width: 90%; 
+      height: 400px; 
+      background-color: rgba(255, 255, 255, 0.7); 
+      padding: 10px; 
+      border-radius: 5px; 
+      margin: auto; 
+      margin-top: calc(46px + 50px);
+      margin-bottom: 50px;
+    }
+    
+    .page-main {
+      background-color: white;
+      margin: 0px;
+      margin-top: 0;
+      padding: 12px;
+      padding-bottom: 25%;
+    }
+    
+    .contact-box {
+      display: block; 
+      border-radius: 10px; 
+      overflow: hidden; 
+      border: 2px solid green; 
+      width: 150px; 
+      height: 85px; 
+      background-size: cover; 
+      background-repeat: no-repeat; 
+      padding: 8px; 
+      padding-top: 65px; 
+      text-align: center; 
+      text-decoration: none; 
+      color: black; 
+      font-size: 20px; 
+      position: relative;
+    }
+    
+    .project-box {
+      display: block; 
+      border: 2px solid rgb(0, 75, 0); 
+      border-radius: 5px; 
+      padding: 12px; 
+      text-decoration: none; 
+      color: black;
+      margin-bottom: 12px;
+    }
+    
+    td {
+      padding: 10px;
     }
     
   </style>
 </head>
 <body>
+
+  <img src="https://th.bing.com/th/id/R.7e9ebb72afc367cd22ab1bbdce6af645?rik=jDVA7EZgMzypig&riu=http%3a%2f%2fwww.publicdomainpictures.net%2fpictures%2f100000%2fvelka%2ffern-leaf.jpg&ehk=QiVxutWT9yv5oSM4OXkJ22itD%2b4ZIk%2fFD%2bTsiG%2bd2iU%3d&risl=&pid=ImgRaw&r=0" id="background-img">
+  
+  <script>
+    var bckImg = document.getElementById("background-img");
+    bckImg.style.position = "fixed";
+    bckImg.style.left = "0px";
+    bckImg.style.top = "0px";
+    bckImg.style.width = window.innerWidth + "px";
+    bckImg.style.height = window.innerHeight * 0.75 + "px";
+    bckImg.style.zIndex = "-1";
+  </script>
+
   <!-- NAV TOOL -->
   <div id="navTool">
-    <div style="">
-      <a href="https://vexcess.github.io/" target="_self" style='font-family: "Trebuchet MS", sans-serif;'>VEXCESS.io</a>
-      <a href="javascript:changePage(1);">Page1</a>
-      <a href="javascript:changePage(2);">Page2</a>
-    </div>
-    
+    <a href="https://vexcess.github.io/" target="_self">vExcess.github.io</a>
+    <a href="javascript:changePage(1);">Page1</a>
+    <a href="javascript:changePage(2);">Page2</a>
   </div>
   
   <!-- MAIN PAGE -->
-  <div class="page">
-    <h1>Hello World</h1>
-    
-    <p>
-      Nothing much here yet, but enjoy the following:
+  <div class="page" style="padding-bottom: 12px;">
+    <!-- top -->
+    <div class="page-top">
+      <h1 style="text-align: center;">VEXCESS</h1>
       
-      <br><br>
+      <h3>Contacts:</h3>
+      <table>
+        <tr>
+          <td>
+            <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
+              <img src="https://www.neisd.net/cms/lib/TX02215002/Centricity/Domain/9613/khan_logo.png" height="150px" style="margin-top: -60px;">
+              <strong style="display: block; position: absolute; top: 65px;">
+                Khan Academy<br>@VXS
+              </strong>
+            </a>
+          </td>
+          <td>
+            <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
+              <img src="https://maxcdn.icons8.com/Share/icon/Logos/discord_logo1600.png" height="150px" style="margin-top: -60px;">
+              <strong style="display: block; position: absolute; top: 65px;">
+                Discord<br>@Vexcess
+              </strong>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- main -->
+    <div class="page-main">
+      <h2>Projects</h2>
+      <a href="https://vexcess.github.io/RankedPairsVoting" class="project-box">
+         <strong style="text-decoration: underline;">Ranked Pairs Voting Calculator</strong>
+         <br><br>
+         Calculates results from a ranked pairs voting election given CSV file
+      </a>
       
-      <a href="https://vexcess.github.io/RankedPairsVoting">Ranked Pairs Voting Calculator</a>
-      <br>
-      Calculates results from a ranked pairs voting election given CSV file
+      <a href="https://vexcess.github.io/code-editor" class="project-box">
+         <strong style="text-decoration: underline;">Code Editor</strong>
+         <br><br>
+         Lightweight easy to use code editor for HTML or Processing.js
+      </a>
       
-      <br><br>
-      <a href="https://vexcess.github.io/code-editor">Code Editor</a>
-      <br>
-      Lightweight easy to use code editor for HTML or Processing.js
-      
-      <br><br>
-      <a href="https://vexcess.github.io/imagenator">Imagenator</a>
-      <br>
-      Convert images to JS code that can be run on Khan Academy
-    </p>
-    
+      <a href="https://vexcess.github.io/imagenator" class="project-box">
+         <strong style="text-decoration: underline;">Imagenator</strong>
+         <br><br>
+         Convert images to JS code that can be run on Khan Academy
+      </a>
+    </div>
   </div>
   
   <!-- CHANGE PAGE SCRIPT -->
