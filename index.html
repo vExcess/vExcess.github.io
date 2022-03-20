@@ -15,9 +15,9 @@
       top: 0px;
       left: 0px;
       right: 0px;
-      background-color: rgba(0, 0, 0, 0.75);
+      background-color: rgba(0, 0, 0, 0.7);
       z-index: 10;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.4);
       font-size: 17px;
       font-family: "trebuchet ms", sans-serif;
       padding: 12px;
@@ -28,7 +28,7 @@
       padding: 13px 25px;
     }
     #navTool a:hover {
-      background-color: rgb(0, 24, 69);
+      background-color: rgb(0, 0, 0);
     }
     
     .page {
@@ -39,28 +39,41 @@
     
     .page-top {
       width: 90%; 
-      height: 400px; 
+      height: 500px; 
       background-color: rgba(255, 255, 255, 0.7); 
       padding: 10px; 
       border-radius: 5px; 
       margin: auto; 
-      margin-top: calc(46px + 50px);
-      margin-bottom: 50px;
+      margin-top: calc(46px + 33px);
+      margin-bottom: 33px;
+      text-shadow: 0px 6px 10px rgba(0, 0, 0, 0.6);
+    }
+    
+    .page-top h1 {
+      text-align: center;
+    }
+    
+    .page-top div {
+      background-color: white;
+      padding: 6px;
+      margin-bottom: 6px;
+      border-radius: 4px;
+      text-shadow: none;
     }
     
     .page-main {
       background-color: white;
       margin: 0px;
       margin-top: 0;
-      padding: 12px;
+      padding: 20px;
       padding-bottom: 25%;
     }
     
     .contact-box {
       display: block; 
       border-radius: 10px; 
-      overflow: hidden; 
-      border: 2px solid green; 
+      overflow: hidden;
+      border: 2px solid rgb(0, 75, 0); 
       width: 150px; 
       height: 85px; 
       background-size: cover; 
@@ -69,9 +82,19 @@
       padding-top: 65px; 
       text-align: center; 
       text-decoration: none; 
-      color: black; 
-      font-size: 20px; 
       position: relative;
+      font-size: 20px; 
+      color: black;
+      text-shadow: none;
+    }
+    .contact-box:hover {
+      box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.5);
+    }
+    .contact-box strong {
+      display: block;
+      position: relative;
+      top: -8px;
+      margin: auto;
     }
     
     .project-box {
@@ -100,7 +123,7 @@
     bckImg.style.left = "0px";
     bckImg.style.top = "0px";
     bckImg.style.width = window.innerWidth + "px";
-    bckImg.style.height = window.innerHeight * 0.75 + "px";
+    bckImg.style.height = "650px";
     bckImg.style.zIndex = "-1";
   </script>
 
@@ -115,49 +138,68 @@
   <div class="page" style="padding-bottom: 12px;">
     <!-- top -->
     <div class="page-top">
-      <h1 style="text-align: center;">VEXCESS</h1>
+      <h1 style="margin-top: 10px;">VEXCESS</h1>
       
-      <h3>Contacts:</h3>
-      <table>
+      <h2 style="margin-bottom: 0px; margin-top: 0px;">Contacts:</h2>
+      <table style="margin: auto;">
         <tr>
           <td>
             <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
-              <img src="https://www.neisd.net/cms/lib/TX02215002/Centricity/Domain/9613/khan_logo.png" height="150px" style="margin-top: -60px;">
-              <strong style="display: block; position: absolute; top: 65px;">
+              <img src="https://www.neisd.net/cms/lib/TX02215002/Centricity/Domain/9613/khan_logo.png" height="95px" style="margin-top: -55px; margin-bottom: 5px;">
+              <strong>
                 Khan Academy<br>@VXS
+              </strong>3
+            </a>
+          </td>
+          
+          <td>
+            <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
+              <img src="https://maxcdn.icons8.com/Share/icon/Logos/discord_logo1600.png" height="115px" style="margin-top: -70px;">
+              <strong >
+                Discord<br>@Vexcess#1616
               </strong>
             </a>
           </td>
+          
           <td>
-            <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
-              <img src="https://maxcdn.icons8.com/Share/icon/Logos/discord_logo1600.png" height="150px" style="margin-top: -60px;">
-              <strong style="display: block; position: absolute; top: 65px;">
-                Discord<br>@Vexcess
+            <a class="contact-box" href="https://replit.com/@vexcess" target="_blank">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Repl.it_logo.svg/1200px-Repl.it_logo.svg.png" height="115px" style="margin-top: -70px;">
+              <strong>
+                Replit<br>@vexcess
               </strong>
             </a>
           </td>
         </tr>
       </table>
+      
+      <h2 style="margin-bottom: 12px; margin-top: 0px;">Skills:</h2>
+      <div>JS/HTML/CSS + (JQuery, Processing, P5, Babylon)</div>
+      <div>Node JS</div>
+      <div>Java</div>
+      <div>Python</div>
+      <div>Web Assembly</div>
+      
     </div>
+    
     <!-- main -->
     <div class="page-main">
       <h2>Projects</h2>
       <a href="https://vexcess.github.io/RankedPairsVoting" class="project-box">
-         <strong style="text-decoration: underline;">Ranked Pairs Voting Calculator</strong>
-         <br><br>
-         Calculates results from a ranked pairs voting election given CSV file
+       <strong style="text-decoration: underline;">Ranked Pairs Voting Calculator</strong>
+       <br><br>
+       Calculates results from a ranked pairs voting election given CSV file
       </a>
       
       <a href="https://vexcess.github.io/code-editor" class="project-box">
-         <strong style="text-decoration: underline;">Code Editor</strong>
-         <br><br>
-         Lightweight easy to use code editor for HTML or Processing.js
+       <strong style="text-decoration: underline;">Code Editor</strong>
+       <br><br>
+       Lightweight easy to use code editor for HTML or Processing.js
       </a>
       
       <a href="https://vexcess.github.io/imagenator" class="project-box">
-         <strong style="text-decoration: underline;">Imagenator</strong>
-         <br><br>
-         Convert images to JS code that can be run on Khan Academy
+       <strong style="text-decoration: underline;">Imagenator</strong>
+       <br><br>
+       Convert images to JS code that can be run on Khan Academy
       </a>
     </div>
   </div>
