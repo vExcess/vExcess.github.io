@@ -1,221 +1,758 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>vExcess.github.io</title>
-  <link rel="icon" href="https://github.com/vExcess/vExcess.github.io/blob/master/VXS%20Logo.png?raw=true">
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0px;
-      font-size: 16px;
-    }
+    <meta charset="utf-8">
     
-    #navTool {
-      position: fixed;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      background-color: rgba(0, 0, 0, 0.9);
-      z-index: 10;
-      border-bottom: 1px solid rgb(0, 0, 0);
-      font-size: 17px;
-      font-family: "trebuchet ms", sans-serif;
-      padding: 16px;
-      padding-left: 0px;
-    }
-    #navTool a {
-      color: white;
-      text-decoration: none;
-      padding: 16px 25px;
-    }
-    #navTool a:hover {
-      background-color: rgb(0, 0, 0);
-    }
+    <title>vExcess.github.io</title>
     
-    .page {
-      margin-top: 46px;
-      animation: fadeIn 0.2s linear;
-      z-index: 1;
-    }
+    <link rel="icon" href="https://github.com/vExcess/vExcess.github.io/blob/master/logo.png?raw=true">
     
-    .page-top {
-      width: 90%; 
-      height: 500px; 
-      background-color: rgba(255, 255, 255, 0.7); 
-      padding: 10px; 
-      border-radius: 5px; 
-      margin: auto; 
-      margin-top: calc(46px + 33px);
-      margin-bottom: 33px;
-      text-shadow: 0px 6px 10px rgba(0, 0, 0, 0.6);
-    }
-    
-    .page-top h1 {
-      text-align: center;
-    }
-    
-    .page-top div {
-      background-color: white;
-      padding: 6px;
-      margin-bottom: 6px;
-      border-radius: 4px;
-      text-shadow: none;
-    }
-    
-    .page-main {
-      background-color: white;
-      margin: 0px;
-      padding: 20px;
-    }
-    
-    .contact-box {
-      display: block; 
-      border-radius: 10px; 
-      overflow: hidden;
-      border: 2px solid rgb(0, 75, 0); 
-      width: 150px; 
-      height: 85px; 
-      background-size: cover; 
-      background-repeat: no-repeat; 
-      padding: 8px; 
-      padding-top: 65px; 
-      text-align: center; 
-      text-decoration: none; 
-      position: relative;
-      font-size: 20px; 
-      color: black;
-      text-shadow: none;
-    }
-    .contact-box:hover {
-      box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.5);
-    }
-    .contact-box strong {
-      display: block;
-      position: relative;
-      top: -8px;
-      margin: auto;
-    }
-    
-    .project-box {
-      display: block; 
-      border: 2px solid rgb(0, 75, 0); 
-      border-radius: 5px; 
-      padding: 12px; 
-      text-decoration: none; 
-      color: black;
-      margin-bottom: 12px;
-    }
-    
-    td {
-      padding: 10px;
-    }
-    
-  </style>
+    <style>
+body {
+    font-family: sans-serif;
+    margin: 0px;
+    font-size: 16px;
+}
+
+#navTool {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 10;
+    border-bottom: 1px solid rgb(0, 0, 0);
+    font-size: 17px;
+    font-family: "trebuchet ms", sans-serif;
+    padding: 16px;
+    padding-left: 0px;
+}
+
+#navTool a {
+    color: white;
+    text-decoration: none;
+    padding: 16px 25px;
+}
+
+#navTool a:hover {
+    background-color: rgb(0, 0, 0);
+}
+
+.page {
+    margin-top: 50px;
+    animation: fadeIn 0.2s linear;
+    z-index: 1;
+}
+
+.page-top {
+    width: 90%;
+    height: 500px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: calc(46px + 33px);
+    margin-bottom: 33px;
+    text-shadow: 0px 6px 10px rgba(0, 0, 0, 0.6);
+}
+
+.page-top h1 {
+    text-align: center;
+}
+
+.page-top div {
+    background-color: white;
+    padding: 6px;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    text-shadow: none;
+}
+
+.page-main {
+    background-color: white;
+    margin: 0px;
+    padding: 20px;
+}
+
+.contact-box {
+    display: block;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid rgb(0, 75, 0);
+    width: 150px;
+    height: 85px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 8px;
+    padding-top: 65px;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    font-size: 20px;
+    color: black;
+    text-shadow: none;
+}
+
+.contact-box:hover {
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.contact-box strong {
+    display: block;
+    position: relative;
+    top: -8px;
+    margin: auto;
+}
+
+.project-box {
+    display: block;
+    border: 2px solid rgb(0, 75, 0);
+    border-radius: 5px;
+    padding: 12px;
+    text-decoration: none;
+    color: black;
+    margin-bottom: 12px;
+}
+
+td {
+    padding: 10px;
+}
+    </style>
 </head>
 <body>
 
-  <img src="https://th.bing.com/th/id/R.7e9ebb72afc367cd22ab1bbdce6af645?rik=jDVA7EZgMzypig&riu=http%3a%2f%2fwww.publicdomainpictures.net%2fpictures%2f100000%2fvelka%2ffern-leaf.jpg&ehk=QiVxutWT9yv5oSM4OXkJ22itD%2b4ZIk%2fFD%2bTsiG%2bd2iU%3d&risl=&pid=ImgRaw&r=0" id="background-img">
-  
-  <script>
-    var bckImg = document.getElementById("background-img");
-    bckImg.style.position = "fixed";
-    bckImg.style.left = "0px";
-    bckImg.style.top = "0px";
-    bckImg.style.width = window.innerWidth + "px";
-    bckImg.style.height = "650px";
-    bckImg.style.zIndex = "-1";
-  </script>
+    <img src="https://th.bing.com/th/id/R.7e9ebb72afc367cd22ab1bbdce6af645?rik=jDVA7EZgMzypig&riu=http%3a%2f%2fwww.publicdomainpictures.net%2fpictures%2f100000%2fvelka%2ffern-leaf.jpg&ehk=QiVxutWT9yv5oSM4OXkJ22itD%2b4ZIk%2fFD%2bTsiG%2bd2iU%3d&risl=&pid=ImgRaw&r=0" id="background-img">
+    
+    <script>
+        var bckImg = document.getElementById("background-img");
+        bckImg.style.position = "fixed";
+        bckImg.style.left = "0px";
+        bckImg.style.top = "0px";
+        bckImg.style.width = window.innerWidth + "px";
+        bckImg.style.height = "650px";
+        bckImg.style.zIndex = "-1";
+    </script>
 
-  <!-- NAV TOOL -->
-  <div id="navTool">
-    <a href="https://vexcess.github.io/" target="_self">vExcess.github.io</a>
-    <a href="javascript:changePage(1);">Page1</a>
-    <a href="javascript:changePage(2);">Page2</a>
-  </div>
+    <!-- NAV TOOL -->
+    <div id="navTool">
+        <a href="https://vexcess.github.io/" target="_self">vExcess.github.io</a>
+        <a href="javascript:changePage(1);">About</a>
+        <a href="javascript:changePage(2);">Converters</a>
+    </div>
   
-  <!-- MAIN PAGE -->
-  <div class="page" style="padding-bottom: 12px;">
-    <!-- top -->
-    <div class="page-top">
-      <h1 style="margin-top: 10px;">VEXCESS</h1>
-      
-      <h2 style="margin-bottom: 0px; margin-top: 0px;">Contacts:</h2>
-      <table style="margin: auto;">
-        <tr>
-          <td>
-            <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
-              <img src="https://www.neisd.net/cms/lib/TX02215002/Centricity/Domain/9613/khan_logo.png" height="95px" style="margin-top: -55px; margin-bottom: 5px;">
-              <strong>
-                Khan Academy<br>@VXS
-              </strong>3
-            </a>
-          </td>
+    <!-- MAIN PAGE -->
+    <div class="page" style="padding-bottom: 12px;">
+        <!-- top part -->
+        <div class="page-top">
+          <h1 style="margin-top: 10px;">VEXCESS</h1>
           
-          <td>
-            <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
-              <img src="https://maxcdn.icons8.com/Share/icon/Logos/discord_logo1600.png" height="115px" style="margin-top: -70px;">
-              <strong >
-                Discord<br>@Vexcess#1616
-              </strong>
-            </a>
-          </td>
+          <h2 style="margin-bottom: 0px; margin-top: 0px;">Contacts:</h2>
+          <table style="margin: auto;">
+            <tr>
+              <td>
+                <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
+                  <img src="https://www.neisd.net/cms/lib/TX02215002/Centricity/Domain/9613/khan_logo.png" height="95px" style="margin-top: -55px; margin-bottom: 5px;">
+                  <strong>
+                    Khan Academy<br>@VXS
+                  </strong>3
+                </a>
+              </td>
+              
+              <td>
+                <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
+                  <img src="https://brandlogos.net/wp-content/uploads/2021/11/discord-logo.png" height="140px" style="margin-top: -80px; margin-bottom: -15px;">
+                  <strong >
+                    Discord<br>@Vexcess#1616
+                  </strong>
+                </a>
+              </td>
+              
+              <td>
+                <a class="contact-box" href="https://replit.com/@vexcess" target="_blank">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Repl.it_logo.svg/1200px-Repl.it_logo.svg.png" height="115px" style="margin-top: -70px;">
+                  <strong>
+                    Replit<br>@vexcess
+                  </strong>
+                </a>
+              </td>
+            </tr>
+          </table>
           
-          <td>
-            <a class="contact-box" href="https://replit.com/@vexcess" target="_blank">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Repl.it_logo.svg/1200px-Repl.it_logo.svg.png" height="115px" style="margin-top: -70px;">
-              <strong>
-                Replit<br>@vexcess
-              </strong>
-            </a>
-          </td>
-        </tr>
-      </table>
-      
-      <h2 style="margin-bottom: 12px; margin-top: 0px;">Skills:</h2>
-      <div>JS/HTML/CSS + (JQuery, Processing, P5, Babylon)</div>
-      <div>Node JS</div>
-      <div>Java</div>
-      <div>Python</div>
-      <div>Web Assembly</div>
-      
+          <h2 style="margin-bottom: 12px; margin-top: 0px;">Skills:</h2>
+          <div>JS / HTML / CSS + (JQuery, Processing, P5, Babylon)</div>
+          <div>Node JS</div>
+          <div>Java</div>
+          <div>Some experience with: Python, Web Assembly, WebGL</div>
+          
+        </div>
+        
+        <!-- body part -->
+        <div class="page-main">
+          <h2>Tools</h2>
+          <a href="https://vexcess.github.io/RankedPairsVoting" class="project-box">
+           <strong style="text-decoration: underline;">Ranked Pairs Voting Calculator</strong>
+           <br><br>
+           Calculates results from a ranked pairs voting election given CSV file
+          </a>
+          
+          <a href="https://vexcess.github.io/code-editor" class="project-box">
+           <strong style="text-decoration: underline;">Code Editor</strong>
+           <br><br>
+           Lightweight easy to use code editor for HTML or Processing.js
+          </a>
+          
+          <a href="https://vexcess.github.io/imagenator" class="project-box">
+           <strong style="text-decoration: underline;">Imagenator</strong>
+           <br><br>
+           Convert images to JS code that can be run on Khan Academy
+          </a>
+        </div>
     </div>
     
-    <!-- main -->
-    <div class="page-main">
-      <h2>Tools</h2>
-      <a href="https://vexcess.github.io/RankedPairsVoting" class="project-box">
-       <strong style="text-decoration: underline;">Ranked Pairs Voting Calculator</strong>
-       <br><br>
-       Calculates results from a ranked pairs voting election given CSV file
-      </a>
-      
-      <a href="https://vexcess.github.io/code-editor" class="project-box">
-       <strong style="text-decoration: underline;">Code Editor</strong>
-       <br><br>
-       Lightweight easy to use code editor for HTML or Processing.js
-      </a>
-      
-      <a href="https://vexcess.github.io/imagenator" class="project-box">
-       <strong style="text-decoration: underline;">Imagenator</strong>
-       <br><br>
-       Convert images to JS code that can be run on Khan Academy
-      </a>
-    </div>
-  </div>
-  
-  <!-- CHANGE PAGE SCRIPT -->
-  <script>
-var page = document.getElementsByClassName('page');
-function changePage(index) {
-  for (var i = 0; i < page.length; i++) {
-    page[i].style.display = 'none';
-  }
-  page[index - 1].style.display = 'block';
-  window.scroll(0, 0);
+    <!-- CONVERTERS PAGE -->
+    <div class="page" style="padding: 12px; background-color: white;">
+        <br>
+        <span style="margin-right: 10px;">Upload a file:</span>
+        <input id="file-input" type="file">
+        <br><br>
+        <span id="orig-file-info" style="background-color: rgb(230, 230, 230); padding: 4px; border-radius: 5px;"></span>
+        
+        <br><br><br>
+        
+        <div id="convert-part2" style="display: none">
+            <p>Choose what to convert to:</p>
+            <div id="convertTo-buttons">
+                <button>Base 64</button>
+                <button>PNG</button>
+                <button>JPEG</button>
+                <button>QOI</button>
+            </div>
+            <br>
+            <span id="new-file-info" style="background-color: rgb(230, 230, 230); padding: 4px; border-radius: 5px;"></span>
+            <br><br>
+            <div id="file-output"></div>
+        </div>
+        
+        <br>
+        
+        <div id="convert-part3" style="display: none">
+            <a id="download-button" href="" download style="display: inline-block; background-color: rgb(240,240,240); border: 1px solid rgb(118, 118, 118); border-radius: 2px; padding: 5px; padding-top: 0px; text-decoration: none; color: black;">
+                Download
+                <img src="https://cdn.icon-icons.com/icons2/1875/PNG/512/download_120262.png" height="20" style="transform: translate(0px, 4px); display: inline;">
+            </a>
+            <br><br>
+        </div>
+        
+        <script>
+var QOI = {
+    decode: function(arrayBuffer, byteOffset, byteLength, outputChannels) {
+        if (typeof byteOffset === 'undefined' || byteOffset === null) {
+            byteOffset = 0;
+        }
+
+        if (typeof byteLength === 'undefined' || byteLength === null) {
+            byteLength = arrayBuffer.byteLength - byteOffset;
+        }
+
+        const uint8 = new Uint8Array(arrayBuffer, byteOffset, byteLength);
+
+        const magic1 = uint8[0];
+        const magic2 = uint8[1];
+        const magic3 = uint8[2];
+        const magic4 = uint8[3];
+
+        const width = ((uint8[4] << 24) | (uint8[5] << 16) | (uint8[6] << 8) | uint8[7]) >>> 0;
+        const height = ((uint8[8] << 24) | (uint8[9] << 16) | (uint8[10] << 8) | uint8[11]) >>> 0;
+
+        const channels = uint8[12];
+        const colorspace = uint8[13];
+
+        if (typeof outputChannels === 'undefined' || outputChannels === null) {
+            outputChannels = channels;
+        }
+
+        if (magic1 !== 0x71 || magic2 !== 0x6F || magic3 !== 0x69 || magic4 !== 0x66) {
+            throw new Error('QOI.decode: The signature of the QOI file is invalid');
+        }
+
+        if (channels < 3 || channels > 4) {
+            throw new Error('QOI.decode: The number of channels declared in the file is invalid');
+        }
+
+        if (colorspace > 1) {
+            throw new Error('QOI.decode: The colorspace declared in the file is invalid');
+        }
+
+        if (outputChannels < 3 || outputChannels > 4) {
+            throw new Error('QOI.decode: The number of channels for the output is invalid');
+        }
+
+        const pixelLength = width * height * outputChannels;
+        const result = new Uint8Array(pixelLength);
+
+        let arrayPosition = 14;
+
+        const index = new Uint8Array(64 * 4);
+        let indexPosition = 0;
+
+        let red = 0;
+        let green = 0;
+        let blue = 0;
+        let alpha = 255;
+
+        const chunksLength = byteLength - 8;
+
+        let run = 0;
+        let pixelPosition = 0;
+
+        for (; pixelPosition < pixelLength && arrayPosition < byteLength - 4; pixelPosition += outputChannels) {
+            if (run > 0) {
+                run--;
+            } else if (arrayPosition < chunksLength) {
+                const byte1 = uint8[arrayPosition++];
+
+                if (byte1 === 0b11111110) { // QOI_OP_RGB
+                    red = uint8[arrayPosition++];
+                    green = uint8[arrayPosition++];
+                    blue = uint8[arrayPosition++];
+                } else if (byte1 === 0b11111111) { // QOI_OP_RGBA
+                    red = uint8[arrayPosition++];
+                    green = uint8[arrayPosition++];
+                    blue = uint8[arrayPosition++];
+                    alpha = uint8[arrayPosition++];
+                } else if ((byte1 & 0b11000000) === 0b00000000) { // QOI_OP_INDEX
+                    red = index[byte1 * 4];
+                    green = index[byte1 * 4 + 1];
+                    blue = index[byte1 * 4 + 2];
+                    alpha = index[byte1 * 4 + 3];
+                } else if ((byte1 & 0b11000000) === 0b01000000) { // QOI_OP_DIFF
+                    red += ((byte1 >> 4) & 0b00000011) - 2;
+                    green += ((byte1 >> 2) & 0b00000011) - 2;
+                    blue += (byte1 & 0b00000011) - 2;
+
+                    // handle wraparound
+                    red = (red + 256) % 256;
+                    green = (green + 256) % 256;
+                    blue = (blue + 256) % 256;
+                } else if ((byte1 & 0b11000000) === 0b10000000) { // QOI_OP_LUMA
+                    const byte2 = uint8[arrayPosition++];
+                    const greenDiff = (byte1 & 0b00111111) - 32;
+                    const redDiff = greenDiff + ((byte2 >> 4) & 0b00001111) - 8;
+                    const blueDiff = greenDiff + (byte2 & 0b00001111) - 8;
+
+                    // handle wraparound
+                    red = (red + redDiff + 256) % 256;
+                    green = (green + greenDiff + 256) % 256;
+                    blue = (blue + blueDiff + 256) % 256;
+                } else if ((byte1 & 0b11000000) === 0b11000000) { // QOI_OP_RUN
+                    run = byte1 & 0b00111111;
+                }
+
+                indexPosition = ((red * 3 + green * 5 + blue * 7 + alpha * 11) % 64) * 4;
+                index[indexPosition] = red;
+                index[indexPosition + 1] = green;
+                index[indexPosition + 2] = blue;
+                index[indexPosition + 3] = alpha;
+            }
+
+            if (outputChannels === 4) { // RGBA
+                result[pixelPosition] = red;
+                result[pixelPosition + 1] = green;
+                result[pixelPosition + 2] = blue;
+                result[pixelPosition + 3] = alpha;
+            } else { // RGB
+                result[pixelPosition] = red;
+                result[pixelPosition + 1] = green;
+                result[pixelPosition + 2] = blue;
+            }
+        }
+
+        if (pixelPosition < pixelLength) {
+            throw new Error('QOI.decode: Incomplete image');
+        }
+
+        // checking the 00000001 padding is not required, as per specs
+
+        return {
+            width: width,
+            height: height,
+            colorspace: colorspace,
+            channels: outputChannels,
+            data: result
+        };
+    },
+    encode: function(colorData, description) {
+        const width = description.width;
+        const height = description.height;
+        const channels = description.channels;
+        const colorspace = description.colorspace;
+
+        let red = 0;
+        let green = 0;
+        let blue = 0;
+        let alpha = 255;
+        let prevRed = red;
+        let prevGreen = green;
+        let prevBlue = blue;
+        let prevAlpha = alpha;
+
+        let run = 0;
+        let p = 0;
+        const pixelLength = width * height * channels;
+        const pixelEnd = pixelLength - channels;
+
+        if (width < 0 || width >= 4294967296) {
+            throw new Error('QOI.encode: Invalid description.width');
+        }
+
+        if (height < 0 || height >= 4294967296) {
+            throw new Error('QOI.encode: Invalid description.height');
+        }
+
+        if (colorData.constructor.name !== 'Uint8Array' && colorData.constructor.name !== 'Uint8ClampedArray') {
+            throw new Error('QOI.encode: The provided colorData must be instance of Uint8Array or Uint8ClampedArray');
+        }
+
+        if (colorData.length !== pixelLength) {
+            throw new Error('QOI.encode: The length of colorData is incorrect');
+        }
+
+        if (channels !== 3 && channels !== 4) {
+            throw new Error('QOI.encode: Invalid description.channels, must be 3 or 4');
+        }
+
+        if (colorspace !== 0 && colorspace !== 1) {
+            throw new Error('QOI.encode: Invalid description.colorspace, must be 0 or 1');
+        }
+
+        const maxSize = width * height * (channels + 1) + 14 + 8;
+        const result = new Uint8Array(maxSize);
+        const index = new Uint8Array(64 * 4);
+
+        // 0->3 : magic "qoif"
+        result[p++] = 0x71;
+        result[p++] = 0x6F;
+        result[p++] = 0x69;
+        result[p++] = 0x66;
+
+        // 4->7 : width
+        result[p++] = (width >> 24) & 0xFF;
+        result[p++] = (width >> 16) & 0xFF;
+        result[p++] = (width >> 8) & 0xFF;
+        result[p++] = width & 0xFF;
+
+        // 8->11 : height
+        result[p++] = (height >> 24) & 0xFF;
+        result[p++] = (height >> 16) & 0xFF;
+        result[p++] = (height >> 8) & 0xFF;
+        result[p++] = height & 0xFF;
+
+        // 12 : channels, 13 : colorspace
+        result[p++] = channels;
+        result[p++] = colorspace;
+
+        for (let pixelPos = 0; pixelPos < pixelLength; pixelPos += channels) {
+            if (channels === 4) {
+                red = colorData[pixelPos];
+                green = colorData[pixelPos + 1];
+                blue = colorData[pixelPos + 2];
+                alpha = colorData[pixelPos + 3];
+            } else {
+                red = colorData[pixelPos];
+                green = colorData[pixelPos + 1];
+                blue = colorData[pixelPos + 2];
+            }
+
+            if (prevRed === red && prevGreen === green && prevBlue === blue && prevAlpha === alpha) {
+                run++;
+
+                // reached the maximum run length, or reached the end of colorData
+                if (run === 62 || pixelPos === pixelEnd) {
+                    // QOI_OP_RUN
+                    result[p++] = 0b11000000 | (run - 1);
+                    run = 0;
+                }
+            } else {
+                if (run > 0) {
+                    // QOI_OP_RUN
+                    result[p++] = 0b11000000 | (run - 1);
+                    run = 0;
+                }
+
+                const indexPosition = ((red * 3 + green * 5 + blue * 7 + alpha * 11) % 64) * 4;
+
+                if (index[indexPosition] === red && index[indexPosition + 1] === green && index[indexPosition + 2] === blue && index[indexPosition + 3] === alpha) {
+                    result[p++] = indexPosition / 4;
+                } else {
+                    index[indexPosition] = red;
+                    index[indexPosition + 1] = green;
+                    index[indexPosition + 2] = blue;
+                    index[indexPosition + 3] = alpha;
+
+                    if (alpha === prevAlpha) {
+                        // ternary with bitmask handles the wraparound
+                        let vr = red - prevRed;
+                        vr = vr & 0b10000000 ? (vr - 256) % 256 : (vr + 256) % 256;
+                        let vg = green - prevGreen;
+                        vg = vg & 0b10000000 ? (vg - 256) % 256 : (vg + 256) % 256;
+                        let vb = blue - prevBlue;
+                        vb = vb & 0b10000000 ? (vb - 256) % 256 : (vb + 256) % 256;
+
+                        const vg_r = vr - vg;
+                        const vg_b = vb - vg;
+
+                        if (vr > -3 && vr < 2 && vg > -3 && vg < 2 && vb > -3 && vb < 2) {
+                            // QOI_OP_DIFF
+                            result[p++] = 0b01000000 | (vr + 2) << 4 | (vg + 2) << 2 | (vb + 2);
+                        } else if (vg_r > -9 && vg_r < 8 && vg > -33 && vg < 32 && vg_b > -9 && vg_b < 8) {
+                            // QOI_OP_LUMA
+                            result[p++] = 0b10000000 | (vg + 32);
+                            result[p++] = (vg_r + 8) << 4 | (vg_b + 8);
+                        } else {
+                            // QOI_OP_RGB
+                            result[p++] = 0b11111110;
+                            result[p++] = red;
+                            result[p++] = green;
+                            result[p++] = blue;
+                        }
+                    } else {
+                        // QOI_OP_RGBA
+                        result[p++] = 0b11111111;
+                        result[p++] = red;
+                        result[p++] = green;
+                        result[p++] = blue;
+                        result[p++] = alpha;
+                    }
+                }
+            }
+
+            prevRed = red;
+            prevGreen = green;
+            prevBlue = blue;
+            prevAlpha = alpha;
+        }
+
+        // 00000001 end marker/padding
+        result[p++] = 0;
+        result[p++] = 0;
+        result[p++] = 0;
+        result[p++] = 0;
+        result[p++] = 0;
+        result[p++] = 0;
+        result[p++] = 0;
+        result[p++] = 1;
+
+        // return an ArrayBuffer trimmed to the correct length
+        return result.buffer.slice(0, p);
+    }
+};
+        </script>
+        
+        <script type>
+var inputEl = document.getElementById('file-input');
+var outputEl = document.getElementById('file-output');
+var inputInfo = document.getElementById('orig-file-info');
+var outputInfo = document.getElementById('new-file-info');
+var downloadButton = document.getElementById("download-button");
+
+var fileName = "";
+
+var fileFrom = "";
+var fileTo = "";
+
+var base64File = "";
+var base64NewFile = "";
+
+var fileSizes = ["bytes", "KB", "MB", "GB", "TB"];
+    
+function bufferToBase64 (buffer) {
+    var bytes = new Uint8Array(buffer), binary = "";
+    for (var i = 0, len = buffer.byteLength; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary); 
 }
-changePage(1);
-  </script>
+function base64ToArrayBuffer (base64) {
+    var binary_string = window.atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+inputEl.addEventListener('change', function (e) {
+    let file1 = this.files[0];
+    let reader = new FileReader();
+    let startTime = Date.now();
+    
+    // calculate file size
+    let sz = file1.size;
+    let szMeasurement = 0;
+    while (sz >= 1024) {
+        sz /= 1024;
+        szMeasurement++;
+    }
+    sz = Math.round(sz * 100) / 100;
+    
+    var splitName = file1.name.split(".");
+    
+    // parse file name
+    fileName = splitName.slice(0, fileName.length - 1).join("");
+    
+    // create file type
+    fileFrom = file1.type;
+    if (fileFrom.length === 0) {
+        fileFrom = splitName[fileFrom.length - 1].toLowerCase();
+        
+        switch (fileFrom) {
+            case "qoi":
+                fileFrom = "image/qoi";
+            break;
+        }
+    }
+    
+    // set description
+    inputInfo.innerText = `Uploading file - ${fileFrom} - ${sz} ${fileSizes[szMeasurement]}`;
+    
+    reader.onload = function (e) {
+        var that = this;
+        
+        // set description
+        inputInfo.innerText = `Uploaded file - ${fileFrom} - ${sz} ${fileSizes[szMeasurement]}`;
+        
+        // convert to base64
+        base64File = bufferToBase64(that.result);
+        
+        // display part 2
+        document.getElementById("convert-part2").style.display = "block";
+    };
+    
+    reader.readAsArrayBuffer(file1);
+}, false);
+
+// buttons
+function displayImage (callback) {
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext("2d");
+    
+    let image = new Image();
+    image.onload = function() {
+        canvas.width = image.width;
+        canvas.height = image.height;
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0);
+        
+        callback(canvas, ctx);
+    };
+    image.src = "data:" + fileFrom + ";base64," + base64File;
+}
+
+function onFileReady () {
+    // set download name
+    if (fileTo === "text/plain") {
+        downloadButton.download = fileName + ".txt";
+    } else {
+        downloadButton.download = fileName + "." + fileTo.split("/")[1];
+    }
+    
+    // calculate file size
+    let sz = base64ToArrayBuffer(base64NewFile.split(",")[1]).byteLength;
+    let szMeasurement = 0;
+    while (sz >= 1024) {
+        sz /= 1024;
+        szMeasurement++;
+    }
+    sz = Math.round(sz * 100) / 100;
+    
+    // set output description
+    outputInfo.innerText = `New file - ${fileTo} - ${sz} ${fileSizes[szMeasurement]}`;
+    
+    // display part 3
+    document.getElementById("convert-part3").style.display = "block";
+}
+
+var convertToButtons = document.getElementById('convertTo-buttons').getElementsByTagName("button");
+
+function updateButtonsBorders (which) {
+    for (var i = 0; i < convertToButtons.length; i++) {
+        convertToButtons[i].style.border = "1px solid rgb(118, 118, 118)";
+        convertToButtons[i].style.fontWeight = "normal";
+    }
+    if (which >= 0) {
+        convertToButtons[which].style.border = "2px solid rgb(31, 171, 84)";
+        convertToButtons[which].style.fontWeight = "bold";
+    }
+}
+updateButtonsBorders();
+
+// base 64 button
+convertToButtons[0].onclick = function () {
+    updateButtonsBorders(0);
+    fileTo = "text/plain";
+    base64NewFile = "data:" + fileTo + ";base64," + btoa("data:" + fileFrom + ";base64," + base64File);
+    downloadButton.href = base64NewFile;
+    onFileReady();
+};
+
+// png button
+convertToButtons[1].onclick = function () {
+    updateButtonsBorders(1);
+    fileTo = "image/png";
+    displayImage(function (canvas) {
+        base64NewFile = canvas.toDataURL('image/png');
+        downloadButton.href = base64NewFile;
+        onFileReady();
+    });
+};
+
+// jpeg button
+convertToButtons[2].onclick = function () {
+    updateButtonsBorders(2);
+    fileTo = "image/jpeg";
+    displayImage(function (canvas) {
+        base64NewFile = canvas.toDataURL('image/jpeg', 1.0);
+        downloadButton.href = base64NewFile;
+        onFileReady();
+    });
+};
+
+// qoi button
+convertToButtons[3].onclick = function () {
+    updateButtonsBorders(3);
+    fileTo = "image/qoi";
+    displayImage(function (canvas, ctx) {
+        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        
+        var qoiImage = QOI.encode(imageData.data, {
+            width: imageData.width,
+            height: imageData.height,
+            channels: 4,
+            colorspace: 0
+        });
+        
+        base64NewFile = "data:" + fileTo + ";base64," + bufferToBase64(qoiImage);
+        downloadButton.href = base64NewFile;
+        onFileReady();
+    });
+};
+        </script>
+    </div>
+  
+    <!-- CHANGE PAGE SCRIPT -->
+    <script>
+        var page = document.getElementsByClassName('page');
+        function changePage(index) {
+          for (var i = 0; i < page.length; i++) {
+            page[i].style.display = 'none';
+          }
+          page[index - 1].style.display = 'block';
+          window.scroll(0, 0);
+        }
+        changePage(2);
+    </script>
   
 </body>
 </html>
