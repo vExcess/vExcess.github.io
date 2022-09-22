@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>vExcess.github.io</title>
+    <title>vExcess</title>
     
     <link rel="icon" href="https://github.com/vExcess/vExcess.github.io/blob/master/logo.png?raw=true">
     
@@ -47,13 +47,13 @@ body {
 .page-top {
     width: 90%;
     height: 500px;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.65);
     padding: 10px;
     border-radius: 5px;
     margin: auto;
     margin-top: calc(46px + 33px);
-    margin-bottom: 33px;
-    text-shadow: 0px 6px 10px rgba(0, 0, 0, 0.6);
+    margin-bottom: 20px;
+    text-shadow: 0px 0px 5px rgb(255, 255, 255);
 }
 
 .page-top h1 {
@@ -72,13 +72,14 @@ body {
     background-color: white;
     margin: 0px;
     padding: 20px;
+    margin-bottom: -12px;
 }
 
 .contact-box {
     display: block;
     border-radius: 10px;
     overflow: hidden;
-    border: 2px solid rgb(0, 75, 0);
+    border: 3px solid rgb(15, 110, 40);
     width: 150px;
     height: 85px;
     background-size: cover;
@@ -118,29 +119,108 @@ td {
     padding: 10px;
 }
     </style>
+
+    <script src="https://cdn.jsdelivr.net/gh/vExcess/libraries@main/BobertQuery.js"></script>
     
     <script async src="https://cdn.jsdelivr.net/gh/vExcess/library-files@main/QOI.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/vExcess/libraries@main/runPJS.js"></script>
     
 </head>
 <body>
 
-    <img src="https://th.bing.com/th/id/R.7e9ebb72afc367cd22ab1bbdce6af645?rik=jDVA7EZgMzypig&riu=http%3a%2f%2fwww.publicdomainpictures.net%2fpictures%2f100000%2fvelka%2ffern-leaf.jpg&ehk=QiVxutWT9yv5oSM4OXkJ22itD%2b4ZIk%2fFD%2bTsiG%2bd2iU%3d&risl=&pid=ImgRaw&r=0" id="background-img">
+    <div id="background-placeholder"></div>
+
+    <script id="pjs-src">
+function piece (x, y, r, sz) {
+    var ang = 120;
+    var thicc = 50;
     
+    pushMatrix();
+        translate(x, y);
+        rotate(r);
+        scale(sz || 1);
+        
+        noStroke();
+        beginShape();
+            vertex(0, 0);
+            vertex(100, 0);
+            vertex(76, sin(ang / 2) * thicc);
+            vertex(cos(ang / 2) * thicc, sin(ang / 2) * thicc);
+            vertex(thicc + cos(ang) * 100, sin(ang) * 100);
+            vertex(cos(ang) * 100, sin(ang) * 100);
+            vertex(0, 0);
+        endShape();
+        
+        stroke(0, 150, 75, 200);
+        for (var i = -49; i < 100; i += 8) {
+            var j = i + 50;
+            var k = j;
+            
+            if (i < 1) {
+                j = 87 - j * 1.7;
+            } else {
+                j = 1;
+            }
+            
+            if (i < 1) {
+                k = 86;
+            } else if (i < 23) {
+                k = 170 - k * 1.7;
+            } else if (i < 76) {
+                k = 43;
+            } else {
+                k = 255 - k * 1.7;
+            }
+            
+            line(i, j, i, k);
+        }
+    popMatrix();
+}
+
+var spin = 30;
+var sz = 0.5;
+
+var offset = 0;
+for (var y = 0; y < height + 100; y += sz * 75) {
+    for (var x = 0; x < width + 100; x += sz * 260) {
+        noStroke();
+        fill(25, 25, 25);
+        piece(x + offset, y, spin, sz);
+        fill(0, 0, 0);
+        piece(x + offset, y, spin + 120, sz);
+        fill(50, 50, 50);
+        piece(x + offset, y, spin + 240, sz);
+    }
+    
+    if (offset === 0) {
+        offset = sz * 130;
+    } else {
+        offset = 0;
+    }
+}
+    </script>
+  
     <script>
-        var bckImg = document.getElementById("background-img");
-        bckImg.style.position = "fixed";
-        bckImg.style.left = "0px";
-        bckImg.style.top = "0px";
-        bckImg.style.width = window.innerWidth + "px";
-        bckImg.style.height = "650px";
-        bckImg.style.zIndex = "-1";
+createPJS($("#pjs-src").innerHTML, {
+    width: window.innerWidth,
+    height: window.innerHeight - 12,
+    placeholder: $("#background-placeholder"),
+    callback: function (pjsEnv) {
+        let canvasStyle = pjsEnv.canvas.style;
+        canvasStyle.position = "fixed";
+        canvasStyle.left = "0px";
+        canvasStyle.top = "0px";
+        canvasStyle.zIndex = "-1";
+    }
+});
     </script>
 
     <!-- NAV TOOL -->
     <div id="navTool">
-        <a href="https://vexcess.github.io/" target="_self">vExcess.github.io</a>
-        <a href="javascript:changePage(1);">About</a>
-        <a href="javascript:changePage(2);">Converters</a>
+        <strong><a href="https://vexcess.github.io/" target="_self">vExcess</a></strong>
+        <a href="javascript:changePage(1);">Home</a>
+        <!--<a href="javascript:changePage(2);">Converters</a>-->
     </div>
   
     <!-- MAIN PAGE -->
@@ -152,6 +232,16 @@ td {
           <h2 style="margin-bottom: 0px; margin-top: 0px;">Contacts:</h2>
           <table style="margin: auto;">
             <tr>
+              
+              <td>
+                <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
+                  <img src="https://pngimg.com/uploads/github/github_PNG40.png" height="95px" style="transform: translate(4px, 0px); margin-top: -55px; margin-bottom: 5px;">
+                  <strong>
+                    Github<br>@vExcess
+                  </strong>3
+                </a>
+              </td>
+              
               <td>
                 <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
                   <img src="https://www.neisd.net/cms/lib/TX02215002/Centricity/Domain/9613/khan_logo.png" height="95px" style="margin-top: -55px; margin-bottom: 5px;">
@@ -191,327 +281,26 @@ td {
         
         <!-- body part -->
         <div class="page-main">
-          <h2>Tools</h2>
-          <a href="https://vexcess.github.io/RankedPairsVoting" class="project-box">
-           <strong style="text-decoration: underline;">Ranked Pairs Voting Calculator</strong>
-           <br><br>
-           Calculates results from a ranked pairs voting election given CSV file
-          </a>
-          
-          <a href="https://vexcess.github.io/code-editor" class="project-box">
-           <strong style="text-decoration: underline;">Code Editor</strong>
-           <br><br>
-           Lightweight easy to use code editor for HTML or Processing.js
-          </a>
-          
-          <a href="https://vexcess.github.io/imagenator" class="project-box">
-           <strong style="text-decoration: underline;">Imagenator</strong>
-           <br><br>
-           Convert images to JS code that can be run on Khan Academy
-          </a>
-        </div>
-    </div>
-    
-    <!-- CONVERTERS PAGE -->
-    <div class="page" style="padding: 12px; background-color: white;">
-        <br>
-        <span style="margin-right: 10px;">Upload a file:</span>
-        <input id="file-input" type="file">
-        <br><br>
-        <span id="orig-file-info" style="background-color: rgb(230, 230, 230); padding: 4px; border-radius: 5px;"></span>
-        
-        <br><br><br>
-        
-        <div id="convert-part2" style="display: block">
-            <p>Choose what to convert to:</p>
-            <div id="convertTo-buttons">
-                <button>Base 64</button>
-                <button>PNG</button>
-                <button>JPEG</button>
-                <button>QOI</button>
-            </div>
-            <br>
-            <span id="new-file-info" style="background-color: rgb(230, 230, 230); padding: 4px; border-radius: 5px;"></span>
-            <br><br>
-            <div id="encoder-options">
-                <div id="compression-option">
-                    <span style="display: inline-block; width: 150px;">Compression: 50%</span>
-                    <input type="range" min="0" max="100" value="50" style="width: 300px; transform: translate(0px, 4px);">
-                </div>
-            </div>
-            <div id="file-output" style="margin-top: 10px;"></div>
-        </div>
-        
-        <br>
-        
-        <div id="convert-part3" style="display: none">
-            <a id="download-button" href="" download style="display: inline-block; background-color: rgb(240,240,240); border: 1px solid rgb(118, 118, 118); border-radius: 2px; padding: 5px; padding-top: 0px; text-decoration: none; color: black;">
-                Download
-                <img src="https://cdn.icon-icons.com/icons2/1875/PNG/512/download_120262.png" height="20" style="transform: translate(0px, 4px); display: inline;">
+            <h2>Tools</h2>
+            
+            <a href="https://vexcess.github.io/imagenator" class="project-box">
+                <strong style="text-decoration: underline;">Imagenator</strong>
+                <br><br>
+                Convert images to JS code that can be run on Khan Academy and to base64 strings of various file formats
             </a>
-            <br><br><br><br><br><br>
+            
+            <a href="https://vexcess.github.io/RankedPairsVoting" class="project-box">
+                <strong style="text-decoration: underline;">Ranked Pairs Voting Calculator</strong>
+                <br><br>
+                Calculates results from a ranked pairs voting election given CSV file
+            </a>
+            
+            <a href="https://academy.vexcess.repl.co/" class="project-box">
+                <strong style="text-decoration: underline;">Code Editor</strong>
+                <br><br>
+                Lightweight easy to use code editor for HTML or Processing.js
+            </a>
         </div>
-        
-        <script type>
-var inputEl = document.getElementById('file-input');
-var outputEl = document.getElementById('file-output');
-var inputInfo = document.getElementById('orig-file-info');
-var outputInfo = document.getElementById('new-file-info');
-var downloadButton = document.getElementById("download-button");
-
-var fileName = "";
-
-var fileFrom = "";
-var fileTo = "";
-
-var base64File = "";
-var base64NewFile = "";
-
-var fileSizes = ["bytes", "KB", "MB", "GB", "TB"];
-    
-function bufferToBase64 (buffer) {
-    var bytes = new Uint8Array(buffer), binary = "";
-    for (var i = 0, len = buffer.byteLength; i < len; i++) {
-        binary += String.fromCharCode(bytes[i]);
-    }
-    return window.btoa(binary); 
-}
-function base64ToArrayBuffer (base64) {
-    var binary_string = window.atob(base64);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-        bytes[i] = binary_string.charCodeAt(i);
-    }
-    return bytes.buffer;
-}
-
-inputEl.addEventListener('change', function (e) {
-    let file1 = this.files[0];
-    let reader = new FileReader();
-    let startTime = Date.now();
-    
-    // calculate file size
-    let sz = file1.size;
-    let szMeasurement = 0;
-    while (sz >= 1024) {
-        sz /= 1024;
-        szMeasurement++;
-    }
-    sz = Math.round(sz * 100) / 100;
-    
-    var splitName = file1.name.split(".");
-    
-    // parse file name
-    fileName = splitName.slice(0, fileName.length - 1).join("");
-    
-    // create file type
-    fileFrom = file1.type;
-    if (fileFrom.length === 0) {
-        fileFrom = splitName[fileFrom.length - 1].toLowerCase();
-        
-        switch (fileFrom) {
-            case "qoi":
-                fileFrom = "image/qoi";
-            break;
-        }
-    }
-    
-    // set description
-    inputInfo.innerText = `Uploading file - ${fileFrom} - ${sz} ${fileSizes[szMeasurement]}`;
-    
-    reader.onload = function (e) {
-        var that = this;
-        
-        // set description
-        inputInfo.innerText = `Uploaded file - ${fileFrom} - ${sz} ${fileSizes[szMeasurement]}`;
-        
-        // convert to base64
-        base64File = bufferToBase64(that.result);
-        
-        // display part 2
-        document.getElementById("convert-part2").style.display = "block";
-    };
-    
-    reader.readAsArrayBuffer(file1);
-}, false);
-
-var compressionOptionStuff = document.getElementById("compression-option");
-var compressionTxt = compressionOptionStuff.getElementsByTagName("span")[0];
-var compressionSlider = compressionOptionStuff.getElementsByTagName("input")[0];
-
-compressionSlider.addEventListener("input", function () {
-    compressionTxt.innerText = "Compression: " + compressionSlider.value + "%";
-});
-
-
-// buttons
-function displayImage (callback) {
-    let canvas = document.createElement("canvas");
-    let ctx = canvas.getContext("2d");
-    
-    let image = new Image();
-    image.onload = function() {
-        canvas.width = image.width;
-        canvas.height = image.height;
-        
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(image, 0, 0);
-        
-        callback(canvas, ctx);
-    };
-    image.src = "data:" + fileFrom + ";base64," + base64File;
-}
-
-function onFileReady () {
-    // set download name
-    if (fileTo === "text/plain") {
-        downloadButton.download = fileName + ".txt";
-    } else {
-        downloadButton.download = fileName + "." + fileTo.split("/")[1];
-    }
-    
-    // calculate file size
-    let sz = base64ToArrayBuffer(base64NewFile.split(",")[1]).byteLength;
-    let szMeasurement = 0;
-    while (sz >= 1024) {
-        sz /= 1024;
-        szMeasurement++;
-    }
-    sz = Math.round(sz * 100) / 100;
-    
-    // set output description
-    outputInfo.innerText = `New file - ${fileTo} - ${sz} ${fileSizes[szMeasurement]}`;
-    
-    // display part 3
-    document.getElementById("convert-part3").style.display = "block";
-    
-    // display preview
-    if (fileTo === "text/plain") {
-        var el = document.createElement("textarea");
-        el.style.width = "400px";
-        el.style.height = "75px";
-        el.value = base64NewFile;
-        outputEl.innerHTML = "";
-        outputEl.appendChild(el);
-    } else {
-        let canvas = document.createElement("canvas");
-        let ctx = canvas.getContext("2d");
-    
-        if (fileTo === "image/qoi") {
-            // get the body of the base64 string
-            var b64Body = base64NewFile.split(","), b64Body = b64Body[b64Body.length - 1];
-    
-            // convert the base64 body to an array buffer
-            var binary_string = atob(b64Body);
-            var len = binary_string.length;
-            var bytes = new Uint8Array(len);
-            for (var i = 0; i < len; i++) {
-                bytes[i] = binary_string.charCodeAt(i);
-            }
-            var arrBuff = bytes.buffer;
-    
-            // decode the array buffer
-            var rawImageData = QOI.decode(arrBuff, null, null, 4);
-            
-            canvas.width = rawImageData.width;
-            canvas.height = rawImageData.height;
-            outputEl.style.height = canvas.height + "px";
-            
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.putImageData(new ImageData(new Uint8ClampedArray(rawImageData.data), rawImageData.width, rawImageData.height), 0, 0);
-            
-            outputEl.innerHTML = "";
-            outputEl.appendChild(canvas);
-        } else {
-            let image = new Image();
-            image.onload = function() {
-                canvas.width = image.width;
-                canvas.height = image.height;
-                outputEl.style.height = canvas.height + "px";
-               
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(image, 0, 0);
-                
-                outputEl.innerHTML = "";
-                outputEl.appendChild(canvas);
-            };
-            image.src = base64NewFile;
-        }
-    }
-}
-
-var convertToButtons = document.getElementById('convertTo-buttons').getElementsByTagName("button");
-
-function updateButtonsBorders (which) {
-    for (var i = 0; i < convertToButtons.length; i++) {
-        convertToButtons[i].style.border = "1px solid rgb(118, 118, 118)";
-        convertToButtons[i].style.fontWeight = "normal";
-    }
-    if (which >= 0) {
-        convertToButtons[which].style.border = "2px solid rgb(31, 171, 84)";
-        convertToButtons[which].style.fontWeight = "bold";
-    }
-}
-for (var i = 0; i < convertToButtons.length; i++) {
-    convertToButtons[i].style.border = "1px solid rgb(118, 118, 118)";
-    convertToButtons[i].style.fontWeight = "normal";
-    convertToButtons[i].style.cursor = "pointer";
-}
-
-// base 64 button
-convertToButtons[0].onclick = function () {
-    updateButtonsBorders(0);
-    fileTo = "text/plain";
-    base64NewFile = "data:" + fileTo + ";base64," + btoa("data:" + fileFrom + ";base64," + base64File);
-    downloadButton.href = base64NewFile;
-    onFileReady();
-};
-
-// png button
-convertToButtons[1].onclick = function () {
-    updateButtonsBorders(1);
-    fileTo = "image/png";
-    displayImage(function (canvas) {
-        base64NewFile = canvas.toDataURL('image/png');
-        downloadButton.href = base64NewFile;
-        onFileReady();
-    });
-};
-
-// jpeg button
-convertToButtons[2].onclick = function () {
-    updateButtonsBorders(2);
-    fileTo = "image/jpeg";
-    displayImage(function (canvas) {
-        base64NewFile = canvas.toDataURL('image/jpeg', 1 - Number(compressionSlider.value) / 100);
-        downloadButton.href = base64NewFile;
-        onFileReady();
-    });
-    
-    compressionSlider.oninput = convertToButtons[2].onclick;
-};
-
-// qoi button
-convertToButtons[3].onclick = function () {
-    updateButtonsBorders(3);
-    fileTo = "image/qoi";
-    displayImage(function (canvas, ctx) {
-        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        
-        var qoiImage = QOI.encode(imageData.data, {
-            width: imageData.width,
-            height: imageData.height,
-            channels: 4,
-            colorspace: 0
-        });
-        
-        base64NewFile = "data:" + fileTo + ";base64," + bufferToBase64(qoiImage);
-        downloadButton.href = base64NewFile;
-        onFileReady();
-    });
-};
-        </script>
     </div>
   
     <!-- CHANGE PAGE SCRIPT -->
@@ -524,7 +313,7 @@ convertToButtons[3].onclick = function () {
           page[index - 1].style.display = 'block';
           window.scroll(0, 0);
         }
-        changePage(2);
+        changePage(1);
     </script>
   
 </body>
