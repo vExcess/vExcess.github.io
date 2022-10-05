@@ -7,118 +7,7 @@
     
     <link rel="icon" href="https://github.com/vExcess/vExcess.github.io/blob/master/logo.png?raw=true">
     
-    <style>
-body {
-    font-family: sans-serif;
-    margin: 0px;
-    font-size: 16px;
-}
-
-#navTool {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 10;
-    border-bottom: 1px solid rgb(0, 0, 0);
-    font-size: 17px;
-    font-family: "trebuchet ms", sans-serif;
-    padding: 16px;
-    padding-left: 0px;
-}
-
-#navTool a {
-    color: white;
-    text-decoration: none;
-    padding: 16px 25px;
-}
-
-#navTool a:hover {
-    background-color: rgb(0, 0, 0);
-}
-
-.page {
-    margin-top: 50px;
-    animation: fadeIn 0.2s linear;
-    z-index: 1;
-}
-
-.page-top {
-    width: 90%;
-    height: 500px;
-    background-color: rgba(255, 255, 255, 0.65);
-    padding: 10px;
-    border-radius: 5px;
-    margin: auto;
-    margin-top: calc(46px + 33px);
-    margin-bottom: 20px;
-    text-shadow: 0px 0px 5px rgb(255, 255, 255);
-}
-
-.page-top h1 {
-    text-align: center;
-}
-
-.page-top div {
-    background-color: white;
-    padding: 6px;
-    margin-bottom: 6px;
-    border-radius: 4px;
-    text-shadow: none;
-}
-
-.page-main {
-    background-color: white;
-    margin: 0px;
-    padding: 20px;
-    margin-bottom: -12px;
-}
-
-.contact-box {
-    display: block;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 3px solid rgb(15, 110, 40);
-    width: 150px;
-    height: 85px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    padding: 8px;
-    padding-top: 65px;
-    text-align: center;
-    text-decoration: none;
-    position: relative;
-    font-size: 20px;
-    color: black;
-    text-shadow: none;
-}
-
-.contact-box:hover {
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.5);
-}
-
-.contact-box strong {
-    display: block;
-    position: relative;
-    top: -8px;
-    margin: auto;
-}
-
-.project-box {
-    display: block;
-    border: 2px solid rgb(0, 75, 0);
-    border-radius: 5px;
-    padding: 12px;
-    text-decoration: none;
-    color: black;
-    margin-bottom: 12px;
-}
-
-td {
-    padding: 10px;
-}
-    </style>
+    <link rel="stylesheet" type="text/css" href="./style.css"/>
 
     <script src="https://cdn.jsdelivr.net/gh/vExcess/libraries@main/BobertQuery.js"></script>
     
@@ -129,96 +18,16 @@ td {
 </head>
 <body>
 
-    <div id="background-placeholder"></div>
+    <canvas id="background-canvas" style="background-color: black;"></canvas>
 
-    <script id="pjs-src">
-function piece (x, y, r, sz) {
-    var ang = 120;
-    var thicc = 50;
-    
-    pushMatrix();
-        translate(x, y);
-        rotate(r);
-        scale(sz || 1);
-        
-        noStroke();
-        beginShape();
-            vertex(0, 0);
-            vertex(100, 0);
-            vertex(76, sin(ang / 2) * thicc);
-            vertex(cos(ang / 2) * thicc, sin(ang / 2) * thicc);
-            vertex(thicc + cos(ang) * 100, sin(ang) * 100);
-            vertex(cos(ang) * 100, sin(ang) * 100);
-            vertex(0, 0);
-        endShape();
-        
-        stroke(0, 150, 75, 200);
-        for (var i = -49; i < 100; i += 8) {
-            var j = i + 50;
-            var k = j;
-            
-            if (i < 1) {
-                j = 87 - j * 1.7;
-            } else {
-                j = 1;
-            }
-            
-            if (i < 1) {
-                k = 86;
-            } else if (i < 23) {
-                k = 170 - k * 1.7;
-            } else if (i < 76) {
-                k = 43;
-            } else {
-                k = 255 - k * 1.7;
-            }
-            
-            line(i, j, i, k);
-        }
-    popMatrix();
-}
-
-var spin = 30;
-var sz = 0.5;
-
-var offset = 0;
-for (var y = 0; y < height + 100; y += sz * 75) {
-    for (var x = 0; x < width + 100; x += sz * 260) {
-        noStroke();
-        fill(25, 25, 25);
-        piece(x + offset, y, spin, sz);
-        fill(0, 0, 0);
-        piece(x + offset, y, spin + 120, sz);
-        fill(50, 50, 50);
-        piece(x + offset, y, spin + 240, sz);
-    }
-    
-    if (offset === 0) {
-        offset = sz * 130;
-    } else {
-        offset = 0;
-    }
-}
-    </script>
-  
-    <script>
-createPJS($("#pjs-src").innerHTML, {
-    width: window.innerWidth,
-    height: window.innerHeight - 12,
-    placeholder: $("#background-placeholder"),
-    callback: function (pjsEnv) {
-        let canvasStyle = pjsEnv.canvas.style;
-        canvasStyle.position = "fixed";
-        canvasStyle.left = "0px";
-        canvasStyle.top = "0px";
-        canvasStyle.zIndex = "-1";
-    }
-});
-    </script>
+    <script async src="./background.js"></script>
 
     <!-- NAV TOOL -->
     <div id="navTool">
-        <strong><a href="https://vexcess.github.io/" target="_self">vExcess</a></strong>
+        <strong><a href="https://vexcess.github.io/" target="_self">
+            <img src="https://github.com/vExcess/vExcess.github.io/blob/master/logo.png?raw=true" width="16" height="16" style="transform: scale(2) translate(-4px, 1px);">
+            vExcess
+        </a></strong>
         <a href="javascript:changePage(1);">Home</a>
         <!--<a href="javascript:changePage(2);">Converters</a>-->
     </div>
