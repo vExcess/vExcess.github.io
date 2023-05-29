@@ -1,128 +1,405 @@
 <!DOCTYPE html>
 <html>
+<!--
+
+    Notes to self:
+        Add insert after/before to Barbequery
+        Add select by tag name to Barbequery
+        And other complex selectors
+
+-->
 <head>
     <meta charset="utf-8">
-    
     <title>vExcess</title>
     
-    <link rel="icon" href="https://github.com/vExcess/vExcess.github.io/blob/master/logo.png?raw=true">
+    <!-- favicon -->
+    <link rel="icon" href="https://khanacademy.org/computer-programming/i/5176538457751552/5432823047831552.png">
     
-    <link rel="stylesheet" type="text/css" href="./style.css"/>
+    <!-- import css -->
+    <!--<link rel="stylesheet" type="text/css" href="./style.css"/>-->
+    <style>/*[OurJSEditor insert:CSS]*/</style>
 
-    <script src="https://cdn.jsdelivr.net/gh/vExcess/libraries@main/BobertQuery.js"></script>
+    <!-- import Barbequery -->    
+    <script src="https://cdn.jsdelivr.net/gh/vExcess/Barbequery@main/barbequery.min.js"></script>
     
-    <script async src="https://cdn.jsdelivr.net/gh/vExcess/library-files@main/QOI.js"></script>
+    <!-- import Prism.js -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism-okaidia.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/vExcess/libraries@main/prism.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/gh/vExcess/libraries@main/runPJS.js"></script>
-    
 </head>
 <body>
-
+    
+    <!-- sick background -->
     <canvas id="background-canvas" style="background-color: black;"></canvas>
-
-    <script async src="./background.js"></script>
-
-    <!-- NAV TOOL -->
-    <div id="navTool">
-        <strong><a href="https://vexcess.github.io/" target="_self">
-            <img src="https://github.com/vExcess/vExcess.github.io/blob/master/logo.png?raw=true" width="16" height="16" style="transform: scale(2) translate(-4px, 1px);">
-            vExcess
-        </a></strong>
-        <a href="javascript:changePage(1);">Home</a>
-        <!--<a href="javascript:changePage(2);">Converters</a>-->
-    </div>
-  
-    <!-- MAIN PAGE -->
-    <div class="page" style="padding-bottom: 12px;">
-        <!-- top part -->
-        <div class="page-top">
-          <h1 style="margin-top: 10px;">VEXCESS</h1>
-          
-          <h2 style="margin-bottom: 0px; margin-top: 0px;">Contacts:</h2>
-          <table style="margin: auto;">
-            <tr>
-              
-              <td>
-                <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
-                  <img src="https://pngimg.com/uploads/github/github_PNG40.png" height="95px" style="transform: translate(4px, 0px); margin-top: -55px; margin-bottom: 5px;">
-                  <strong>
-                    Github<br>@vExcess
-                  </strong>3
-                </a>
-              </td>
-              
-              <td>
-                <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
-                  <img src="https://www.neisd.net/cms/lib/TX02215002/Centricity/Domain/9613/khan_logo.png" height="95px" style="margin-top: -55px; margin-bottom: 5px;">
-                  <strong>
-                    Khan Academy<br>@VXS
-                  </strong>3
-                </a>
-              </td>
-              
-              <td>
-                <a class="contact-box" href="https://www.khanacademy.org/profile/vxs" target="_blank">
-                  <img src="https://brandlogos.net/wp-content/uploads/2021/11/discord-logo.png" height="140px" style="margin-top: -80px; margin-bottom: -15px;">
-                  <strong >
-                    Discord<br>@Vexcess#1616
-                  </strong>
-                </a>
-              </td>
-              
-              <td>
-                <a class="contact-box" href="https://replit.com/@vexcess" target="_blank">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Repl.it_logo.svg/1200px-Repl.it_logo.svg.png" height="115px" style="margin-top: -70px;">
-                  <strong>
-                    Replit<br>@vexcess
-                  </strong>
-                </a>
-              </td>
-            </tr>
-          </table>
-          
-          <h2 style="margin-bottom: 12px; margin-top: 0px;">Skills:</h2>
-          <div>JS / HTML / CSS + (JQuery, Processing, P5, Babylon)</div>
-          <div>Node JS</div>
-          <div>Java</div>
-          <div>Some experience with: Python, Web Assembly, WebGL</div>
-          
-        </div>
-        
-        <!-- body part -->
-        <div class="page-main">
-            <h2>Tools</h2>
-            
-            <a href="https://vexcess.github.io/imagenator" class="project-box">
-                <strong style="text-decoration: underline;">Imagenator</strong>
-                <br><br>
-                Convert images to JS code that can be run on Khan Academy and to base64 strings of various file formats
-            </a>
-            
-            <a href="https://vexcess.github.io/RankedPairsVoting" class="project-box">
-                <strong style="text-decoration: underline;">Ranked Pairs Voting Calculator</strong>
-                <br><br>
-                Calculates results from a ranked pairs voting election given CSV file
-            </a>
-            
-            <a href="https://academy.vexcess.repl.co/" class="project-box">
-                <strong style="text-decoration: underline;">Code Editor</strong>
-                <br><br>
-                Lightweight easy to use code editor for HTML or Processing.js
-            </a>
-        </div>
-    </div>
-  
-    <!-- CHANGE PAGE SCRIPT -->
+    <!--<script async src="./background.js"></script>-->
     <script>
-        var page = document.getElementsByClassName('page');
-        function changePage(index) {
-          for (var i = 0; i < page.length; i++) {
-            page[i].style.display = 'none';
-          }
-          page[index - 1].style.display = 'block';
-          window.scroll(0, 0);
+let canvas = document.getElementById("background-canvas");
+let ctx = canvas.getContext("2d");
+
+canvas.style.position = "fixed";
+canvas.style.left = "0px";
+canvas.style.top = "0px";
+canvas.style.zIndex = "-1";
+
+async function updateBackground () {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let width = canvas.width;
+    let height = canvas.height;
+
+    let sin = ang => Math.sin(ang * Math.PI / 180);
+    let cos = ang => Math.cos(ang * Math.PI / 180);
+
+    function piece (x, y, r, sz) {
+        let ang = 120;
+        let thicc = 50;
+        
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(r * Math.PI / 180);
+            ctx.scale(sz || 1, sz || 1);
+            
+            ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(100, 0);
+                ctx.lineTo(76, sin(ang / 2) * thicc);
+                ctx.lineTo(cos(ang / 2) * thicc, sin(ang / 2) * thicc);
+                ctx.lineTo(thicc + cos(ang) * 100, sin(ang) * 100);
+                ctx.lineTo(cos(ang) * 100, sin(ang) * 100);
+                ctx.lineTo(0, 0);
+            ctx.fill();
+            
+            ctx.strokeStyle = "rgba(0, 150, 75, 0.6)";
+            for (let i = -49; i < 100; i += 8) {
+                let j = i + 50;
+                let k = j;
+                
+                if (i < 1) {
+                    j = 87 - j * 1.7;
+                } else {
+                    j = 1;
+                }
+                
+                if (i < 1) {
+                    k = 86;
+                } else if (i < 23) {
+                    k = 170 - k * 1.7;
+                } else if (i < 76) {
+                    k = 43;
+                } else {
+                    k = 255 - k * 1.7;
+                }
+                
+                ctx.beginPath();
+                ctx.moveTo(i, j);
+                ctx.lineTo(i, k);
+                ctx.stroke();
+            }
+        ctx.restore();
+    }
+
+    let spin = 30;
+    let sz = 0.5;
+
+    let offset = 0;
+    for (let y = 0; y < height + 100; y += sz * 75) {
+        for (let x = 0; x < width + 100; x += sz * 260) {
+            ctx.fillStyle = "rgb(20, 20, 20)";
+            piece(x + offset, y, spin, sz);
+            ctx.fillStyle = "rgb(0, 0, 0)";
+            piece(x + offset, y, spin + 120, sz);
+            ctx.fillStyle = "rgb(40, 40, 40)";
+            piece(x + offset, y, spin + 240, sz);
         }
-        changePage(1);
+        
+        if (offset === 0) {
+            offset = sz * 130;
+        } else {
+            offset = 0;
+        }
+    }
+}
+
+updateBackground();
+
+window.addEventListener("resize", updateBackground);
+    </script>
+
+    <!-- NAVBAR -->
+    <navbar>
+        <script>
+// --------------- nav bar ---------------
+$.createComponent("navbar", $.html`
+    <div id="navTool">
+        <strong><a href="https://vexcess.github.io/" target="_self" style="line-height: 52px;">
+            <img src="https://khanacademy.org/computer-programming/i/5176538457751552/5432823047831552.png" width="16" height="16" style="transform: scale(2) translate(-4px, 1px);">
+            VExcess
+        </a></strong>
+    </div>
+`);
+$.createComponent("navitem", $.html`
+    <a href="javascript:changePage(\{i});">\{label}</a>
+`);
+
+let navbar = $("navbar");
+
+$("*navbar")[0].replaceWith(navbar.el);
+
+// pages
+["About", "Showcase", "Resources", "Contact"].forEach((txt, num) => $("navitem", {
+    i: num,
+    label: txt
+}).appendTo(navbar));
+
+$.deleteComponent("navbar");
+$.deleteComponent("navitem");
+        </script>
+    </navbar>
+  
+    <!-- ABOUT -->
+    <div class="page">
+        <h1 style="margin-top: 10px;">VExcess</h1>
+        
+        <pre><code class="language-javascript" style="font-size: 14px;">let VExcess = {
+    name: "Vincent",
+    age: "403 Forbidden",
+    isMale: true,
+    naturalLanguage: "English",
+    description: "Web developing since 2012;\
+    Favorite language is JavaScript;\
+    Is currently learning Rust;"
+};</code></pre>
+        
+        <br><br>
+        
+        <h2 style="margin-bottom: 12px; margin-top: 0px;">Skills:</h2>
+    
+        <script>
+$.createComponent("skill", $.html`
+    <div style="background-color: rgb(0, 0, 0, 0.7); border: 3px solid rgb(15, 110, 40); border-radius: 10px; margin-bottom: 12px; padding: 15px;">
+        <div style="display: flex;">
+            <img src="\{img}" height="75px" style="display: inline-block; \{transform}">
+            <strong style="display: inline-block; margin-left: 16px; line-height: 75px;">\{name}</strong>
+        </div>
+    </div>
+`);
+
+let aboutPage = $(".page")[0];
+// skills
+[
+    {
+        name: "HTML / CSS / JS + (jQuery, Processing.js)",
+        img: "https://p.kindpng.com/picc/s/171-1718210_html-dialog-element-taking-full-advantage-of-javascript.png",
+        transform: ""
+    },
+    {
+        name: "Node JS",
+        img: "https://storage.googleapis.com/replit/images/1657215193993_7e09bc05cf8b31acb1ebb32597a765ba.png",
+        transform: ""
+    },
+    {
+        name: "WebGL",
+        img: "http://thenewcode.com/assets/svg/webgl-logo.svg",
+        transform: "transform: translate(-4px, -4px);"
+    },
+    {
+        name: "WebAssembly",
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmsPNYaG1fxl8fK_P_wW8kV3PWydxNNSEF0VCYoyg&s",
+        transform: ""
+    },
+    {
+        name: "Java",
+        img: "https://storage.googleapis.com/replit/images/1656700140894_bfb08732625eec1749c0e69cc97d738f.png",
+        transform: "transform: translate(-2px, -2px);"
+    }
+].forEach(obj => $("skill", obj).appendTo(aboutPage));
+
+$.deleteComponent("skill");
+        </script>
+    </div>
+    
+    <!-- SHOWCASE -->
+    <div class="page">
+        <h1>Showcase</h1>
+        <p>I have about 450 different programming projects I've started, but here are some of my more interesting ones. For useful projects check out the Resources tab</p>
+        
+        <script>
+$.createComponent("project", $.html`
+    <a href="\{link}" target="_blank" class="resource-box hover-glow">
+        <strong style="text-decoration: underline;">\{name}</strong>
+        <br><br>
+        \{description}
+    </a>
+`);
+
+let showcasePage = $(".page")[1];
+
+// projects
+[
+    {
+        link: "https://academy.vexcess.repl.co/",
+        name: "Vexcess Academy",
+        description: "A website where anyone can learn to code for free. Users can create projects in multiple different programming languages and then share them with the community. This is the main project I've been working on recently."
+    },
+    {
+        link: "https://github.com/vExcess/Barbequery",
+        name: "Barbequery",
+        description: "A library that combines the best features from both jQuery and React while being faster than either of the two. Barbequery has very simple and elegant syntax and pretty much all the websites I've made including this one have been created using Barbequery."
+    },
+    {
+        link: "https://github.com/vExcess/Drawlite",
+        name: "Drawlite",
+        description: "Processing.js is decent graphics library, however it hasn't been updated since 2017 and is extremely slow. p5.js is the modern alternative, however p5 is an extremely bloated and overengineered library. Drawlite aims to solve the issues of both of the former. Drawlite is capable of doing nearly everything Processing can, however Drawlite weighs in at a mere 0.03 MB compared to the 1 MB Processing and the 4 MB p5. In addition benchmarks have proven Drawlite to be nearly 10x faster than Processing."
+    },
+    {
+        link: "https://github.com/vExcess/JITLang",
+        name: "JITLang",
+        description: "JavaScript is my favorite language, however JS has many stupid features that make the language worse. In addition, JS  lacks many features that would make it better. JITLang is a Just In Time compiled Language that aims to be JavaScript the way that JS ought to have been designed. Not only can JITLang be JIT compiled, but with the use of compiler flags it will be able to be compiled to native binaries. The main target for this is being able to dynamically compile JITLang code to WebAssembly on the fly. The language is still in development and is far from completion however you can run the latest version here: https://academy.vexcess.repl.co/computer-programming/new/jitlang"
+    },
+    {
+        link: "https://academy.vexcess.repl.co/computer-programming/ueGQk3lh2m3hh1",
+        name: "Flappy Bird Clone",
+        description: "I've made multiple video games, but this is probably my most polished one."
+    },
+    {
+        link: "https://JS-Raytracer.vexcess.repl.co",
+        name: "JS Raytracer",
+        description: "A raytracer written entirely in JavaScript. Prepare to wait for a long time while it renders."
+    },
+    {
+        link: "https://Unofficial-Minecraft-JS-Edition.vexcess.repl.co",
+        name: "Unofficial Minecraft JS Edition",
+        description: "It's Minecraft, but written in JavaScript instead of Java. This project is a collaboration with Dat and NoahCoder. Due to being busy we haven't gotten to the point of it being playable yet..."
+    },
+    {
+        link: "https://chat.vexcess.repl.co",
+        name: "Vexcess Chat",
+        description: "My own chat platform. It's functional but far from complete."
+    },
+    {
+        link: "https://github.com/vExcess/ka-monitor",
+        name: "VexTron (previously KA Monitor)",
+        description: "A Discord bot that has extremely an extremely good swear filter along with analytics features. It includes useful commands such as dictionary and translation commands and fun commands such as 'would you rather' questions"
+    },
+    {
+        link: "https://music.vexcess.repl.co",
+        name: "Vexcess Music",
+        description: "I don't know why would you use this when you could use Spotify instead, but hey it exists. Also it's far from being completed."
+    },
+].forEach(obj => $("project", obj).appendTo(showcasePage));
+
+$.deleteComponent("project");
+        </script>
+    </div>
+    
+    <!-- RESOURCES -->
+    <div class="page">
+        <h2>Resources</h2>
+        
+        <script>
+$.createComponent("resource", $.html`
+    <a href="\{link}" target="_blank" class="resource-box hover-glow">
+        <strong style="text-decoration: underline;">\{name}</strong>
+        <br><br>
+        \{description}
+    </a>
+`);
+
+let resourcesPage = $(".page")[2];
+
+// resources
+[
+    {
+        link: "https://github.com/ka-extension/ka-extension-ts",
+        name: "The Khan Academy Extension",
+        description: "I've contributed to the creation of The Khan Academy Extension which is a browser extension that has over 20,000 users and its purpose is to add features to Khan Academy that make it more user friendly and customizable."
+    },
+    {
+        link: "https://YouTube-Save.vexcess.repl.co",
+        name: "Youtube Save",
+        description: "Now you can download Youtube videos without having Youtube premium."
+    },
+    {
+        link: "https://vexcess.github.io/imagenator",
+        name: "Imagenator",
+        description: "Convert images to embedabble JavaScript code that can be run on Khan Academy. This is basically the result of my obsession with compression theory and image encoding."
+    },
+    {
+        link: "https://vexcess.github.io/RankedPairsVoting",
+        name: "Ranked Pairs Voting Calculator",
+        description: "Calculates results from a ranked pairs voting election given CSV file"
+    },
+].forEach(obj => $("resource", obj).appendTo(resourcesPage));
+
+$.deleteComponent("resource");
+        </script>
+    </div>
+    
+    <!-- CONTACT -->
+    <div class="page">
+        <h1 style="margin-bottom: 0px; margin-top: 0px;">Contacts:</h1>
+        <br><br>
+        
+        <script>
+$.createComponent("contact", $.html`
+    <div style="padding: 10px; background-color: transparent;">
+        <a class="contact-box hover-glow" href="\{link}" target="_blank">
+            <img src="\{img}" height="95px" style="\{imgStyle}">
+            <strong>\{site}<br>@\{tag}<strong>
+        </a>
+    </div>
+`);
+
+let contactPage = $(".page")[3];
+
+// contacts
+let contactsTable = $("div").css({
+    backgroundColor: "transparent",
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap"
+}).appendTo(contactPage);
+[
+    {
+        link: "https://www.github.com/vExcess",
+        img: "https://cdn-icons-png.flaticon.com/512/25/25231.png",
+        imgStyle: "transform: translate(4px, 0px) scale(0.82);margin-top: -60px;margin-bottom: 5px;filter: invert(1);",
+        site: "Github",
+        tag: "vExcess"
+    },
+    {
+        link: "https://discord.com",
+        img: "https://brandlogos.net/wp-content/uploads/2021/11/discord-logo.png",
+        imgStyle: "margin-top: -60px;margin-bottom: 3px;transform: scale(1.2);",
+        site: "Discord",
+        tag: "VExcess#1616"
+    },
+    {
+        link: "https://replit.com/@vexcess",
+        img: "https://seeklogo.com/images/R/replit-icon-logo-A666709FE9-seeklogo.com.png",
+        imgStyle: "transform: scale(0.6);margin-top: -62px;margin-bottom: 4px;",
+        site: "Replit",
+        tag: "vexcess"
+    }
+].forEach(obj => $("contact", obj).appendTo(contactsTable));
+
+
+$.deleteComponent("contact");
+        </script>
+    </div>
+  
+    <!-- index.js -->
+    <script>
+let pages = document.getElementsByClassName('page');
+function changePage(index) {
+    for (let i = 0; i < pages.length; i++) {
+        pages[i].style.display = 'none';
+    }
+    pages[index].style.display = 'block';
+    window.scroll(0, 0);
+}
+changePage(0);
     </script>
   
 </body>
