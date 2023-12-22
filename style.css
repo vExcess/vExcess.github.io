@@ -1,7 +1,13 @@
+@font-face {
+    font-family: cyborg;
+    src: url("https://www.onyedika.xyz/static/media/ExoSpace.606b1a1e5fed2c8afb24.ttf");
+    font-display: swap;
+}
+
 body {
-    font-family: sans-serif;
+    font-family: cyborg, sans-serif;
     margin: auto;
-    font-size: 18px;
+    font-size: 20px;
     color: white;
     width: 75%;
 }
@@ -15,13 +21,15 @@ body {
     right: 0px;
     background-color: rgba(0, 0, 0, 0.9);
     border-bottom: 1px solid rgb(0, 0, 0);
-    font-size: 17px;
-    font-family: "trebuchet ms", sans-serif;
+    font-size: 22px;
+    font-family: cyborg, sans-serif;
 }
 #navTool a {
     color: white;
     text-decoration: none;
-    padding: 16px 25px;
+    padding: 25px;
+    padding-top: 20px;
+    padding-bottom: 15px;
     background-color: rgb(0, 0, 0);
 }
 #navTool a:hover {
@@ -81,4 +89,22 @@ body {
     margin-bottom: 18px;
 }
 
+.tooling {
+    background-color: rgb(15, 140, 50);
+    padding: 10px;
+    border-radius: 12px;
+    width: min(730px, 100%);
+    margin: auto;
+}
 
+.tooling h2 {
+    margin-left: 20px;
+    margin-bottom: 12px;
+    margin-top: 10px;
+}
+
+.tooling div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
