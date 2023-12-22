@@ -13,7 +13,7 @@
     <title>vExcess</title>
     
     <!-- favicon -->
-    <link rel="icon" href="https://khanacademy.org/computer-programming/i/5176538457751552/5432823047831552.png">
+    <link rel="icon" href="./images/logo.png">
     
     <!-- import css -->
     <link rel="stylesheet" type="text/css" href="./style.css"/>
@@ -30,129 +30,25 @@
     
     <!-- sick background -->
     <canvas id="background-canvas" style="background-color: black;"></canvas>
-    <!--<script async src="./background.js"></script>-->
-    <script>
-let canvas = document.getElementById("background-canvas");
-let ctx = canvas.getContext("2d");
+    <script src="./background.js"></script>
 
-canvas.style.position = "fixed";
-canvas.style.left = "0px";
-canvas.style.top = "0px";
-canvas.style.zIndex = "-1";
-
-async function updateBackground () {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let width = canvas.width;
-    let height = canvas.height;
-
-    let sin = ang => Math.sin(ang * Math.PI / 180);
-    let cos = ang => Math.cos(ang * Math.PI / 180);
-
-    function piece (x, y, r, sz) {
-        let ang = 120;
-        let thicc = 50;
-        
-        ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(r * Math.PI / 180);
-            ctx.scale(sz || 1, sz || 1);
-            
-            ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(100, 0);
-                ctx.lineTo(76, sin(ang / 2) * thicc);
-                ctx.lineTo(cos(ang / 2) * thicc, sin(ang / 2) * thicc);
-                ctx.lineTo(thicc + cos(ang) * 100, sin(ang) * 100);
-                ctx.lineTo(cos(ang) * 100, sin(ang) * 100);
-                ctx.lineTo(0, 0);
-            ctx.fill();
-            
-            ctx.strokeStyle = "rgba(0, 150, 75, 0.6)";
-            for (let i = -49; i < 100; i += 8) {
-                let j = i + 50;
-                let k = j;
-                
-                if (i < 1) {
-                    j = 87 - j * 1.7;
-                } else {
-                    j = 1;
-                }
-                
-                if (i < 1) {
-                    k = 86;
-                } else if (i < 23) {
-                    k = 170 - k * 1.7;
-                } else if (i < 76) {
-                    k = 43;
-                } else {
-                    k = 255 - k * 1.7;
-                }
-                
-                ctx.beginPath();
-                ctx.moveTo(i, j);
-                ctx.lineTo(i, k);
-                ctx.stroke();
-            }
-        ctx.restore();
-    }
-
-    let spin = 30;
-    let sz = 0.5;
-
-    let offset = 0;
-    for (let y = 0; y < height + 100; y += sz * 75) {
-        for (let x = 0; x < width + 100; x += sz * 260) {
-            ctx.fillStyle = "rgb(20, 20, 20)";
-            piece(x + offset, y, spin, sz);
-            ctx.fillStyle = "rgb(0, 0, 0)";
-            piece(x + offset, y, spin + 120, sz);
-            ctx.fillStyle = "rgb(40, 40, 40)";
-            piece(x + offset, y, spin + 240, sz);
-        }
-        
-        if (offset === 0) {
-            offset = sz * 130;
-        } else {
-            offset = 0;
-        }
-    }
-}
-
-updateBackground();
-
-window.addEventListener("resize", updateBackground);
-    </script>
+    <!-- Barbequery Components -->
+    <script src="./components.js"></script>
 
     <!-- NAVBAR -->
     <navbar>
         <script>
-// --------------- nav bar ---------------
-$.createComponent("navbar", $.html`
-    <div id="navTool">
-        <strong><a href="https://vexcess.github.io/" target="_self" style="line-height: 52px;">
-            <img src="https://khanacademy.org/computer-programming/i/5176538457751552/5432823047831552.png" width="16" height="16" style="transform: scale(2) translate(-4px, 1px);">
-            VExcess
-        </a></strong>
-    </div>
-`);
-$.createComponent("navitem", $.html`
-    <a href="javascript:changePage(\{i});">\{label}</a>
-`);
+            let navbar = $("navbar");
+            $("*navbar")[0].replaceWith(navbar.el);
 
-let navbar = $("navbar");
+            // pages
+            ["About", "Showcase", "Resources", "Contact"].forEach((txt, num) => $("navitem", {
+                i: num,
+                label: txt
+            }).appendTo(navbar));
 
-$("*navbar")[0].replaceWith(navbar.el);
-
-// pages
-["About", "Showcase", "Resources", "Contact"].forEach((txt, num) => $("navitem", {
-    i: num,
-    label: txt
-}).appendTo(navbar));
-
-$.deleteComponent("navbar");
-$.deleteComponent("navitem");
+            $.deleteComponent("navbar");
+            $.deleteComponent("navitem");
         </script>
     </navbar>
   
@@ -161,57 +57,87 @@ $.deleteComponent("navitem");
         <h1 style="margin-top: 10px;">VExcess</h1>
         
         <pre><code class="language-javascript" style="font-size: 14px;">let VExcess = {
-    name: "Vincent",
-    location: "403 Forbidden",
-    naturalLanguage: "English",
-    description: "Web developing since 2012;\
-    Favorite language is JavaScript;\
-    Is currently learning Rust;"
+    name: "Vincent S.",
+    location: "United States",
+    description: `
+        Full stack web developer;
+        Been web developing since 2012;
+        If performance is crucial use Zig, otherwise use JavaScript;
+    `
 };</code></pre>
         
         <br><br>
         
-        <h2 style="margin-bottom: 12px; margin-top: 0px;">Skills:</h2>
+        <h2 style="margin-bottom: 12px; margin-top: 0px;">Tooling:</h2>
+        <div class="tooling">
+            <h2>Proficient With:</h2>
+            <div id="proficient"></div>
+        </div>
+        <br><br>
+        <div class="tooling">
+            <h2>Some Experience With:</h2>
+            <div id="has-experience"></div>
+        </div>
     
         <script>
-$.createComponent("skill", $.html`
-    <div style="background-color: rgb(0, 0, 0, 0.7); border: 3px solid rgb(15, 110, 40); border-radius: 10px; margin-bottom: 12px; padding: 15px;">
-        <div style="display: flex;">
-            <img src="\{img}" height="75px" style="display: inline-block; \{transform}">
-            <strong style="display: inline-block; margin-left: 16px; line-height: 75px;">\{name}</strong>
-        </div>
-    </div>
-`);
+
 
 let aboutPage = $(".page")[0];
-// skills
+// proficient skills
 [
     {
-        name: "HTML / CSS / JS + (jQuery, Processing.js)",
-        img: "https://p.kindpng.com/picc/s/171-1718210_html-dialog-element-taking-full-advantage-of-javascript.png",
-        transform: ""
+        name: "HTML",
+        img: "./images/html.png"
+    },
+    {
+        name: "JavaScript",
+        img: "./images/js.png"
+    },
+    {
+        name: "CSS",
+        img: "./images/css.png"
     },
     {
         name: "Node JS",
-        img: "https://storage.googleapis.com/replit/images/1657215193993_7e09bc05cf8b31acb1ebb32597a765ba.png",
-        transform: ""
+        img: "./images/nodejs.png"
     },
     {
         name: "WebGL",
-        img: "http://thenewcode.com/assets/svg/webgl-logo.svg",
-        transform: "transform: translate(-4px, -4px);"
+        img: "./images/webgl.png"
     },
     {
         name: "WebAssembly",
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmsPNYaG1fxl8fK_P_wW8kV3PWydxNNSEF0VCYoyg&s",
-        transform: ""
+        img: "./images/webassembly.png"
+    }
+].forEach(obj => $("skill", obj).appendTo($("#proficient")));
+
+// experience with skills
+[
+    {
+        name: "Zig",
+        img: "./images/zig.png"
     },
     {
         name: "Java",
-        img: "https://storage.googleapis.com/replit/images/1656700140894_bfb08732625eec1749c0e69cc97d738f.png",
-        transform: "transform: translate(-2px, -2px);"
+        img: "./images/java.png"
+    },
+    {
+        name: "Rust",
+        img: "./images/rust.png"
+    },
+    {
+        name: "MongoDB",
+        img: "./images/mongodb.png"
+    },
+    {
+        name: "Docker",
+        img: "./images/docker.png"
+    },
+    {
+        name: "React",
+        img: "./images/react.png"
     }
-].forEach(obj => $("skill", obj).appendTo(aboutPage));
+].forEach(obj => $("skill", obj).appendTo($("#has-experience")));
 
 $.deleteComponent("skill");
         </script>
@@ -223,13 +149,7 @@ $.deleteComponent("skill");
         <p>I have about 450 different programming projects I've started, but here are some of my more interesting ones. For useful projects check out the Resources tab</p>
         
         <script>
-$.createComponent("project", $.html`
-    <a href="\{link}" target="_blank" class="resource-box hover-glow">
-        <strong style="text-decoration: underline;">\{name}</strong>
-        <br><br>
-        \{description}
-    </a>
-`);
+
 
 let showcasePage = $(".page")[1];
 
@@ -291,13 +211,7 @@ $.deleteComponent("project");
         <h2>Resources</h2>
         
         <script>
-$.createComponent("resource", $.html`
-    <a href="\{link}" target="_blank" class="resource-box hover-glow">
-        <strong style="text-decoration: underline;">\{name}</strong>
-        <br><br>
-        \{description}
-    </a>
-`);
+
 
 let resourcesPage = $(".page")[2];
 
@@ -335,15 +249,6 @@ $.deleteComponent("resource");
         <br><br>
         
         <script>
-$.createComponent("contact", $.html`
-    <div style="padding: 10px; background-color: transparent;">
-        <a class="contact-box hover-glow" href="\{link}" target="_blank">
-            <img src="\{img}" height="95px" style="\{imgStyle}">
-            <strong>\{site}<br>@\{tag}<strong>
-        </a>
-    </div>
-`);
-
 let contactPage = $(".page")[3];
 
 // contacts
@@ -356,21 +261,21 @@ let contactsTable = $("div").css({
 [
     {
         link: "https://www.github.com/vExcess",
-        img: "https://cdn-icons-png.flaticon.com/512/25/25231.png",
+        img: "./images/github.png",
         imgStyle: "transform: translate(4px, 0px) scale(0.82);margin-top: -60px;margin-bottom: 5px;filter: invert(1);",
         site: "Github",
         tag: "vExcess"
     },
     {
         link: "https://discord.com",
-        img: "https://brandlogos.net/wp-content/uploads/2021/11/discord-logo.png",
+        img: "./images/discord.png",
         imgStyle: "margin-top: -60px;margin-bottom: 3px;transform: scale(1.2);",
         site: "Discord",
         tag: "vexcess"
     },
     {
         link: "https://replit.com/@vexcess",
-        img: "https://seeklogo.com/images/R/replit-icon-logo-A666709FE9-seeklogo.com.png",
+        img: "./images/replit.png",
         imgStyle: "transform: scale(0.6);margin-top: -62px;margin-bottom: 4px;",
         site: "Replit",
         tag: "vexcess"
@@ -384,15 +289,15 @@ $.deleteComponent("contact");
   
     <!-- index.js -->
     <script>
-let pages = document.getElementsByClassName('page');
-function changePage(index) {
-    for (let i = 0; i < pages.length; i++) {
-        pages[i].style.display = 'none';
-    }
-    pages[index].style.display = 'block';
-    window.scroll(0, 0);
-}
-changePage(0);
+        let pages = document.getElementsByClassName('page');
+        function changePage(index) {
+            for (let i = 0; i < pages.length; i++) {
+                pages[i].style.display = 'none';
+            }
+            pages[index].style.display = 'block';
+            window.scroll(0, 0);
+        }
+        changePage(0);
     </script>
   
 </body>
