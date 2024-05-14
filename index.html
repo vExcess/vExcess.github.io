@@ -176,30 +176,25 @@ let showcasePage = $(".page")[1];
         description: "JavaScript is my favorite language, however JS has many stupid features that make the language worse. In addition, JS  lacks many features that would make it better. JITLang is a Just In Time compiled Language that aims to be JavaScript the way that JS ought to have been designed. Not only can JITLang be JIT compiled, but with the use of compiler flags it will be able to be compiled to native binaries. The main target for this is being able to dynamically compile JITLang code to WebAssembly on the fly. The language is still in development and is far from completion however you can run the latest version here: https://vxsacademy.org/computer-programming/new/jitlang"
     },
     {
-        link: "https://vxsacademy.org/computer-programming/ueGQk3lh2m3hh1",
+        link: "https://vxsacademy.org/computer-programming/op21YXlmoae7fl",
         name: "Flappy Bird Clone",
         description: "I've made multiple video games, but this is probably my most polished one."
     },
-    {
-        link: "https://JS-Raytracer.vexcess.repl.co",
-        name: "JS Raytracer",
-        description: "A raytracer written entirely in JavaScript. Prepare to wait for a long time while it renders."
-    },
-    {
-        link: "https://khancraft.vexcess.repl.co",
-        name: "Khancraft",
-        description: "It's Minecraft, but written in JavaScript instead of Java. This project is a collaboration with Dat and NoahCoder. Due to being busy we haven't gotten to the point of it being playable yet..."
-    },
+    // {
+    //     link: "https://khancraft.vexcess.repl.co",
+    //     name: "Khancraft",
+    //     description: "It's Minecraft, but written in JavaScript instead of Java. This project is a collaboration with Dat and NoahCoder. Due to being busy we haven't gotten to the point of it being playable yet..."
+    // },
     {
         link: "https://github.com/vExcess/ka-monitor",
         name: "VexTron (previously KA Monitor)",
         description: "A Discord bot that has extremely an extremely good swear filter along with analytics features. It includes useful commands such as dictionary and translation commands and fun commands such as 'would you rather' questions"
     },
-    {
-        link: "https://music.vexcess.repl.co",
-        name: "Vexcess Music",
-        description: "I don't know why would you use this when you could use Spotify instead, but hey it exists. Also it's far from being completed."
-    },
+    // {
+    //     link: "https://music.vexcess.repl.co",
+    //     name: "Vexcess Music",
+    //     description: "I don't know why would you use this when you could use Spotify instead, but hey it exists. Also it's far from being completed."
+    // },
 ].forEach(obj => $("project", obj).appendTo(showcasePage));
 
 $.deleteComponent("project");
@@ -222,11 +217,11 @@ let resourcesPage = $(".page")[2];
         name: "The Khan Academy Extension",
         description: "I've contributed to the creation of The Khan Academy Extension which is a browser extension that has over 20,000 users and its purpose is to add features to Khan Academy that make it more user friendly and customizable."
     },
-    {
-        link: "https://YouTube-Save.vexcess.repl.co",
-        name: "Youtube Save",
-        description: "Now you can download Youtube videos without having Youtube premium."
-    },
+    // {
+    //     link: "https://YouTube-Save.vexcess.repl.co",
+    //     name: "Youtube Save",
+    //     description: "Now you can download Youtube videos without having Youtube premium."
+    // },
     {
         link: "https://vexcess.github.io/imagenator",
         name: "Imagenator",
@@ -278,6 +273,13 @@ let contactsTable = $("div").css({
         img: "./images/replit.png",
         imgStyle: "transform: scale(0.6);margin-top: -62px;margin-bottom: 4px;",
         site: "Replit",
+        tag: "vexcess"
+    },
+    {
+        link: "https://vxsacademy.org/profile/vexcess",
+        img: "./images/logo.png",
+        imgStyle: "transform: scale(0.75);margin-top: -62px;margin-bottom: 4px;",
+        site: "VExcess Academy",
         tag: "vexcess"
     }
 ].forEach(obj => $("contact", obj).appendTo(contactsTable));
