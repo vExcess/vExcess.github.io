@@ -2,8 +2,8 @@
     "name": "vexcess.github.io",
     "version": "1.0.0",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "rollup -c -w",
+        "release": "rollup -c --environment INCLUDE_DEPS,BUILD:production",
         "start": "cd .. && http-server vExcess.github.io/"
     },
     "author": "vExcess",
