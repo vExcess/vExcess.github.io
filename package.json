@@ -1,0 +1,22 @@
+{
+    "name": "vexcess.github.io",
+    "version": "1.0.0",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "rollup -c -w",
+        "start": "cd .. && http-server vExcess.github.io/"
+    },
+    "author": "vExcess",
+    "description": "personal website",
+    "devDependencies": {
+        "svelte": "^5.16.0"
+    },
+    "dependencies": {
+        "@rollup/plugin-commonjs": "^28.0.2",
+        "@rollup/plugin-node-resolve": "^16.0.0",
+        "@rollup/plugin-terser": "^0.4.4",
+        "rollup-plugin-css-only": "^4.5.2",
+        "rollup-plugin-livereload": "^2.0.5",
+        "rollup-plugin-svelte": "^7.2.2"
+    }
+}
