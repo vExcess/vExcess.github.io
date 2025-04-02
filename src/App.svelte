@@ -23,8 +23,8 @@
 			img: "./images/nodejs.png"
 		},
 		{
-			name: "WebGL",
-			img: "./images/webgl.png"
+			name: "Dart",
+			img: "./images/dart.webp"
 		},
 		{
 			name: "WebAssembly",
@@ -42,8 +42,8 @@
 			img: "./images/java.png"
 		},
 		{
-			name: "Rust",
-			img: "./images/rust.png"
+			name: "WebGL",
+			img: "./images/webgl.png"
 		},
 		{
 			name: "MongoDB",
@@ -63,37 +63,37 @@
 		{
 			link: "https://vxsacademy.org/",
 			name: "Vexcess Academy",
-			description: "A website where anyone can learn to code for free. Users can create projects in multiple different programming languages and then share them with the community. This is the main project I've been working on recently."
+			description: "A website where anyone can learn to code for free. Users can create projects in multiple different programming languages and then share them with the community."
 		},
 		{
 			link: "https://github.com/librepaint/drawlite",
 			name: "Drawlite",
-			description: "Processing.js is decent graphics library, however it hasn't been updated since 2017 and is extremely slow. p5.js is the modern alternative, however p5 is an extremely bloated and overengineered library. Drawlite aims to solve the issues of both of the former. Drawlite is capable of doing nearly everything Processing can, however Drawlite weighs in at a mere 0.03 MB compared to the 1 MB Processing and the 4 MB p5. In addition benchmarks have proven Drawlite to be nearly 10x faster than Processing."
+			description: "Processing.js is decent graphics library, however it hasn't been updated since 2017 and is extremely slow. p5.js is the modern alternative, however p5 is an extremely bloated and overengineered library. Drawlite aims to solve the issues of both of the former. Drawlite is capable of doing nearly everything Processing can, however Drawlite weighs in at a mere 0.03 MB compared to the 1 MB Processing and the 4 MB p5. In addition benchmarks have proven Drawlite to be nearly 10x faster than Processing. Lastly Drawlite is cross platform and can run natively."
+		},
+		{
+		    link: "https://github.com/librepaint/librepaint-3d",
+		    name: "LibrePaint 3D",
+		    description: "Paint 3D was removed from the Microsoft Store on November 4, 2024. Because Microsoft killed Paint 3D I am creating a free and open source implementation of MS Paint 3D."
 		},
 		{
 			link: "https://github.com/vExcess/Barbequery",
 			name: "Barbequery",
-			description: "A library that combines the best features from both jQuery and React while being faster than either of the two. Barbequery has very simple and elegant syntax and pretty much all the websites I've made including this one have been created using Barbequery."
+			description: "A library that combines the best features from both jQuery and React while being faster than either of the two. Barbequery has very simple and elegant syntax. vxsacademy.org is an example of a website created using Barbequery."
 		},
 		// {
 		// 	link: "https://github.com/vExcess/JITLang",
 		// 	name: "JITLang",
 		// 	description: "JavaScript is my favorite language, however JS has many stupid features that make the language worse. In addition, JS  lacks many features that would make it better. JITLang is a Just In Time compiled Language that aims to be JavaScript the way that JS ought to have been designed. Not only can JITLang be JIT compiled, but with the use of compiler flags it will be able to be compiled to native binaries. The main target for this is being able to dynamically compile JITLang code to WebAssembly on the fly. The language is still in development and is far from completion however you can run the latest version here: https://vxsacademy.org/computer-programming/new/jitlang"
 		// },
-		{
-			link: "https://vxsacademy.org/computer-programming/op21YXlmoae7fl",
-			name: "Flappy Bird Clone",
-			description: "I've made multiple video games, but this is probably my most polished one."
-		},
 		// {
-		//     link: "https://khancraft.vexcess.repl.co",
-		//     name: "Khancraft",
-		//     description: "It's Minecraft, but written in JavaScript instead of Java. This project is a collaboration with Dat and NoahCoder. Due to being busy we haven't gotten to the point of it being playable yet..."
+		// 	link: "https://vxsacademy.org/computer-programming/op21YXlmoae7fl",
+		// 	name: "Flappy Bird Clone",
+		// 	description: "I've made multiple video games, but this is probably my most polished one."
 		// },
 		{
 			link: "https://github.com/vExcess/ka-monitor",
 			name: "VexTron (previously KA Monitor)",
-			description: "A Discord bot that has extremely an extremely good swear filter along with analytics features. It includes useful commands such as dictionary and translation commands and fun commands such as 'would you rather' questions"
+			description: "A Discord bot that has a sophisticated swear filter along with analytics features. It includes useful commands such as dictionary and translation commands and fun commands such as 'would you rather' questions"
 		},
 		// {
 		//     link: "https://music.vexcess.repl.co",
@@ -102,21 +102,24 @@
 		// },
 	];
 
-	const resources = [
-		{
-			link: "https://vexcess.github.io/blog/zig-for-webassembly-guide",
-			name: "Zig for WebAssembly guide",
-			description: "Tutorial on how to use Zig for web assembly. Guide is outdated, but most concepts still apply. If you want me to update it just let me know."
-		},
+	const blog = [
 		{
 			link: "https://vexcess.github.io/blog/creating-a-native-app-in-typescript",
 			name: "I Tried Creating a Native App in TypeScript",
 			description: "The story of how I tried and failed to compile a program in TypeScript to native code. This blog contains useful information on using Static Hermes in addition to details about shermes' faults. Lastly this blog contains my thought processes and rants about various softwares."
 		},
 		{
+			link: "https://vexcess.github.io/blog/zig-for-webassembly-guide",
+			name: "Zig for WebAssembly guide",
+			description: "Tutorial on how to use Zig for web assembly. Guide is outdated, but most concepts still apply. If you want me to update it just let me know."
+		},
+	];
+
+	const tools = [
+		{
 			link: "https://github.com/ka-extension/ka-extension-ts",
-			name: "The Khan Academy Extension",
-			description: "I've contributed to the creation of The Khan Academy Extension which is a browser extension that has over 20,000 users and its purpose is to add features to Khan Academy that make it more user friendly and customizable."
+			name: "Extension for Khan Academy",
+			description: "I've contributed to the creation of the Extension for Khan Academy (formerly \"The Khan Academy Extension\") which is a browser extension that has over 600 users. It adds features to Khan Academy that make it more user friendly and customizable."
 		},
 		// {
 		//     link: "https://YouTube-Save.vexcess.repl.co",
@@ -180,9 +183,15 @@
 	name: "Vincent S.",
 	location: "United States",
 	description: `
-		Full stack web developer;
-		Been web developing since 2012;
-		if (performanceCrucial) use(Zig) else use(JavaScript);
+		I'm a self taught, self proclaimed, full-stack web developer 
+		who enjoys programming in JavaScript, Dart, and Zig. 
+		My choice 
+			OS: Linux Mint
+			IDE: VS Code
+			WebFramework: Svelte
+		My current passion project is creating a FOSS clone of MS 
+		Paint 3D.
+
 	`
 };</code></pre>
 	
@@ -233,18 +242,27 @@
 <!-- SHOWCASE -->
 <div class="page">
 	<h1>Showcase</h1>
-	<p>I have about 450 different programming projects I've started, but here are some of my more interesting ones. For useful projects check out the Resources tab</p>
+	<p>I have about 450 different programming projects I've started, but here are some of my more interesting ones. For useful projects check out the Tools tab</p>
 
 	{#each projects as projectInfo}
 		<Project {...projectInfo}/>
 	{/each}
 </div>
 
-<!-- RESOURCES -->
+<!-- TOOLS -->
 <div class="page">
-	<h2>Resources</h2>
+	<h2>Tools</h2>
 	
-	{#each resources as projectInfo}
+	{#each tools as projectInfo}
+		<Project {...projectInfo}/>
+	{/each}
+</div>
+
+<!-- BLOG -->
+<div class="page">
+	<h2>Blog</h2>
+	
+	{#each blog as projectInfo}
 		<Project {...projectInfo}/>
 	{/each}
 </div>

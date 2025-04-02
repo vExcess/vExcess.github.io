@@ -5,7 +5,7 @@
 <a href="{link}" target="_blank" class="resource-box hover-glow">
     <strong style="text-decoration: underline;">{name}</strong>
     <br><br>
-    {description}
+    <div>{description}</div>
 </a>
 
 <style>
@@ -19,5 +19,10 @@
         text-decoration: none;
         color: white;
         margin-bottom: 18px;
+    }
+
+    .resource-box div {
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, Helvetica, sans-serif;
+        font-size: 0.9em;
     }
 </style>
