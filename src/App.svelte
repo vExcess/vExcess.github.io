@@ -50,8 +50,8 @@
 			img: "./images/mongodb.png"
 		},
 		{
-			name: "Docker",
-			img: "./images/docker.png"
+			name: "Podman",
+			img: "./images/podman.png"
 		},
 		{
 			name: "Svelte",
