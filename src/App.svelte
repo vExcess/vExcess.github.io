@@ -85,11 +85,11 @@
 		// 	name: "JITLang",
 		// 	description: "JavaScript is my favorite language, however JS has many stupid features that make the language worse. In addition, JS  lacks many features that would make it better. JITLang is a Just In Time compiled Language that aims to be JavaScript the way that JS ought to have been designed. Not only can JITLang be JIT compiled, but with the use of compiler flags it will be able to be compiled to native binaries. The main target for this is being able to dynamically compile JITLang code to WebAssembly on the fly. The language is still in development and is far from completion however you can run the latest version here: https://vxsacademy.org/computer-programming/new/jitlang"
 		// },
-		// {
-		// 	link: "https://vxsacademy.org/computer-programming/op21YXlmoae7fl",
-		// 	name: "Flappy Bird Clone",
-		// 	description: "I've made multiple video games, but this is probably my most polished one."
-		// },
+		{
+			link: "https://vxsacademy.org/computer-programming/op21YXlmoae7fl",
+			name: "Flappy Bird Clone",
+			description: "I've made multiple video games, but this is probably my most polished one."
+		},
 		{
 			link: "https://github.com/vExcess/ka-monitor",
 			name: "VexTron (previously KA Monitor)",
