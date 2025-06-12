@@ -79,7 +79,7 @@ As pointed out to me by Donkey Dan the uwu man, C is the exception to this. It s
 
 ## Expressing the behavior programmatically
 The observed behavior seems to function like so
-```ts
+```java
 var left = resolve(assignmentExpression.left.objectName);
 var right = evaluate(assignmentExpression.right);
 if (left == null) {
@@ -89,7 +89,7 @@ if (left == null) {
 }
 ```
 But my expected behavior is that the code would function like one of the following two examples
-```ts
+```java
 var left = resolve(assignmentExpression.left.objectName);
 if (left == null) {
     throw NullPointerException();
@@ -99,7 +99,7 @@ if (left == null) {
 }
 ```
 or
-```ts
+```java
 var right = evaluate(assignmentExpression.right);
 var left = resolve(assignmentExpression.left.objectName);
 if (left == null) {
@@ -205,7 +205,7 @@ putfield takes the index, in this case #16, to lookup the field to set (in this 
 
 #### Defining this programmatically
 I think the above behavior I walked through in English can be defined programmatically something like this:
-```dart
+```java
 Array<FieldRef|MethodRef> constantPool = [];
 constantPool[10] = FieldRef(Field(
     name: "foo",
@@ -213,7 +213,7 @@ constantPool[10] = FieldRef(Field(
 ));
 constantPool[36] = MethodRef(Method<Int>(){ ... });
 constantPool[16] = FieldRef(Field(
-    name: "idk,
+    name: "idk",
     value: null
 ));
 
@@ -306,7 +306,7 @@ This would fix the null error on a non-null value by avoiding dereferencing `foo
 2) Swap the order in which values are popped off the stack in the implementation of putfield
 
 This would mean the JVM is evaluating the right-hand side of the assignment expression before the left-hand side. This would fix the unintuitive behavior by waiting to resolve the `foo` until after evaluating `bar`. I can't think of any potential downsides of this. After all, right to left is how chained assignment expressions are interpreted, why not make it how a single assignment expression is evaluated.
-```ts
+```java
 a = b = c
 // same as
 b = c
