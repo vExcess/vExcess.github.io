@@ -109,6 +109,16 @@
 			description: "The story of how I tried and failed to compile a program in TypeScript to native code. This blog contains useful information on using Static Hermes in addition to details about shermes' faults. Lastly this blog contains my thought processes and rants about various softwares."
 		},
 		{
+			link: "https://vexcess.github.io/blog/nullpointerexception",
+			name: "WHY? NullPointerException while assigning to field of non-null object",
+			description: "Why does nearly every language throw a null pointer exception when assigning to a field on a non-null object if the right side of the assignment is the initializer for the left???"
+		},
+		{
+			link: "https://vexcess.github.io/blog/imagedata-tutorials.html",
+			name: "ImageData Tutorials",
+			description: "More of a mini book than a blog post. ImageData tutorials for beginners."
+		},
+		{
 			link: "https://vexcess.github.io/blog/zig-for-webassembly-guide",
 			name: "Zig for WebAssembly guide",
 			description: "Tutorial on how to use Zig for web assembly. Guide is outdated, but most concepts still apply. If you want me to update it just let me know."
