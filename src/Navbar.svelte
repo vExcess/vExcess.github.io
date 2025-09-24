@@ -8,7 +8,7 @@
         <strong style="display: inline-block; margin-left: 6px; margin-top: 6px;">VExcess</strong>
     </a>
 
-    {#each ["About", "Showcase", "Tools", "Blog", "Contact"] as tabLabel, i}
+    {#each ["About", "Games", "Showcase", "Tools", "Blog", "Contact"] as tabLabel, i}
         <NavItem label={tabLabel} pageId={i}/>
     {/each}
 </div>

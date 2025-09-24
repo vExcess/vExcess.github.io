@@ -1,6 +1,7 @@
 <script>
 	import Navbar from './Navbar.svelte';
 	import Skill from './Skill.svelte';
+	import Game from './Game.svelte';
 	import Project from './Project.svelte';
 	import Contact from './Contact.svelte';
     import Background from './Background.svelte';
@@ -59,6 +60,13 @@
 		}
 	];
 
+	const games = [
+		{
+			name: "Flappy Bird",
+			description: "Knock-off flappy bird. Endlessly fly through pipes."
+		}
+	];
+
 	const projects = [
 		{
 			link: "https://vxsacademy.org/",
@@ -76,9 +84,9 @@
 		    description: "Paint 3D was removed from the Microsoft Store on November 4, 2024. Because Microsoft killed Paint 3D I am creating a free and open source implementation of MS Paint 3D."
 		},
 		{
-			link: "https://github.com/vExcess/Barbequery",
-			name: "Barbequery",
-			description: "A library that combines the best features from both jQuery and React while being faster than either of the two. Barbequery has very simple and elegant syntax. vxsacademy.org is an example of a website created using Barbequery."
+			link: "https://github.com/vExcess/svquery",
+			name: "SvQuery",
+			description: "SvQuery is essentially a subsset of Svelte mixed together with jQuery."
 		},
 		// {
 		// 	link: "https://github.com/vExcess/JITLang",
@@ -178,6 +186,8 @@
 			tag: "vexcess"
 		}
 	];
+
+	
 </script>
 
 <!-- sick background -->
@@ -250,6 +260,16 @@
 	</style>
 </div>
 
+<!-- GAMES -->
+<div class="page">
+	<h1>Games</h1>
+	<p>I've started many games. Here are some that I've bothered porting to Drawlite.</p>
+
+	{#each games as gameInfo}
+		<Game {...gameInfo}/>
+	{/each}
+</div>
+
 <!-- SHOWCASE -->
 <div class="page">
 	<h1>Showcase</h1>
@@ -301,14 +321,29 @@
 
 <div>
 	<script>
-        let pages = document.getElementsByClassName('page');
-        function changePage(index) {
-            for (let i = 0; i < pages.length; i++) {
-                pages[i].style.display = 'none';
-            }
-            pages[index].style.display = 'block';
-            window.scroll(0, 0);
-        }
-        changePage(0);
-    </script>
+		const pageHashes = [
+			"about",
+			"games",
+			"showcase",
+			"tools",
+			"blog",
+			"contact"
+		];
+
+		let pages = document.getElementsByClassName('page');
+		function changePage(index) {
+			window.location.hash = pageHashes[index];
+			for (let i = 0; i < pages.length; i++) {
+				pages[i].style.display = 'none';
+			}
+			pages[index].style.display = 'block';
+			window.scroll(0, 0);
+		}
+
+		let firstPageIndex = pageHashes.indexOf(window.location.hash.slice(1));
+		if (firstPageIndex === -1) {
+			firstPageIndex = 0;
+		}
+		changePage(firstPageIndex);
+	</script>
 </div>
