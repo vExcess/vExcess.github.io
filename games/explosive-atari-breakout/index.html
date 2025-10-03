@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>New webpage</title>
+
+    <style>
+        body {
+            background-color: black;
+            margin: 10px;
+            padding: 0px;
+        }
+
+        canvas {
+            outline: none;
+            display: block;
+            margin: auto;
+        }
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/gh/librepaint/drawlite@main/javascript/drawlite.js"></script>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+    
+    <script src="./font-bitmaps.js"></script>
+
+    <script type>
+/**
+    Flappy Bird Made By VExcess
+    
+    The original took me about 25 hours of work over a few days.
+    I've spent 4.5 hours porting it from PJS to Drawlite and reworking the graphics to work on non 600x500 canvases.
+    
+    Post your highscore in the tips and thanks to be added to the leaderboard!
+    
+    This is my own version. No code was taken from either Kazza++'s or Kevin23's flappy bird.
+    
+    Thanks to KWC for the prevent scroll default code.
+**/
+
+var canvas = document.getElementById("canvas");
+var dl = Drawlite(canvas);
+var { PI, TWO_PI, EPSILON, CORNER, CORNERS, LEFT, RIGHT, TOP, CENTER, BOTTOM, BASELINE, RADIUS, DEGREES, RADIANS, POINTS, LINES, TRIANGLES, TRIANGLE_STRIP, TRIANGLE_FAN, QUADS, QUAD_STRIP, CLOSE, ROUND, PROJECT, SQUARE, BEVEL, MITER, RGB, HSB, NATIVE, canvas, Color, PerlinNoise, PRNG, vec3, ctx, size, angleMode, noLoop, loop, frameRate, min, max, floor, round, ceil, abs, constrain, sq, sqrt, pow, sin, cos, tan, asin, acos, atan, atan2, log, random, dist, map, lerp, radians, degrees, color, lerpColor, fill, stroke, strokeWeight, strokeCap, strokeJoin, noStroke, noFill, beginShape, vertex, curveVertex, bezierVertex, bezierPoint, bezierTangent, splineTightness, splineVertex, splinePoint, splineTangent, lerpSpline, endShape, spline, snip, getColor, imageMode, image, loadImage, font, textSize, textAlign, textWidth, textAscent, textDescent, textLeading, text, background, point, line, rectMode, rect, triangle, quad, arc, circle, ellipseMode, ellipse, bezier, get, pushMatrix, popMatrix, resetMatrix, scale, translate, rotate, loadPixels, updatePixels, colorMode, enableContextMenu, millis, second, minute, hour, day, month, year, smooth, nosmooth, createGraphics, getProperties } = dl;
+
+function getSound(s) {
+    let url = 'https://cdn.kastatic.org/third_party/javascript-khansrc/live-editor/sounds/' + s + '.mp3';
+    return new Audio(url);
+}
+function playSound(s) {
+    s.play();
+}
+
+var originalWidth = 600;
+var originalHeight = 600;
+var globalScale = 1;
+
+size(originalWidth, originalHeight);
+
+function adjustCanvasSize() {
+    var targetRatio = originalWidth/originalHeight;
+    var maxWidth = window.innerWidth-20;
+    var maxHeight = window.innerHeight-20;
+
+    if (maxWidth / maxHeight > targetRatio) {
+        // height is the limiting factor
+        size(maxHeight * targetRatio, maxHeight);
+        globalScale = maxHeight / originalHeight;
+    } else {
+        // width is the limiting factor
+        size(maxWidth, maxWidth / targetRatio);
+        globalScale = maxWidth / originalWidth;
+    }
+}
+adjustCanvasSize();
+// window.addEventListener("resize", adjustCanvasSize);
+
+function mouseX() {
+    return get.mouseX / globalScale;
+}
+
+function mouseY() {
+    return get.mouseY / globalScale;
+}
+
+// ----------------------------------------------------------------------------
+
+var shouldDrawLogo = true;
+
+pushMatrix();
+    scale(globalScale);
+    background(0, 0, 0, 0);
+    noStroke();
+    for (var x = 0; x < originalWidth;  x += 10) {
+        for (var y = 0; y < originalHeight;  y += 10) {
+            fill(0, 0, random(0, 150));
+            rect(x, y, 10+1, 10+1);
+        }
+    }
+popMatrix();
+noFill();
+strokeWeight(5);
+var circleDiam = dist(0, 0, get.width/2, get.height/2) * 2;
+for (var s = circleDiam; s > 0; s -= 5) {
+    stroke(0, 0, 0, map(s, circleDiam, circleDiam/2, 225, 0));
+    ellipse(get.width/2, get.height/2, s, s);
+    if (s/4 < 10) {
+        break;
+    }
+}
+var logoBackground = snip(0, 0, get.width, get.height);
+
+var logoIMG;
+function createLogo(logoSz, noRound) {
+    var scl = logoSz / 400;
+    var width = get.width;
+    var height = get.height;
+    
+    noStroke();
+    for (var i = 0; i < logoSz; i++) {
+        var j = map(i, 0, logoSz, 0, 400);
+        fill(0, j / 20, j / 5);
+        rect(0, i, logoSz, 1);
+    }
+    
+    pushMatrix();
+        scale(scl);
+        
+        strokeWeight(40);
+        stroke(34, 177, 76);
+        strokeCap("butt");
+        
+        line(0, 0, 200, 400);
+        line(400, 0, 200, 400);
+        
+        line(100, -20, 300, 200);
+        line(300, -20, 100, 200);
+    popMatrix();
+    
+    noStroke();
+    for (var i = 0; i < logoSz * 1/4; i++) {
+        var j = map(i, 0, logoSz, 0, 400);
+        fill(0, 0, 0, 100 - j);
+        rect(0, i, width, 1);
+    }
+    
+    function triangleCap (x, y, r, s) {
+        pushMatrix();
+            translate(x, y);
+            rotate(r);
+            translate(-s / 2, -s / 2);
+            
+            triangle(-14, -14, s, 0, 0, s);
+        popMatrix();
+    }
+    
+    var clr;
+    function S (xOff, yOff) {
+        pushMatrix();
+            translate(xOff * scl, yOff * scl);
+            scale(scl);
+            
+            strokeCap(ROUND);
+            strokeWeight(20);
+            stroke(clr);
+            line(199, 119, 123, 203);
+            line(123, 203, 275, 203);
+            line(275, 203, 199, 354);
+            
+            noStroke();
+            fill(clr);
+            triangleCap(199, 119, 68, 15);
+            triangleCap(123, 203, 296, 15);
+            triangleCap(275, 203, 296 + 180, 15);
+            triangleCap(199, 354, 233, 15);
+        popMatrix();
+    }
+    
+    clr = color(0, 200 / 3, 255 / 3);
+    S(5, 5);
+    
+    clr = color(0, 200, 255);
+    S();
+    
+    var logo = snip(0, 0, logoSz, logoSz);
+    
+    background(0, 0, 0, 0);
+    
+    noStroke();
+    fill(255, 255, 255);
+    rect(0, 0, logoSz, logoSz, noRound ? 0 : 100 * scl);
+    
+    var logoShape = snip(0, 0, logoSz, logoSz);
+    
+    if (logoShape) {
+        logo.mask(logoShape);
+    }
+    
+    return logo;
+}
+
+logoIMG = createLogo(300 * globalScale);
+
+var timer = 0;
+var iconX = 400;
+var textX = -400;
+function drawLogo() {
+    image(logoBackground, 0, 0);
+
+    imageMode(CENTER, CENTER);
+    image(logoIMG, get.width/2 + iconX*globalScale, get.height*0.4);
+    imageMode(LEFT, TOP);
+
+    pushMatrix();
+        scale(globalScale);
+
+        scale(1.5, 1.2505);
+
+        font("monospace", 25);
+        textAlign(CENTER, CENTER);
+        fill(255, 255, 255);
+        text("VEXCESS PROGRAMMING", 200+textX, originalHeight*0.65);
+    popMatrix();
+
+    timer += 1.3;
+    if (iconX > 0) {
+        iconX -= dist(iconX, 200, 0, 200)/20;
+    }
+    if (textX < 0) {
+        textX += dist(textX, 200, 0, 200)/20;
+    }
+    
+    if (timer > 150) {
+        iconX -= dist(iconX, 200, 0, 200)/20;
+        textX += dist(textX, 200, 0, 200)/20;
+        textX += 3;
+        iconX -= 3;
+    }
+    
+    if (timer > 200) {
+        noStroke();
+        fill(0, 0, 0, (timer-200)*5);
+        rect(-1, -1, get.width, get.height);
+    }
+    
+    if (timer > 250) {
+        shouldDrawLogo = false;
+    }
+}
+
+/*
+    
+  It's the classic game Atari Breakout, 
+  but totally more explosive and fun.
+  
+  Sorry if I totally obliterated your computer with particle effects.
+  
+  Directions:
+    Don't let your balls fall off the screen
+    Hit bricks to gain points
+    Arrow keys to move paddle
+    Balls split into two more balls when they hit your paddle
+  
+  I was trusting people to be honest, but one person already tried cheating, so you have to create a spin-off for proof.
+  Leaderboard:
+    1) 123,550 - Levi F.
+    2) 90,550 - Sophia 
+    3) 81,250 - VEXCESS
+    4) 68,050 - Mojo1000 
+    5) 65,490 - dellayiyuan
+    
+  Credits:
+    FifthStateOfMatter for fire text
+    Phantom Falcon for fix memory leak function
+    
+*/
+
+// change this to true if you want sound
+var soundOn = false;
+// I set it to false as default because it can get annoying
+
+
+var firetxtparticles = [];
+var firetxtparticle = function(x, y){
+    this.x = x;
+    this.y = y;
+    this.pos = vec3(this.x, this.y);
+    this.vel = vec3(random(-1, 1), random(-2, -1));
+    this.life = random(0, 255);
+    this.clr = null;
+};
+firetxtparticle.prototype.display = function(){
+    this.clr = 150 - dist(this.pos.x, this.pos.y, this.x, this.y)*36;
+    fill(255, this.clr, 0, this.life);
+    noStroke();
+    ellipse(this.pos.x, this.pos.y, 4 + this.life / 60, 4 + this.life / 60);
+};
+firetxtparticle.prototype.update = function(){
+    this.life -= Math.abs(this.vel.y) + 15;
+    this.pos = vec3.add(this.pos, this.vel);
+    if(this.life <= 0){
+        this.pos.x = this.x;
+        this.pos.y = this.y;
+        this.vel.x = random(-1, 1);
+        this.vel.y = random(-2, -1);
+        this.life = random(0, 255);
+    }
+};
+
+var blockParticles = [];
+
+var keys = {};
+
+dl.keyPressed = function(e) { keys[e.key] = true; };
+dl.keyReleased = function(e) { keys[e.key] = false; };
+
+var scene = 1;
+var score = 0;
+var paddleX = 250;
+var paddleW = 100;
+var balls = [
+    {x: paddleX + 45, y: originalHeight - 40 - 10, xVel: random(-4, 4), yVel: -4}
+];
+
+var blocks = [];
+function createBlocks() {
+    blocks = [];
+    
+    for (var i = 0; i < 10; i++) {
+        blocks.push({x: 5+i*60, y: 35, c: 1});
+    }
+    for (var i = 0; i < 10; i++) {
+        blocks.push({x: 5+i*60, y: 75, c: 2});
+    }
+    for (var i = 0; i < 10; i++) {
+        blocks.push({x: 5+i*60, y: 115, c: 3});
+    }
+    for (var i = 0; i < 10; i++) {
+        blocks.push({x: 5+i*60, y: 155, c: 4});
+    }
+    for (var i = 0; i < 10; i++) {
+        blocks.push({x: 5+i*60, y: 195, c: 5});
+    }
+    for (var i = 0; i < 10; i++) {
+        blocks.push({x: 5+i*60, y: 235, c: 6});
+    }
+}
+createBlocks();
+
+function randSpeed() {
+    return random(6, 10) + random(-2, 2);
+}
+function drawBlocks() {
+    strokeWeight(5);
+    for (var i = 0; i < blocks.length; i++) {
+        if (blocks[i].c === 1) {
+            fill(255, 0, 0);
+            stroke(194, 0, 0);
+        } else if (blocks[i].c === 2) {
+            fill(255, 140, 0);
+            stroke(194, 103, 0);
+        } else if (blocks[i].c === 3) {
+            fill(255, 200, 0);
+            stroke(194, 158, 0);
+        } else if (blocks[i].c === 4) {
+            fill(235, 106, 0);
+            stroke(179, 36, 0);
+        } else if (blocks[i].c === 5) {
+            fill(255, 0, 94);
+            stroke(199, 0, 113);
+        } else if (blocks[i].c === 6) {
+            fill(111, 0, 255);
+            stroke(104, 0, 189);
+        }
+        rect(blocks[i].x + 2, blocks[i].y + 2, 48, 28);
+
+        for (var j = 0; j < balls.length; j++) {
+            var ball = balls[j];
+
+            if (ball.x > blocks[i].x - 10 && ball.x < blocks[i].x + 50 && ball.y > blocks[i].y - 10 && ball.y < blocks[i].y + 30) {
+                if (ball.y < blocks[i].y) {
+                    ball.yVel *= -1;
+                } else {
+                    ball.y += 1;
+                    ball.yVel *= -1;
+                }
+                if (ball.y > blocks[i].y && ball.y < blocks[i].y + 25) {
+                    if (ball.x + 10 < blocks[i].x + 25) {
+                        ball.x -= 1;
+                        ball.xVel *= -1;
+                    }
+                    if (ball.x > blocks[i].x + 25) {
+                        ball.x += 1;
+                        ball.xVel *= -1;
+                    }
+                }
+
+                score += 285 - blocks[i].y;
+
+                var x = blocks[i].x + 2;
+                var y = blocks[i].y + 2;
+
+                rect(x, y, 48, 28);
+
+                // blockParticles.push([
+                //     x - 3, y - 3,
+                //     snip((x - 3)*globalScale, (y - 3)*globalScale, (24 + 3)*globalScale, (14 + 3)*globalScale),
+                //     -randSpeed(), -randSpeed(),
+                //     0, random(-20, 20)
+                // ]);
+                // blockParticles.push([
+                //     x - 3, y + 14,
+                //     snip((x - 3)*globalScale, (y + 14)*globalScale, (24 + 3)*globalScale, (14 + 3)*globalScale),
+                //     -randSpeed(), randSpeed(),
+                //     0, random(-20, 20)
+                // ]);
+                // blockParticles.push([
+                //     x + 24, y - 3,
+                //     snip((x + 24)*globalScale, (y - 3)*globalScale, (24 + 3)*globalScale, (14 + 3)*globalScale),
+                //     randSpeed(), -randSpeed(),
+                //     0, random(-20, 20)
+                // ]);
+                // blockParticles.push([
+                //     x + 24, y + 14,
+                //     snip((x + 24)*globalScale, (y + 14)*globalScale, (24 + 3)*globalScale, (14 + 3)*globalScale),
+                //     randSpeed(), randSpeed(),
+                //     0, random(-20, 20)
+                // ]);
+
+                var GS = globalScale;
+
+                blockParticles.push([
+                    x - 3, y - 3,
+                    snip(x*GS - 3*GS, y*GS - 3*GS, 24*GS + 3*GS, 14*GS + 3*GS),
+                    -randSpeed(), -randSpeed(),
+                    0, random(-20, 20)
+                ]);
+                blockParticles.push([
+                    x - 3, y + 14,
+                    snip(x*GS - 3*GS, y*GS + 14*GS, 24*GS + 3*GS, 14*GS + 3*GS),
+                    -randSpeed(), randSpeed(),
+                    0, random(-20, 20)
+                ]);
+                blockParticles.push([
+                    x + 24, y - 3,
+                    snip(x*GS + 24*GS, y*GS - 3*GS, 24*GS + 3*GS, 14*GS + 3*GS),
+                    randSpeed(), -randSpeed(),
+                    0, random(-20, 20)
+                ]);
+                blockParticles.push([
+                    x + 24, y + 14,
+                    snip(x*GS + 24*GS, y*GS + 14*GS, 24*GS + 3*GS, 14*GS + 3*GS),
+                    randSpeed(), randSpeed(),
+                    0, random(-20, 20)
+                ]);
+
+                for (var k = 0; k < 360; k += 30) {
+                    blockParticles.push([
+                        x, y,
+                        sin(k) * randSpeed(), cos(k) * randSpeed()
+                    ]);
+                }
+
+                blocks.splice(i, 1);
+
+                if (soundOn) {
+                    playSound(getSound("rpg/hit-thud"));
+                }
+
+                ball.xVel *= 1.1;
+                ball.yVel *= 1.1;
+                ball.xVel = constrain(ball.xVel, -6, 6);
+                ball.yVel = constrain(ball.yVel, -6, 6);
+
+                i--;
+
+                break;
+            }
+        }
+    }
+}
+
+background(255);
+textAlign(CENTER, CENTER);
+font('sans-serif', 100);
+fill(0, 0, 0);
+text("But Boom", 300, 485);
+
+var res = 2;
+
+for (var i = 75; i < 525; i += res) {
+    for (var j = 450; j < 550; j += res) {
+        if (getColor(i, j).equals(color(0))) {
+            firetxtparticles.push(new firetxtparticle(i, j));
+        }
+    }
+}
+
+function titleScreen() {
+    background(0, 0, 0);
+    
+    drawBlocks();
+    
+    var ATARI = [
+        [0,1,1,0,0,1,0,0,0,0,1,1,1,0,0,1,0,1,1,0,1],
+        [1,0,0,1,0,1,1,1,0,0,0,0,0,1,0,1,1,0,0,0,1],
+        [1,1,1,1,0,1,0,0,0,0,0,1,1,1,0,1,0,0,0,0,1],
+        [1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,0,0,1],
+        [1,0,0,1,0,0,1,1,0,0,0,1,1,1,0,1,0,0,0,0,1],
+    ];
+    
+    var BREAKOUT = [
+        [1,1,1,0,0,1,0,1,1,0,0,1,1,0,0,1,1,1,0,0,1,0,0,0,0,0,1,1,0,0,1,0,0,1,0,1,0,0,0],
+        [1,0,0,1,0,1,1,0,0,0,1,0,0,1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,1,1,0],
+        [1,1,1,0,0,1,0,0,0,0,1,1,1,1,0,0,1,1,1,0,1,1,1,0,0,1,0,0,1,0,1,0,0,1,0,1,0,0,0],
+        [1,0,0,1,0,1,0,0,0,0,1,0,0,0,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1],
+        [1,1,1,0,0,1,0,0,0,0,0,1,1,1,0,0,1,1,1,0,1,0,0,1,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0],
+    ];
+    
+    var colors = [
+        color(0),
+        color(255, 255, 255),
+    ];
+    
+    noStroke();
+    for (var i = 0; i < ATARI[0].length; i++) {
+        for (var j = 0; j < ATARI.length; j++) {
+            fill(colors[ATARI[j][i]]);
+            ellipse(200+i*(10), 349-45+j*(10), 6, 6);
+        }
+    }
+    for (var i = 0; i < BREAKOUT[0].length; i++) {
+        for (var j = 0; j < BREAKOUT.length; j++) {
+            fill(colors[BREAKOUT[j][i]]);
+            ellipse(111+i*(10), 422-45+j*(10), 6, 6);
+        }
+    }
+    
+    for (var i = firetxtparticles.length - 1; i >= 0; i--) {
+        firetxtparticles[i].display();
+        firetxtparticles[i].update();
+    }
+    
+    textAlign(CENTER, CENTER);
+    font("monospace", 20);
+    fill(200+sin(get.frameCount*3)*80, 200+sin(get.frameCount*3)*80, 0);
+    text("(Click To Start)", 300, 550);
+}
+
+function gameScreen() {
+    background(0, 0, 0);
+    
+    noStroke();
+    for (var j = 0; j < balls.length; j++) {
+        var ball = balls[j];
+        
+        fill(255, 255, 255);
+        rect(ball.x, ball.y, 10, 10);
+        
+        if (!ball.trail) {
+            ball.trail = [];
+        }
+        
+        ball.trail.push([ball.x, ball.y]);
+        
+        for (var k = 0; k < ball.trail.length; k++) {
+            var pt = ball.trail[k];
+            
+            var sz = 10 - (20 - k) / 2;
+            
+            fill(255, 255, 255, 50);
+            rect(pt[0], pt[1], sz, sz);
+        }
+        
+        if (ball.trail.length > 20) {
+            ball.trail.splice(0, 1);
+        }
+    }
+    
+    fill(200, 200, 200);
+    rect(paddleX, 570, paddleW, 15);
+    
+    textAlign(BASELINE);
+    font("sans-serif", 20);
+    text("Score: " + score, 10, 25);
+    
+    drawBlocks();
+    
+    noStroke();
+    for (var i = 0; i < blockParticles.length; i++) {
+        var f = blockParticles[i];
+        
+        if (f.length > 4) {
+            pushMatrix();
+                translate(f[0], f[1]);
+                rotate(f[5]);
+                image(f[2], 0, 0);
+            popMatrix();
+            f[0] += f[3];
+            f[1] += f[4];
+            f[5] += f[6];
+        } else {
+            fill(255, random(0, 200), 0, 100);
+            ellipse(f[0], f[1], 20, 20);
+            f[0] += f[2];
+            f[1] += f[3];
+        }
+        
+        if (f[0] < -100 || f[0] > 700 || f[1] < -100 || f[1] > 700) {
+            blockParticles.splice(i, 1);
+            i--;
+        }
+    }
+    
+    for (var j = 0; j < balls.length; j++) {
+        var ball = balls[j];
+        ball.x += ball.xVel;
+        ball.y += ball.yVel;
+        
+        if(ball.x < 0){
+            ball.x = 0;
+            ball.xVel *= -1;
+        }
+        if(ball.x > 590){
+            ball.x = 590;
+            ball.xVel *= -1;
+        }
+        if(ball.y < 0){
+            ball.y = 0;
+            ball.yVel *= -1;
+        }
+        
+        if(ball.y > 560 && ball.x > paddleX-10 && ball.x < paddleX+paddleW && ball.y < 570){
+            if(ball.y > originalHeight - 40){
+                ball.y = originalHeight - 40;
+            }
+            ball.yVel = -4;
+            balls.push({x: ball.x, y: ball.y, xVel: random(-4, 4), yVel: -4});
+        }
+        if (ball.y > originalHeight + 300) {
+            var variable = random(-1, 1);
+            if (variable < 0) {
+                variable = -1;
+            } else {
+                variable = 1;
+            }
+            balls.splice(j, 1);
+            j--;
+        }
+    }
+    
+    if (keys["ArrowRight"]) {
+        paddleX += 7;
+    }
+    if (keys["ArrowLeft"]) {
+        paddleX -= 7;
+    }
+    
+    paddleX = constrain(paddleX, 0, 600-paddleW);
+    
+    if (blocks.length <= 5) {
+        createBlocks();
+        paddleW *= 0.8;
+    }
+    
+    if (balls.length <= 0) {
+        scene = 3;
+    }
+}
+
+function endScreen() {
+    background(0, 0, 0);
+    
+    fill(200, 200, 200);
+    rect(paddleX, 570, paddleW, 15);
+    
+    textAlign(BASELINE);
+    font("sans-serif", 20);
+    fill(255, 255, 255);
+    text("Score: " + score, 10, 25);
+    
+    drawBlocks();
+    
+    var pixelArtArray = [
+        [0,1,1,1,0,0,1,1,0,0,1,0,0,0,1,0,1,1,1,0,0,0,0,1,1,0,0,1,0,1,0,1,1,1,0,1,1,1,0],
+        [1,0,0,0,0,1,0,0,1,0,1,1,0,1,1,0,1,0,0,0,0,0,1,0,0,1,0,1,0,1,0,1,0,0,0,1,0,0,1],
+        [1,0,1,1,0,1,1,1,1,0,1,0,1,0,1,0,1,1,1,0,0,0,1,0,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0],
+        [1,0,0,1,0,1,0,0,1,0,1,0,0,0,1,0,1,0,0,0,0,0,1,0,0,1,0,1,0,1,0,1,0,0,0,1,0,0,1],
+        [0,1,1,0,0,1,0,0,1,0,1,0,0,0,1,0,1,1,1,0,0,0,0,1,1,0,0,0,1,0,0,1,1,1,0,1,0,0,1],
+    ];
+    noStroke();
+    for (var i = 0; i < pixelArtArray[0].length; i++) {
+        for (var j = 0; j < pixelArtArray.length; j++) {
+            if (pixelArtArray[j][i] === 1) {
+                fill(255, 255, 255);
+                ellipse(15+i*(15), 314+j*(15), 13, 13);
+            }
+        }
+    }
+
+    textAlign(CENTER);
+    font("sans-serif", 50);
+    text("Score: " + score, 300, 440);
+    textSize(20);
+    // text("(spin-off proof necessary to be added to leaderboard)", 300, 468);
+    
+    textAlign(CENTER, CENTER);
+    font("monospace", 20);
+    fill(200+sin(get.frameCount*3)*80, 200+sin(get.frameCount*3)*80, 0);
+    text("(Click To Restart)", 300, 550);
+}
+
+dl.draw = function() {
+    pushMatrix();
+        scale(globalScale);
+        if (scene === 1) {
+            titleScreen();
+        } else if(scene === 2) {
+            gameScreen();
+        } else if(scene === 3) {
+            endScreen();
+        }
+        
+        textAlign(BASELINE);
+        font("monospace", 20);
+        fill(255);
+        text("FPS: " + round(frameRate()), 510, 25);
+    popMatrix();
+
+    if (shouldDrawLogo) {
+        drawLogo();
+    }
+};
+
+dl.mouseReleased = function(){
+    if (scene === 1 && !shouldDrawLogo) {
+        scene = 2;
+    } else if (scene === 3) {
+        blockParticles = [];
+        balls = [
+            {x: paddleX + 45, y: originalHeight - 40 - 10, xVel: random(-4, 4), yVel: -4}
+        ];
+        scene = 1;
+        score = 0;
+        paddleX = 250;
+        paddleW = 100;
+        blocks = [];
+        createBlocks();
+    }
+};
+
+
+
+    </script>
+
+
+</body>
+</html>

@@ -64,6 +64,10 @@
 		{
 			name: "Flappy Bird",
 			description: "Knock-off flappy bird. Endlessly fly through pipes."
+		},
+		{
+			name: "Explosive Atari Breakout",
+			description: "Atari Breakout but BOOM."
 		}
 	];
 
