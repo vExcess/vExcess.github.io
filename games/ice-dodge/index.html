@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ice Dodge</title>
+
+    <style>
+        body {
+            background-color: black;
+            margin: 10px;
+            padding: 0px;
+        }
+
+        canvas {
+            outline: none;
+            display: block;
+            margin: auto;
+        }
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/gh/librepaint/drawlite@main/javascript/drawlite.js"></script>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <script type>
+/**157 votes
+
+    This is our first KA Boys game.
+    We have worked on this a lot and put more effort into this dodge game to make it not just your average dodge game.
+    Please let me know if you find any bugs.
+    
+    Credits:
+     KA Boys
+     Code247
+     RedSus
+     The Crazy Cat
+     stephen.mason.jones
+     ⬠🐬 𝐵𝑒𝓃𝓃𝓎 🐬⬡
+     KoolK1
+     EpicCoding ツ
+**/
+
+
+var canvas = document.getElementById("canvas");
+var dl = Drawlite(canvas);
+var { PI, TWO_PI, EPSILON, CORNER, CORNERS, LEFT, RIGHT, TOP, CENTER, BOTTOM, BASELINE, RADIUS, DEGREES, RADIANS, POINTS, LINES, TRIANGLES, TRIANGLE_STRIP, TRIANGLE_FAN, QUADS, QUAD_STRIP, CLOSE, ROUND, PROJECT, SQUARE, BEVEL, MITER, RGB, HSB, NATIVE, canvas, Color, PerlinNoise, PRNG, vec3, ctx, size, angleMode, noLoop, loop, frameRate, min, max, floor, round, ceil, abs, constrain, sq, sqrt, pow, sin, cos, tan, asin, acos, atan, atan2, log, random, dist, map, lerp, radians, degrees, color, lerpColor, fill, stroke, strokeWeight, strokeCap, strokeJoin, noStroke, noFill, beginShape, vertex, splineVertex, bezierVertex, bezierPoint, bezierTangent, splineTightness, splineVertex, splinePoint, splineTangent, lerpSpline, endShape, spline, snip, getColor, imageMode, image, loadImage, font, textSize, textAlign, textWidth, textAscent, textDescent, textLeading, text, background, point, line, rectMode, rect, triangle, quad, arc, circle, ellipseMode, ellipse, bezier, get, pushMatrix, popMatrix, resetMatrix, scale, translate, rotate, loadPixels, updatePixels, colorMode, enableContextMenu, millis, second, minute, hour, day, month, year, smooth, nosmooth, createGraphics, getProperties } = dl;
+
+function getSound(s) {
+    let url = 'https://cdn.kastatic.org/third_party/javascript-khansrc/live-editor/sounds/' + s + '.mp3';
+    return new Audio(url);
+}
+function playSound(s) {
+    s.play();
+}
+
+var originalWidth = 400;
+var originalHeight = 600;
+var globalScale = 1;
+
+size(originalWidth, originalHeight);
+
+function adjustCanvasSize() {
+    var targetRatio = originalWidth/originalHeight;
+    var maxWidth = window.innerWidth-20;
+    var maxHeight = window.innerHeight-20;
+
+    if (maxWidth / maxHeight > targetRatio) {
+        // height is the limiting factor
+        size(maxHeight * targetRatio, maxHeight);
+        globalScale = maxHeight / originalHeight;
+    } else {
+        // width is the limiting factor
+        size(maxWidth, maxWidth / targetRatio);
+        globalScale = maxWidth / originalWidth;
+    }
+}
+adjustCanvasSize();
+// window.addEventListener("resize", adjustCanvasSize);
+
+function cursor(style) {
+    document.body.style.cursor = style;
+}
+
+function mouseX() {
+    return get.mouseX / globalScale;
+}
+
+function mouseY() {
+    return get.mouseY / globalScale;
+}
+
+// ----------------------------------------------------------------------------
+
+//Have fun surviving with this set to true.
+var getWreckedMode = false;
+
+//Paste your save code in here and restart the program to continue where you left off
+var SAVE_CODE = '';
+
+
+
+
+if (getWreckedMode) {
+    frameRate(250);
+} else {
+    frameRate(60);
+}
+
+var scene = 0;
+
+//cursor stuff
+var mouseOverCanvas = false;
+var cursorState = 'default';
+var customCursor = function() {
+    cursor("none");
+
+    if (mouseOverCanvas) {
+        fill(0, 250, 255);
+        strokeWeight(1);
+        stroke(0, 0, 50);
+        if (cursorState === 'default') {
+            quad(mouseX(), mouseY(), mouseX() + 15, mouseY() + 21, mouseX() + 5, mouseY() + 16, mouseX(), mouseY() + 27);
+        }
+        if (cursorState === 'pointer') {
+            pushMatrix();
+            translate(mouseX() - 9, mouseY() - 2);
+            scale(0.23);
+
+            strokeWeight(4);
+            beginShape();
+            splineVertex(40, 123);
+            splineVertex(38, 123);
+            splineVertex(73, 123);
+            splineVertex(88, 123);
+            splineVertex(91, 120);
+            splineVertex(93, 95);
+            splineVertex(98, 53);
+            splineVertex(86, 47);
+            splineVertex(82, 66);
+            splineVertex(83, 44);
+            splineVertex(73, 40);
+            splineVertex(67, 44);
+            splineVertex(67, 59);
+            splineVertex(65, 38);
+            splineVertex(52, 36);
+            splineVertex(51, 53);
+            splineVertex(50, 16);
+            splineVertex(43, 8);
+            splineVertex(36, 11);
+            splineVertex(34, 28);
+            splineVertex(34, 65);
+            splineVertex(28, 62);
+            splineVertex(19, 58);
+            splineVertex(14, 61);
+            splineVertex(11, 68);
+            splineVertex(15, 72);
+            splineVertex(24, 82);
+            splineVertex(34, 103);
+            splineVertex(39, 123);
+            splineVertex(39, 123);
+            endShape();
+            popMatrix();
+        }
+    } else {
+        cursor("default");
+    }
+};
+
+//our logo
+var KA_Boys_Logo = function(x, y, s) {
+    pushMatrix();
+    translate(x, y);
+    scale(s);
+
+    stroke(255, 255, 255);
+    strokeWeight(6);
+
+    fill(0, 5, 148);
+    beginShape();
+    splineTightness(0.6);
+    for (var i = 0; i < 450; i += 60) {
+        splineVertex(197 + cos(90 + i - 7) * 190, 198 + sin(90 + i - 7) * 190);
+        splineVertex(197 + cos(90 + i + 7) * 190, 198 + sin(90 + i + 7) * 190);
+    }
+    endShape();
+
+    splineTightness(-0.0);
+    fill(0, 60, 255);
+    beginShape();
+    splineVertex(58, 161);
+    splineVertex(58, 161);
+    splineVertex(82, 165);
+    splineVertex(113, 174);
+    splineVertex(148, 198);
+    splineVertex(177, 240);
+    splineVertex(190, 284);
+    splineVertex(190, 302);
+    splineVertex(206, 303);
+    splineVertex(204, 291);
+    splineVertex(212, 251);
+    splineVertex(239, 203);
+    splineVertex(293, 168);
+    splineVertex(331, 162);
+    splineVertex(336, 168);
+    splineVertex(337, 196);
+    splineVertex(323, 242);
+    splineVertex(285, 286);
+    splineVertex(244, 308);
+    splineVertex(204, 315);
+    splineVertex(166, 311);
+    splineVertex(123, 295);
+    splineVertex(80, 255);
+    splineVertex(60, 207);
+    splineVertex(57, 160);
+    splineVertex(57, 159);
+    endShape();
+
+    ellipse(197, 126, 84, 86);
+
+    popMatrix();
+};
+
+var clicked = false;
+
+//button function
+var button = function(X, Y, Width, Height, scne, label) {
+    noStroke();
+    if (mouseX() > X && mouseY() > Y && mouseX() < X + Width && mouseY() < Y + Height) {
+        stroke(0, 0, 225);
+        strokeWeight(3);
+        noFill();
+        rect(X - 7, Y - 7, Width + 14, Height + 16, 3);
+
+        KA_Boys_Logo(X - 90 - 10, Y - 12, 0.2);
+        KA_Boys_Logo(X + Width + 13 + 10, Y - 12, 0.2);
+
+        noStroke();
+        fill(0, 0, 100);
+        rect(X, Y + 3, Width, Height, 3);
+        cursorState = 'pointer';
+    }
+
+    fill(0, 125, 255);
+    rect(X, Y, Width, Height, 3);
+
+    fill(0, 0, 75);
+    textSize(50);
+    textAlign(CENTER, CENTER);
+    text(label, X + Width / 2, Y + Height / 2);
+
+    if (clicked && mouseX() > X && mouseY() > Y && mouseX() < X + Width && mouseY() < Y + Height) {
+        scene = scne;
+    }
+};
+
+//arrays for ice and shards
+var icicles = [];
+var shards = [];
+
+//create ice
+for (var i = 0; i < 18; i++) {
+    icicles.push([random(0, 400), random(0, 600), random(10, 15)]);
+}
+
+//draws ice and shard
+var icicle = function(x, y, s) {
+    fill(245, 250, 255);
+    quad(x - s, y, x, y + s * 2, x + s, y, x, y - s * 2);
+
+    fill(0, 100, 255);
+    quad(x - s * 0.8, y, x, y + s * 2 * 0.8, x + s * 0.8, y, x, y - s * 2 * 0.8);
+
+    fill(0, 234, 255);
+    quad(x - s * 0.6, y, x, y + s * 2 * 0.6, x + s * 0.6, y, x, y - s * 2 * 0.6);
+
+    fill(0, 0, 5, 120);
+    triangle(x - s, y, x, y + s * 2, x + s, y);
+
+    fill(250, 250, 255, 120);
+    triangle(x - s, y, x, y + s * 2, x, y - s * 2);
+};
+var shard = function(x, y, r) {
+    pushMatrix();
+    translate(x, y);
+    rotate(r);
+
+    fill(240, 240, 255);
+    triangle(0, 0, 8, 0, 0, 8);
+    popMatrix();
+};
+
+//loop for all the crystals
+var drawCrystals = function() {
+    for (var i = 0; i < icicles.length; i++) {
+        icicle(icicles[i][0], icicles[i][1], icicles[i][2]);
+
+        icicles[i][1] += 5;
+
+        if (icicles[i][1] > 600) {
+            for (var s = 0; s < 5; s++) {
+                shards.push([icicles[i][0], 600, 1, random(-1, 1), random(-5, -2)]);
+            }
+            icicles[i] = [random(0, 400), -50, random(10, 15)];
+        }
+    }
+
+    for (var i = 0; i < shards.length; i++) {
+        shard(shards[i][0], shards[i][1], shards[i][2]);
+
+        shards[i][0] += shards[i][3];
+        shards[i][1] += shards[i][4];
+        shards[i][4] += 0.2;
+
+        shards[i][2] += random(-20, 20);
+
+        if (shards[i][1] > 650) {
+            shards.splice(i, 1);
+            i--;
+            continue;
+        }
+    }
+};
+
+//draw mountain
+var mountain = function(x, y, w, h) {
+    pushMatrix();
+    translate(x, y);
+    scale(w, h);
+
+    noStroke();
+
+    fill(0, 89, 173);
+    triangle(0, -50, -50, 50, 50, 50);
+
+    fill(0, 15);
+    triangle(0, -50, 0, 50, 50, 50);
+
+    fill(230, 250, 255);
+    triangle(0, -50, -21, -8, 21, -8);
+
+    fill(0, 45);
+    triangle(0, -50, 0, -8, 21, -8);
+
+    popMatrix();
+};
+
+//key stuff
+var keys = [];
+dl.keyPressed = function(e) {
+    keys[e.keyCode] = true;
+};
+dl.keyReleased = function(e) {
+    keys[e.keyCode] = false;
+};
+
+//lots of variables for the player
+var playerX = 175;
+var playerY = 100;
+var health = 75;
+
+var yVel = 0;
+var jumping = true;
+
+var shield = 0;
+var attack = 0;
+var attackBullets = [];
+var magnet = 0;
+
+var highScore = 0;
+var score = 0;
+var money = 0;
+var moneyGained = 0;
+
+var bulletSpeed = 3;
+var fireRate = 40;
+
+var coindropRate = 100;
+var powerUpdropRate = 1000;
+var healthIncrease = 10;
+var shieldLasting = 200;
+var attackLasting = 200;
+var magnetLasting = 200;
+var scoreRate = 60;
+
+var loadSave = function() {
+    if (SAVE_CODE !== "") {
+        SAVE_CODE = SAVE_CODE.split(".");
+        for (var i = 0; i < SAVE_CODE.length; i++) {
+            SAVE_CODE[i] = parseInt(SAVE_CODE[i], 36);
+        }
+        highScore = SAVE_CODE[0];
+        money = SAVE_CODE[1];
+        bulletSpeed = SAVE_CODE[2];
+        fireRate = SAVE_CODE[3];
+        coindropRate = SAVE_CODE[4];
+        powerUpdropRate = SAVE_CODE[5];
+        healthIncrease = SAVE_CODE[6];
+        shieldLasting = SAVE_CODE[7];
+        attackLasting = SAVE_CODE[8];
+        magnetLasting = SAVE_CODE[9];
+        scoreRate = SAVE_CODE[10];
+    }
+};
+loadSave();
+
+//array for coins and draw coin
+var coins = [];
+var coin = function(x, y, r) {
+    pushMatrix();
+    translate(x, y);
+
+    strokeWeight(5);
+    stroke(0, 79, 189);
+    ellipse(2, -2, 38, 38);
+    stroke(0, 118, 252);
+    fill(0, 200, 255);
+    ellipse(0, 0, 38, 38);
+
+    rotate(r);
+    textAlign(CENTER, CENTER);
+    fill(0, 4, 255);
+    textSize(30);
+    text("$", 0, -1);
+    popMatrix();
+};
+
+//array for powerups and draw powerup plus collide
+var powerUps = [];
+var powerUp = function(x, y, type) {
+    strokeWeight(3);
+    noFill();
+    stroke(0, 7, 84);
+    ellipse(x, y, 35, 35);
+
+    noStroke();
+    fill(0, 7, 84);
+    ellipse(x, y, 25, 25);
+
+    fill(0, 136, 255);
+    if (type === 1) {
+        rect(x - 2, y - 6, 3, 14);
+        rect(x - 7, y - 1, 14, 3);
+    } else if (type === 2) {
+        strokeWeight(3);
+        noFill();
+        stroke(0, 136, 255);
+        ellipse(x, y, 15, 15);
+
+        noStroke();
+        fill(0, 136, 255);
+        rect(x - 3, y - 3, 6, 6);
+    } else if (type === 3) {
+        fill(0, 136, 255);
+        triangle(x, y - 8, x - 8, y, x + 8, y);
+
+        rect(x - 3, y + 2, 6, 6);
+    } else if (type === 4) {
+        ellipse(x, y - 4, 8, 8);
+
+        noFill();
+        stroke(0, 136, 255);
+        arc(x, y - 1, 15, 15, 0, 180);
+    }
+};
+var playerTouchingPowerUp = function(powerUp) {
+    var powerUpRadius = 37;
+    var playerSize = 30;
+    return playerX < powerUp[0] + powerUpRadius && playerX + playerSize > powerUp[0] - powerUpRadius &&
+        playerY - playerSize < powerUp[1] + powerUpRadius && playerY > powerUp[1] - powerUpRadius;
+};
+var usePowerUp = function(whichpowerUp) {
+    switch (whichpowerUp) {
+        case 1:
+            health += healthIncrease;
+            if (health > 75) {
+                health = 75;
+            }
+            break;
+        case 2:
+            shield = shieldLasting;
+            break;
+        case 3:
+            attack = attackLasting;
+            break;
+        case 4:
+            magnet = magnetLasting;
+            break;
+    }
+};
+
+var line_lineCollision = function(x1, y1, x2, y2, x21, y21, x22, y22) {
+    var det, gamma, lambda;
+    det = (x2 - x1) * (y22 - y21) - (x22 - x21) * (y2 - y1);
+
+    if (det === 0) {
+        return false;
+    } else {
+        lambda = ((y22 - y21) * (x22 - x1) + (x21 - x22) * (y22 - y1)) / det;
+        gamma = ((y1 - y2) * (x22 - x1) + (x2 - x1) * (y22 - y1)) / det;
+        return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
+    }
+};
+var playerTouchingIcicle = function(icicle) {
+    var x = icicle[0];
+    var y = icicle[1];
+    var s = icicle[2];
+
+    var Ice = [
+        [x, y - s * 2, x + s, y],
+        [x + s, y, x, y + s * 2],
+        [x, y + s * 2, x - s, y],
+        [x - s, y, x, y - s * 2],
+    ];
+    var Player = [
+        [playerX, playerY - 30, playerX + 30, playerY - 30],
+        [playerX + 30, playerY - 30, playerX + 30, playerY],
+        [playerX + 30, playerY, playerX, playerY],
+        [playerX, playerY, playerX, playerY - 30],
+    ];
+
+    var touching = false;
+    for (var i = 0; i < Ice.length; i++) {
+        for (var p = 0; p < Player.length; p++) {
+            if (line_lineCollision(Ice[i][0], Ice[i][1], Ice[i][2], Ice[i][3], Player[p][0], Player[p][1], Player[p][2], Player[p][3])) {
+                touching = true;
+                return touching;
+            }
+        }
+    }
+
+};
+
+//all player stuff
+var player = function() {
+    noStroke();
+    if (health > 0) {
+        fill(0, 21, 255);
+        rect(playerX - 23, playerY - 45, 75, 3);
+        fill(0, 234, 255);
+        rect(playerX - 23, playerY - 45, health, 3);
+    }
+
+    fill(210, 210, 245);
+    rect(7 + playerX - playerX * 0.04, playerY - 30, 30, 30);
+    fill(250, 250, 255);
+    rect(playerX, playerY - 30, 30, 30);
+
+    fill(0, 0, 0);
+    rect(playerX + 7, playerY - 20, 4, 8, 5);
+    rect(playerX + 20, playerY - 20, 4, 8, 5);
+
+    if (health < 0) {
+        //draw dead player
+        noStroke();
+        fill(250, 250, 255);
+        rect(playerX, playerY - 30, 30, 30);
+
+        stroke(0, 0, 5);
+        strokeWeight(3);
+        line(playerX + 5, playerY - 13, playerX + 10, playerY - 18);
+        line(playerX + 5, playerY - 18, playerX + 10, playerY - 13);
+
+        line(playerX + 20, playerY - 13, playerX + 25, playerY - 18);
+        line(playerX + 20, playerY - 18, playerX + 25, playerY - 13);
+    }
+
+    if (shield > 0) {
+        strokeWeight(3);
+        stroke(0, 225, 255, 150);
+        fill(0, 43, 255, 50);
+        if (shield > 100) {
+            ellipse(playerX + 15, playerY - 15, 100, 100);
+        } else if (get.frameCount % 20 < 10) {
+            ellipse(playerX + 15, playerY - 15, 100, 100);
+        }
+        shield--;
+    }
+
+    var UP = 38;
+    var DOWN = 40;
+    var LEFT = 37;
+    var RIGHT = 39;
+
+    if (attack > 0) {
+        strokeWeight(3);
+        stroke(0, 225, 255, 150);
+        fill(0, 43, 255, 50);
+        if (attack > 100) {
+            rect(playerX + 13, playerY - 52, 5, 20);
+        } else if (get.frameCount % 20 < 10) {
+            rect(playerX + 13, playerY - 52, 5, 20);
+        }
+        attack--;
+
+        if (keys[UP] && get.frameCount % fireRate === 0) {
+            attackBullets.push([playerX + 15, playerY - 30]);
+        }
+    }
+
+    if (magnet > 0) {
+        strokeWeight(4);
+        stroke(0, 225, 255, 150);
+        noFill();
+        if (magnet > 100) {
+            arc(playerX + 15, playerY - 52, 20, 20, 0, 180);
+        } else if (get.frameCount % 20 < 10) {
+            arc(playerX + 15, playerY - 52, 20, 20, 0, 180);
+        }
+        magnet--;
+    }
+
+    yVel += 0.4;
+    playerY += yVel;
+
+    if (playerY > 600) {
+        playerY = 600;
+        yVel = 0;
+        jumping = false;
+    }
+
+    if (keys[LEFT] && playerX > 0) {
+        playerX -= 4;
+    }
+    if (keys[RIGHT] && playerX < 370) {
+        playerX += 4;
+    }
+
+    if (keys[UP] && !jumping && attack === 0) {
+        yVel = -12;
+        jumping = true;
+    }
+};
+
+//loop for powerups
+var runPowerUps = function() {
+    if (get.frameCount % powerUpdropRate === 0) {
+        powerUps.push([random(0, 400), -30, floor(random(1, 5))]);
+    }
+    for (var i = 0; i < powerUps.length; i++) {
+        powerUp(powerUps[i][0], powerUps[i][1], powerUps[i][2]);
+        powerUps[i][1] += 3;
+
+        if (playerTouchingPowerUp(powerUps[i])) {
+            usePowerUp(powerUps[i][2]);
+            powerUps.splice(i, 1);
+            i--;
+            continue;
+        }
+
+        if (powerUps[i][1] > 650) {
+            powerUps.splice(i, 1);
+            i--;
+            continue;
+        }
+    }
+};
+
+//loop for coins
+var runCoins = function() {
+    if (get.frameCount % coindropRate === 0) {
+        coins.push([random(0, 400), -30, random(0, 360)]);
+    }
+
+    //draw coins
+    for (var i = 0; i < coins.length; i++) {
+        coin(coins[i][0], coins[i][1], coins[i][2]);
+    }
+
+    //update coins
+    for (var i = 0; i < coins.length; i++) {
+        coins[i][1] += 3;
+        coins[i][2] += 5;
+
+        if (magnet > 0) {
+            if (coins[i][0] < playerX + 15) {
+                coins[i][0] += 1;
+            }
+
+            if (coins[i][0] > playerX + 15) {
+                coins[i][0] -= 1;
+            }
+
+            if (coins[i][1] < playerY) {
+                coins[i][1] += 3;
+            }
+        }
+
+        if (playerTouchingPowerUp(coins[i])) {
+            moneyGained++;
+            coins.splice(i, 1);
+            i--;
+            continue;
+        } else if (coins[i][1] > 650) {
+            coins.splice(i, 1);
+            i--;
+            continue;
+        }
+    }
+};
+
+//loop for icicles
+var runIcicles = function() {
+    for (var i = 0; i < icicles.length; i++) {
+        if (playerTouchingIcicle(icicles[i])) {
+            if (shield === 0) {
+                health -= 14;
+            }
+
+            for (var s = 0; s < 5; s++) {
+                shards.push([icicles[i][0], icicles[i][1], 1, random(-1, 1), random(-5, -2)]);
+            }
+
+            icicles[i] = [random(0, 400), -50, random(10, 15)];
+        }
+    }
+};
+
+//loop for bullets
+var runBullets = function() {
+    //loop for bullets
+    fill(10, 0, 89);
+    for (var i = 0; i < attackBullets.length; i++) {
+        //draw bullet
+        ellipse(attackBullets[i][0], attackBullets[i][1], 10, 10);
+
+        //move bullet
+        attackBullets[i][1] -= bulletSpeed;
+
+        //collide ice with bullets
+        for (var j = 0; j < icicles.length; j++) {
+            if (icicles[j][0] + icicles[j][2] / 2 > attackBullets[i][0] - 5 && icicles[j][0] - icicles[j][2] / 2 < attackBullets[i][0] + 5 && icicles[j][1] + icicles[j][2] > attackBullets[i][1] - 5 && icicles[j][1] - icicles[j][2] < attackBullets[i][1] + 5) {
+
+                //create shard particles
+                for (var s = 0; s < 5; s++) {
+                    shards.push([icicles[j][0], icicles[j][1], 1, random(-1, 1), random(-5, -2)]);
+                }
+
+                //reset the ice to a new location
+                icicles[j] = [random(0, 400), -50, random(10, 15)];
+            }
+        }
+
+        //splice if goes off the screen
+        if (attackBullets[i][1] < -10) {
+            attackBullets.splice(i, 1);
+            i--;
+            continue;
+        }
+    }
+};
+
+var deathRecap = [];
+var deathTransition = -90;
+
+var EventButton = function(x, y, width, height, event, label) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+
+    this.label = label;
+
+    this.event = event;
+
+    this.beingPressed = false;
+};
+EventButton.prototype.run = function() {
+    fill(0, 100, 255);
+
+    noStroke();
+    if (mouseX() > this.x && mouseY() > this.y && mouseX() < this.x + this.width && mouseY() < this.y + this.height) {
+        noStroke();
+        fill(0, 0, 100);
+        rect(this.x, this.y + 3, this.width, this.height, 3);
+        cursor("pointer");
+        fill(50, 150, 255);
+    }
+
+    rect(this.x, this.y, this.width, this.height, 3);
+
+    fill(0, 0, 75);
+    textSize(25);
+    textAlign(CENTER, CENTER);
+    text(this.label, this.x + this.width / 2, this.y + this.height / 2);
+
+    if (clicked && mouseX() > this.x && mouseY() > this.y && mouseX() < this.x + this.width && mouseY() < this.y + this.height) {
+        if (!this.beingPressed) {
+            this.event();
+            this.beingPressed = true;
+        }
+    } else {
+        this.beingPressed = false;
+    }
+};
+
+var MoneyButton = function(x, y, width, height, event, price, label) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+
+    this.label = label;
+
+    this.event = event;
+
+    this.price = price;
+
+    this.beingPressed = false;
+};
+MoneyButton.prototype.run = function() {
+    fill(0, 100, 255);
+
+    noStroke();
+    if (mouseX() > this.x && mouseY() > this.y && mouseX() < this.x + this.width && mouseY() < this.y + this.height && money >= this.price) {
+        noStroke();
+        fill(0, 0, 100);
+        rect(this.x, this.y + 3, this.width, this.height, 3);
+        cursor("pointer");
+        fill(50, 150, 255);
+    }
+
+    if (money < this.price) {
+        fill(100, 150, 200);
+    }
+
+    rect(this.x, this.y, this.width, this.height, 3);
+
+    fill(255);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text(this.label + " ($" + this.price + ")", this.x + this.width / 2, this.y + this.height / 2);
+
+    if (clicked && mouseX() > this.x && mouseY() > this.y && mouseX() < this.x + this.width && mouseY() < this.y + this.height) {
+        if (!this.beingPressed && money >= this.price) {
+            this.event();
+            money -= this.price;
+            this.beingPressed = true;
+        }
+    } else {
+        this.beingPressed = false;
+    }
+};
+
+var shopMenus = [
+    new MoneyButton(15, 100 - 20, 170, 50, function() {
+        coindropRate -= 5;
+        if (coindropRate < 10) {
+            coindropRate = 10;
+        }
+    }, 20, "More Coins"),
+    new MoneyButton(15, 175 - 20, 170, 50, function() {
+        powerUpdropRate -= 50;
+        if (powerUpdropRate < 25) {
+            powerUpdropRate = 25;
+        }
+    }, 20, "More Upgrades"),
+    new MoneyButton(15, 250 - 20, 180, 50, function() {
+        healthIncrease += 2;
+    }, 20, "Health Powerup"),
+    new MoneyButton(15, 325 - 20, 180, 50, function() {
+        shieldLasting += 50;
+    }, 20, "Shield Powerup"),
+    new MoneyButton(15, 400 - 20, 180, 50, function() {
+        attackLasting += 50;
+    }, 20, "Attack Powerup"),
+    new MoneyButton(15, 475 - 20, 180, 50, function() {
+        magnetLasting += 50;
+    }, 20, "Magnet Powerup"),
+    new MoneyButton(15, 550 - 20, 180, 50, function() {
+        scoreRate -= 10;
+        if (scoreRate < 1) {
+            scoreRate = 1;
+        }
+    }, 20, "Score Faster"),
+    new MoneyButton(205, 100 - 20, 180, 50, function() {
+        bulletSpeed++;
+    }, 20, "Bullet Speed"),
+    new MoneyButton(205, 175 - 20, 180, 50, function() {
+        fireRate -= 5;
+    }, 20, "Firerate"),
+
+    new EventButton(10, 10, 75, 25, function() {
+        scene = 0;
+    }, "BACK")
+];
+
+var saveArray;
+var updateSave = function() {
+    saveArray = [highScore, money, bulletSpeed, fireRate, coindropRate, powerUpdropRate, healthIncrease, shieldLasting, attackLasting, magnetLasting, scoreRate];
+    var stringified = "";
+    for (var i = 0; i < saveArray.length; i++) {
+        if (i < saveArray.length - 1) {
+            stringified += saveArray[i].toString(36) + ".";
+        } else {
+            stringified += saveArray[i].toString(36);
+        }
+    }
+    saveArray = stringified;
+};
+var saveButton = new EventButton(125, 500, 150, 50, function() {
+    updateSave();
+    // _clearLogs();
+    alert(saveArray);
+}, "");
+
+//-----scenes-----
+//titlescreen
+var titleScreen_pg0 = function() {
+    background(0, 213, 255);
+
+    mountain(64, 515, 2, 2);
+    mountain(163, 515, 3, 3);
+    mountain(281, 515, 2, 2);
+    mountain(377, 529, 1.5, 1.5);
+    mountain(203, 529, 1.5, 1.5);
+
+    drawCrystals();
+
+    fill(250, 250, 255);
+    font("Impact", 70);
+    text("Ice Dodge", 200, 50);
+
+    font("sans-serif", 20);
+    text("A KA Boys Game", 235, 100);
+
+    fill(0, 0, 175);
+    textSize(25);
+    text("Highscore: " + highScore, 200, 140);
+    text("Coins: " + money, 200, 170);
+
+    font("monospace");
+    button(125, 200, 150, 50, 2, "PLAY");
+    button(125, 300, 150, 50, 1, "HOW");
+    button(125, 400, 150, 50, 4, "SHOP");
+
+    saveButton.run();
+    button(125, 500, 150, 50, 0, "SAVE");
+};
+
+//how
+var how_pg1 = function() {
+    background(0, 213, 255);
+
+    mountain(64, 515, 2, 2);
+    mountain(163, 515, 3, 3);
+    mountain(281, 515, 2, 2);
+    mountain(377, 529, 1.5, 1.5);
+    mountain(203, 529, 1.5, 1.5);
+
+    drawCrystals();
+
+    fill(107, 122, 255, 200);
+    noStroke();
+    rect(0, 0, 400, 600);
+
+    fill(0, 0, 100);
+    textSize(40);
+    text("HOW", 200, 30);
+    text("_____", 200, 30);
+
+    textAlign(BASELINE);
+    textSize(25);
+    text("Controls: Use arrow keys", 10, 90);
+    text("Avoid: \n  Falling Ice - ", 10, 135);
+    text("Get: \n  Coins - \n\n  Power-ups: \n    Health - \n\n    Shield - \n\n    Attack - \n\n    Magnet - ", 10, 210);
+
+    icicle(247, 157, 12);
+    coin(171, 233, 0);
+    powerUp(211, 320, 1);
+    powerUp(211, 376, 2);
+    powerUp(211, 435, 3);
+    powerUp(211, 492, 4);
+
+    button(125, 530, 150, 50, 0, "BACK");
+};
+
+//game
+var game_pg2 = function() {
+    background(0, 213, 255);
+
+    //draw mountains
+    mountain(64, 515, 2, 2);
+    mountain(163, 515, 3, 3);
+    mountain(281, 515, 2, 2);
+    mountain(377, 529, 1.5, 1.5);
+    mountain(203, 529, 1.5, 1.5);
+
+    if (playerY === 100) {
+        shield = shieldLasting;
+    }
+
+    drawCrystals();
+
+    runIcicles();
+
+    runBullets();
+
+    runPowerUps();
+
+    runCoins();
+
+    player();
+
+    textAlign(LEFT);
+    fill(0, 0, 100);
+    textSize(20);
+    text("FPS: " + round(frameRate()), 10, 25);
+    text("Coins: " + moneyGained, 120, 25);
+    text("Score: " + (score + moneyGained * 2), 240, 25);
+
+    deathRecap.push(snip(
+        (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+        200, 200
+    ));
+    if (deathRecap.length > 100) {
+        deathRecap.splice(0, 1);
+    }
+
+    if (health < 0) {
+        deathRecap.push(snip(
+            (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+            200, 200
+        ));
+        deathRecap.push(snip(
+            (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+            200, 200
+        ));
+        deathRecap.push(snip(
+            (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+            200, 200
+        ));
+        deathRecap.push(snip(
+            (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+            200, 200
+        ));
+        deathRecap.push(snip(
+            (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+            200, 200
+        ));
+        deathRecap.push(snip(
+            (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+            200, 200
+        ));
+        deathRecap.push(snip(
+            (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+            200, 200
+        ));
+        deathRecap.push(snip(
+            (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+            200, 200
+        ));
+        deathRecap.push(snip(
+            (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+            200, 200
+        ));
+        deathRecap.push(snip(
+            (playerX + 15 - 100)*globalScale, (playerY - 15 - 100)*globalScale, 
+            200, 200
+        ));
+
+        scene = 3;
+    }
+
+    if (get.frameCount % scoreRate === 0) {
+        score++;
+    }
+};
+
+//death
+var death_pg3 = function() {
+    background(0, 213, 255);
+
+    //draw mountains
+    mountain(64, 515, 2, 2);
+    mountain(163, 515, 3, 3);
+    mountain(281, 515, 2, 2);
+    mountain(377, 529, 1.5, 1.5);
+    mountain(203, 529, 1.5, 1.5);
+
+    drawCrystals();
+
+    noStroke();
+    fill(0, 0, 25, deathTransition + 90);
+    rect(0, 0, 400, 600);
+
+    fill(250, 250, 255);
+    textAlign(CENTER);
+    textSize(28);
+    text("SLOW-MOTION DEATH RECAP", 200, 35);
+
+    pushMatrix();
+    rotate(deathTransition);
+
+    fill(0, 0, 150);
+    rect(45, 45, 310, 330, 5);
+
+    fill(0, 0, 5);
+    rect(50, 50, 300, 300);
+
+    fill(0, 0, 20);
+    rect(50, 355, 300, 15);
+
+    for (var i = 0; i < deathRecap.length; i++) {
+        if (i < floor(get.frameCount / 4) % deathRecap.length) {
+            if (i % 10 < 5) {
+                fill(0, 0, 210);
+            } else {
+                fill(0, 0, 255);
+            }
+
+            rect(51 + i * (300 / deathRecap.length), 356, 3, 13);
+        }
+    }
+
+    image(deathRecap[floor(get.frameCount / 4) % deathRecap.length], 50, 50, 300, 300);
+    popMatrix();
+
+    var responses = ["My grandma could do better", "Thats pretty bad", "Your score is decent", "Not bad. Not bad", "Your about average", "Congrats", "Hey, thats pretty good", "Nice Job", "NICEE!", "Your great at this", "Your epic at this game", "WOW Your good!", "Your skills are awesome", "Astounding", "LEGENDARY!!!"];
+    var scoreRates = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750];
+
+    var index = 0;
+    for (var i = 0; i < responses.length; i++) {
+        if ((score + moneyGained * 2) > scoreRates[i]) {
+            index = i;
+        }
+    }
+
+    textSize(25);
+    fill(250, 250, 255);
+    text(responses[index], 200, 420);
+
+    text("Score: " + (score + moneyGained * 2), 200, 460);
+    text("Coins: " + money + " + " + moneyGained + " = " + (money + moneyGained), 200, 500);
+
+    if (deathTransition < 0) {
+        deathTransition += dist(0, 0, deathTransition, 0) / 25;
+    }
+
+    button(125, 530, 150, 50, 0, "Menu");
+    if (clicked && mouseX() > 125 && mouseY() > 530 && mouseX() < 125 + 150 && mouseY() < 530 + 50) {
+        score = (score + moneyGained * 2);
+        if (score > highScore) {
+            highScore = score;
+        }
+        score = 0;
+
+        playerX = 175;
+        playerY = 100;
+        health = 75;
+
+        yVel = 0;
+        jumping = true;
+
+        shield = 0;
+        attack = 0;
+        attackBullets = [];
+        magnet = 0;
+
+        money = money + moneyGained;
+        moneyGained = 0;
+    }
+
+
+};
+
+//shop
+var shop_pg4 = function() {
+    background(0, 213, 255);
+
+    //draw mountains
+    mountain(64, 515, 2, 2);
+    mountain(163, 515, 3, 3);
+    mountain(281, 515, 2, 2);
+    mountain(377, 529, 1.5, 1.5);
+    mountain(203, 529, 1.5, 1.5);
+
+    drawCrystals();
+
+    // title
+    fill(0, 0, 100);
+    textSize(40);
+    textAlign(CENTER);
+    text("SHOP", 200, 50);
+
+    textSize(18);
+    textAlign(RIGHT);
+    text("Coins: " + money, 390, 25);
+
+    for (var i = 0; i < shopMenus.length; i++) {
+        shopMenus[i].run();
+    }
+
+};
+
+
+dl.draw = function() {
+    cursorState = 'default';
+
+    pushMatrix();
+        scale(globalScale);
+
+        switch (scene) {
+            case 0:
+                titleScreen_pg0();
+                break;
+            case 1:
+                how_pg1();
+                break;
+            case 2:
+                game_pg2();
+                break;
+            case 3:
+                death_pg3();
+                break;
+            case 4:
+                shop_pg4();
+                break;
+        }
+
+        customCursor();
+    popMatrix();
+
+    clicked = false;
+};
+
+dl.mouseReleased = function() {
+    clicked = true;
+};
+
+dl.canvas.addEventListener("mouseover", () => {
+    mouseOverCanvas = true;
+});
+dl.canvas.addEventListener("mouseout", () => {
+    mouseOverCanvas = false;
+});
+mouseOverCanvas = true;
+
+    </script>
+
+
+</body>
+</html>

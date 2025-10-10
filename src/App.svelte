@@ -68,6 +68,10 @@
 		{
 			name: "Explosive Atari Breakout",
 			description: "Atari Breakout but BOOM."
+		},
+		{
+			name: "Ice Dodge",
+			description: "A dodge game created by the KA Boys team led by me."
 		}
 	];
 

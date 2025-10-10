@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>New webpage</title>
+    <title>Explosive Breakout</title>
 
     <style>
         body {
@@ -23,8 +23,6 @@
 <body>
 
     <canvas id="canvas"></canvas>
-    
-    <script src="./font-bitmaps.js"></script>
 
     <script type>
 /**
@@ -545,7 +543,8 @@ function titleScreen() {
     textAlign(CENTER, CENTER);
     font("monospace", 20);
     fill(200+sin(get.frameCount*3)*80, 200+sin(get.frameCount*3)*80, 0);
-    text("(Click To Start)", 300, 550);
+    text("Arrow Keys To Control Paddle", 300, 545);
+    text("(Click To Start)", 300, 575);
 }
 
 function gameScreen() {
