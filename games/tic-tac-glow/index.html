@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tic Tac Glow</title>
+
+    <style>
+        body {
+            background-color: black;
+            margin: 10px;
+            padding: 0px;
+        }
+
+        canvas {
+            outline: none;
+            display: block;
+            margin: auto;
+        }
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/gh/librepaint/drawlite@main/javascript/drawlite.js"></script>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <script type>
+/**
+
+    Tic-Tac-Glow
+    Basically this is tic-tac-toe that glows
+    
+    Goal of the Game:
+    - get 3 of your tokens in a row to win a match
+
+    Directions for singleplayer:
+    - click on the box you want to place your token in
+    - wait for the AI to place its token
+    - repeat
+
+    Directions for multiplayer:
+    - player1 clicks a box to place their token in it
+    - player2 then clicks a box to place their token in it
+    
+    Other Info:
+    - I am trying to make single player based on the Minimax AI Algorithm
+    - Once you win a match, the program displays the winner and then starts a new match
+    
+    PLEASE REPORT ANY BUGS THAT YOU FIND
+
+**/
+
+
+var canvas = document.getElementById("canvas");
+var dl = Drawlite(canvas);
+var { PI, TWO_PI, EPSILON, CORNER, CORNERS, LEFT, RIGHT, TOP, CENTER, BOTTOM, BASELINE, RADIUS, DEGREES, RADIANS, POINTS, LINES, TRIANGLES, TRIANGLE_STRIP, TRIANGLE_FAN, QUADS, QUAD_STRIP, CLOSE, ROUND, PROJECT, SQUARE, BEVEL, MITER, RGB, HSB, NATIVE, canvas, Color, PerlinNoise, PRNG, vec3, ctx, size, angleMode, noLoop, loop, frameRate, min, max, floor, round, ceil, abs, constrain, sq, sqrt, pow, sin, cos, tan, asin, acos, atan, atan2, log, random, dist, map, lerp, radians, degrees, color, lerpColor, fill, stroke, strokeWeight, strokeCap, strokeJoin, noStroke, noFill, beginShape, vertex, splineVertex, bezierVertex, bezierPoint, bezierTangent, splineTightness, splineVertex, splinePoint, splineTangent, lerpSpline, endShape, spline, snip, getColor, imageMode, image, loadImage, font, textSize, textAlign, textWidth, textAscent, textDescent, textLeading, text, background, point, line, rectMode, rect, triangle, quad, arc, circle, ellipseMode, ellipse, bezier, get, pushMatrix, popMatrix, resetMatrix, scale, translate, rotate, loadPixels, updatePixels, colorMode, enableContextMenu, millis, second, minute, hour, day, month, year, smooth, nosmooth, createGraphics, getProperties } = dl;
+enableContextMenu();
+function getSound(s) {
+    let url = 'https://cdn.kastatic.org/third_party/javascript-khansrc/live-editor/sounds/' + s + '.mp3';
+    return new Audio(url);
+}
+function playSound(s) {
+    s.play();
+}
+
+var originalWidth = 600;
+var originalHeight = 600;
+var globalScale = 1;
+
+size(originalWidth, originalHeight);
+
+function adjustCanvasSize() {
+    var targetRatio = originalWidth/originalHeight;
+    var maxWidth = window.innerWidth-20;
+    var maxHeight = window.innerHeight-20;
+
+    if (maxWidth / maxHeight > targetRatio) {
+        // height is the limiting factor
+        size(maxHeight * targetRatio, maxHeight);
+        globalScale = maxHeight / originalHeight;
+    } else {
+        // width is the limiting factor
+        size(maxWidth, maxWidth / targetRatio);
+        globalScale = maxWidth / originalWidth;
+    }
+}
+adjustCanvasSize();
+// window.addEventListener("resize", adjustCanvasSize);
+
+function cursor(style) {
+    document.body.style.cursor = style;
+}
+
+function mouseX() {
+    return get.mouseX / globalScale;
+}
+
+function mouseY() {
+    return get.mouseY / globalScale;
+}
+
+// ----------------------------------------------------------------------------
+
+var logoIMG;
+
+function createLogo(logoSz, noRound) {
+    var scl = logoSz / 400;
+    var width = get.width;
+    var height = get.height;
+
+    noStroke();
+    for (var i = 0; i < logoSz; i++) {
+        var j = map(i, 0, logoSz, 0, 400);
+        fill(0, j / 20, j / 5);
+        rect(0, i, logoSz, 1);
+    }
+
+    pushMatrix();
+        scale(scl);
+
+        strokeWeight(40);
+        stroke(34, 177, 76);
+        strokeCap("butt");
+
+        line(0, 0, 200, 400);
+        line(400, 0, 200, 400);
+
+        line(100, -20, 300, 200);
+        line(300, -20, 100, 200);
+    popMatrix();
+
+    noStroke();
+    for (var i = 0; i < logoSz * 1 / 4; i++) {
+        var j = map(i, 0, logoSz, 0, 400);
+        fill(0, 0, 0, 100 - j);
+        rect(0, i, width, 1);
+    }
+
+    function triangleCap(x, y, r, s) {
+        pushMatrix();
+            translate(x, y);
+            rotate(r);
+            translate(-s / 2, -s / 2);
+
+            triangle(-14, -14, s, 0, 0, s);
+        popMatrix();
+    }
+
+    var clr;
+
+    function S(xOff, yOff) {
+        pushMatrix();
+            translate(xOff * scl, yOff * scl);
+            scale(scl);
+
+            strokeCap(ROUND);
+            strokeWeight(20);
+            stroke(clr);
+            line(199, 119, 123, 203);
+            line(123, 203, 275, 203);
+            line(275, 203, 199, 354);
+
+            noStroke();
+            fill(clr);
+            triangleCap(199, 119, 68, 15);
+            triangleCap(123, 203, 296, 15);
+            triangleCap(275, 203, 296 + 180, 15);
+            triangleCap(199, 354, 233, 15);
+        popMatrix();
+    }
+
+    clr = color(0, 200 / 3, 255 / 3);
+    S(5, 5);
+
+    clr = color(0, 200, 255);
+    S();
+
+    var logo = snip(0, 0, logoSz, logoSz);
+
+    background(0, 0, 0, 0);
+
+    noStroke();
+    fill(255, 255, 255);
+    rect(0, 0, logoSz, logoSz, noRound ? 0 : 100 * scl);
+
+    var logoShape = snip(0, 0, logoSz, logoSz);
+
+    if (logoShape) {
+        logo.mask(logoShape);
+    }
+
+    return logo;
+}
+
+logoIMG = createLogo(300 * globalScale);
+
+var point_rect = function(px, py, rx, ry, rw, rh) {
+    return (px > rx && px < rx + rw && py > ry && py < ry + rh);
+};
+
+var WIN_TEXT_FADE_DEFAULT = 300;
+
+var rows = [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null],
+];
+
+var playing = 0;
+var turn = 1;
+var winner = null;
+var isPrintingWinner = false;
+var winTextFade = WIN_TEXT_FADE_DEFAULT;
+var player1Score = 0;
+var player2Score = 0;
+var titleY = 0;
+var AItimer = 50;
+
+function drawTitle() {
+    background(0, 0, 0);
+
+    strokeWeight(5);
+    noFill();
+    for (var i = 0; i < 5; i++) {
+        stroke(255 - i * 75, 255, 255 - i * 75, 255 - i * 50);
+        rect(230 - i, 165 - i, 210 + i * 2, 50 + i * 2, 10);
+        stroke(255 - i * 75, 255 - i * 75, 255, 255 - i * 50);
+        rect(230 - i, 307 - i, 210 + i * 2, 50 + i * 2, 10);
+    }
+
+    font("sans-serif");
+    textAlign(CENTER);
+    fill(255, 255, 255);
+    textSize(30);
+    text("SinglePlayer", 335, 200);
+    text("MultiPlayer", 334, 342);
+
+    stroke(255, 255, 255);
+    noFill();
+    strokeWeight(5);
+    if (mouseX() > 220 && mouseX() < 445) {
+        if (mouseY() > 160 && mouseY() < 225) {
+            rect(210, 145, 250, 90, 10);
+        }
+        if (mouseY() > 300 && mouseY() < 365) {
+            rect(210, 288, 250, 90, 10);
+        }
+    }
+
+    textSize(45);
+    for (var i = 0; i < 5; i += 0.3) {
+        pushMatrix();
+            translate(-13 - i * 16, -4 - i * 4);
+            scale(1.25 + i / 3, 1.01 + i / 75);
+
+            fill(255 - i * 75, 255 - i * 45, 255, 255 - i * 50);
+            text("N\nE\nO\nN\n\nT\nI\nC\n\nT\nA\nC\n\nT\nO\nE", 50, titleY);
+
+            text("N\nE\nO\nN\n\nT\nI\nC\n\nT\nA\nC\n\nT\nO\nE", 50, titleY + 1000);
+        popMatrix();
+    }
+
+    titleY--;
+
+    if (titleY < -1000) {
+        titleY = 0;
+    }
+
+    image(logoIMG, 490, 490, 100, 100);
+}
+
+
+function drawBoard() {
+    fill(0, 0, 0);
+    rect(0, 0, 610, 610);
+
+    noStroke();
+    for (var i = 0; i < 498; i += 2) {
+        fill(100 + sin(get.frameCount * 5 + i * 8) * 100, 400, 255, 150 + sin(get.frameCount * 5 + i * 3) * 100);
+        rect(263, 95 + i, 5, 4);
+        rect(431, 95 + i, 5, 4);
+        rect(99 + i, 262, 4, 5);
+        rect(99 + i, 430, 4, 5);
+    }
+
+    fill(0, 0, 0);
+    rect(0, 0, 100, 600);
+    rect(0, 0, 600, 100);
+
+    strokeWeight(5);
+    noFill();
+    for (var i = 0; i < 5; i++) {
+        stroke(255 - i * 75, 255, 255 - i * 75, 255 - i * 50);
+        // exit
+        rect(114-i, 25-i, 50+i*2, 50+i*2, 10);
+        
+        // turn marker
+        rect(194-i, 25-i, 210+i*2, 50+i*2, 10);
+    }
+
+    font("sans-serif");
+    textAlign(CENTER);
+    fill(255, 255, 255);
+    textSize(30);
+    text("Player" + turn + "'s Turn", 300, 60);
+
+    textSize(18);
+    text("Player1's score: " + player1Score, 500, 39);
+    text("Player2's score: " + player2Score, 500, 72);
+
+    if (point_rect(mouseX(), mouseY(), 114, 25, 50, 50)) {
+        textSize(46);
+        text(String.fromCharCode(8629), 141, 66);
+    } else {
+        textSize(42);
+        text(String.fromCharCode(8629), 141, 65);
+    }
+
+    textSize(45);
+    for (var i = 0; i < 5; i += 0.3) {
+        pushMatrix();
+            translate(-13 - i * 16, -4 - i * 4);
+            scale(1.25 + i / 3, 1.01 + i / 75);
+
+            fill(255 - i * 75, 255 - i * 45, 255, 255 - i * 50);
+            text("N\nE\nO\nN\n\nT\nI\nC\n\nT\nA\nC\n\nT\nO\nE", 50, titleY);
+
+            text("N\nE\nO\nN\n\nT\nI\nC\n\nT\nA\nC\n\nT\nO\nE", 50, titleY + 1000);
+        popMatrix();
+    }
+
+    titleY--;
+
+    if (titleY < -1000) {
+        titleY = 0;
+    }
+}
+
+function drawX(x, y) {
+    pushMatrix();
+        translate(x + 133, y + 131);
+
+        for (var i = 15; i > 0; i--) {
+            stroke(255, 255 - i * 30, 255 - i * 30, 225 - i * 10);
+            strokeWeight(i);
+            line(0, 0, 100, 100);
+            line(0, 100, 100, 0);
+        }
+    popMatrix();
+}
+
+function drawO(x, y) {
+    pushMatrix();
+        translate(x + 182, y + 182);
+
+        for (var i = 15; i > 0; i--) {
+            stroke(255 - i * 30, 255 - i * 30, 255, 225 - i * 10);
+            strokeWeight(i);
+            noFill();
+            ellipse(0, 0, 100, 100);
+        }
+    popMatrix();
+}
+
+function drawToken(row, column, token) {
+    var x = (column - 1) * 167;
+    var y = (row - 1) * 167;
+
+    if (token === "X") {
+        drawX(x, y);
+    } else if (token === "O") {
+        drawO(x, y);
+    }
+}
+
+function drawState() {
+    drawToken(1, 1, rows[0][0]);
+    drawToken(1, 2, rows[0][1]);
+    drawToken(1, 3, rows[0][2]);
+    drawToken(2, 1, rows[1][0]);
+    drawToken(2, 2, rows[1][1]);
+    drawToken(2, 3, rows[1][2]);
+    drawToken(3, 1, rows[2][0]);
+    drawToken(3, 2, rows[2][1]);
+    drawToken(3, 3, rows[2][2]);
+}
+
+function addToken(token) {
+    var row = null;
+    if (mouseY() > 100 && mouseY() < 267) {
+        row = 0;
+    }
+    if (mouseY() > 267 && mouseY() < 434) {
+        row = 1;
+    }
+    if (mouseY() > 434 && mouseY() < 600) {
+        row = 2;
+    }
+
+    var column = null;
+    if (mouseX() > 100 && mouseX() < 267) {
+        column = 0;
+    }
+    if (mouseX() > 267 && mouseX() < 434) {
+        column = 1;
+    }
+    if (mouseX() > 434 && mouseX() < 600) {
+        column = 2;
+    }
+
+    if (row !== null && column !== null && rows[row][column] === null && winTextFade === 300) {
+        rows[row][column] = token;
+        if (turn === 1) {
+            turn = 2;
+        } else {
+            turn = 1;
+        }
+    }
+}
+
+dl.mouseReleased = function() {
+    if (playing !== 0) {
+        var token = null;
+        if (turn === 1) {
+            token = "X";
+        } else {
+            token = "O";
+        }
+
+        if (playing === 1 && token === "X") {
+            addToken(token);
+        } else if (playing === 2) {
+            addToken(token);
+        }
+
+        // exit
+        if (point_rect(mouseX(), mouseY(), 114, 25, 50, 50)) {
+            resetGame();
+            playing = 0;
+            player1Score = 0;
+            player2Score = 0;
+        }
+    } else {
+        if (mouseX() > 220 && mouseX() < 445) {
+            if (mouseY() > 160 && mouseY() < 225) {
+                playing = 1;
+            }
+            if (mouseY() > 300 && mouseY() < 365) {
+                playing = 2;
+            }
+        }
+    }
+};
+
+function isRowWinner(whichrow, token) {
+    if (rows[whichrow][0] === token && rows[whichrow][1] === token && rows[whichrow][2] === token) {
+        return true;
+    }
+    return false;
+}
+function isColumnWinner(whichcolumn, token) {
+    if (rows[0][whichcolumn] === token && rows[1][whichcolumn] === token && rows[2][whichcolumn] === token) {
+        return true;
+    }
+    return false;
+}
+
+function isWinner(token) {
+    if (isRowWinner(0, token)) {
+        return true;
+    }
+    if (isRowWinner(1, token)) {
+        return true;
+    }
+    if (isRowWinner(2, token)) {
+        return true;
+    }
+
+    if (isColumnWinner(0, token)) {
+        return true;
+    }
+    if (isColumnWinner(1, token)) {
+        return true;
+    }
+    if (isColumnWinner(2, token)) {
+        return true;
+    }
+
+    if (rows[0][0] === token && rows[1][1] === token && rows[2][2] === token) {
+        return true;
+    }
+    if (rows[2][0] === token && rows[1][1] === token && rows[0][2] === token) {
+        return true;
+    }
+    return false;
+}
+
+function isBoardFull() {
+    for (var i = 0; i < 3; i++) {
+        if (rows[0][i] === null) {
+            return false;
+        }
+        if (rows[1][i] === null) {
+            return false;
+        }
+        if (rows[2][i] === null) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function getWinner() {
+    if (isWinner("X")) {
+        winner = "Player1";
+    } else if (isWinner("O")) {
+        winner = "Player2";
+    } else if (isBoardFull()) {
+        winner = "Nobody";
+    } else {
+        winner = "NA";
+    }
+
+    return winner;
+}
+
+function printWinner() {
+    if (winTextFade === WIN_TEXT_FADE_DEFAULT) {
+        isPrintingWinner = true;
+    }
+    textSize(75);
+    fill(0, 0, 0);
+    text(winner + " Won!!!", 295, 340);
+    text(winner + " Won!!!", 305, 340);
+    text(winner + " Won!!!", 300, 335);
+    text(winner + " Won!!!", 300, 345);
+    fill(255, 255, 255, winTextFade);
+    text(winner + " Won!!!", 300, 340);
+    winTextFade -= 2;
+    if (winTextFade === 0) {
+        isPrintingWinner = false;
+    }
+}
+
+function resetGame() {
+    winner = null;
+    rows = [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null],
+    ];
+    winTextFade = WIN_TEXT_FADE_DEFAULT;
+    turn = 1;
+    AItimer = 50;
+}
+
+function debugState() {
+    console.log(winner + ";" + winTextFade);
+}
+
+function AIaddToken() {
+    if (turn === 2) {
+        AItimer--;
+    }
+    if (AItimer < 0 && turn === 2) {
+        var rplace = floor(random(0, 3));
+        var cplace = floor(random(0, 3));
+
+        if (rows[1][1] === null && get.frameCount % 2 === 0) {
+            rplace = 1;
+            cplace = 1;
+        }
+
+        for (var r = 0; r < 3; r++) {
+            for (var c = 0; c < 3; c++) {
+                var isNull = false;
+                if (rows[r][c] === null) {
+                    rows[r][c] = "X";
+                    isNull = true;
+                }
+                if (isWinner("X")) {
+                    rplace = r;
+                    cplace = c;
+                }
+                if (isNull) {
+                    rows[r][c] = null;
+                }
+            }
+        }
+
+        for (var r = 0; r < 3; r++) {
+            for (var c = 0; c < 3; c++) {
+                var isNull = false;
+                if (rows[r][c] === null) {
+                    rows[r][c] = "O";
+                    isNull = true;
+                }
+                if (isWinner("O")) {
+                    rplace = r;
+                    cplace = c;
+                }
+                if (isNull) {
+                    rows[r][c] = null;
+                }
+            }
+        }
+
+        if (rows[rplace][cplace] === null && winTextFade === WIN_TEXT_FADE_DEFAULT) {
+            rows[rplace][cplace] = "O";
+            turn = 1;
+            AItimer = 50;
+        }
+    }
+}
+
+dl.draw = function() {
+    pushMatrix();
+        scale(globalScale);
+
+        background(255, 255, 255);
+
+        if (playing === 0) {
+            drawTitle();
+        }
+
+        if (playing > 0) {
+            drawBoard();
+            drawState();
+
+            if (playing === 1) {
+                AIaddToken();
+            }
+
+            if (getWinner() !== "NA") {
+
+                printWinner();
+
+                if (!isPrintingWinner) {
+                    if (winner === "Player1") {
+                        player1Score++;
+                    }
+                    if (winner === "Player2") {
+                        player2Score++;
+                    }
+                    resetGame();
+                }
+            }
+        }
+    popMatrix();
+};
+
+
+    </script>
+
+
+</body>
+</html>

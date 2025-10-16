@@ -72,7 +72,11 @@
 		{
 			name: "Ice Dodge",
 			description: "A dodge game created by the KA Boys team led by me."
-		}
+		},
+		{
+			name: "Tic Tac Glow",
+			description: "Play tic tac toe against another person on the same machine or play singleplayer against the minimax algorithm."
+		},
 	];
 
 	const projects = [
