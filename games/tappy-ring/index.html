@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tic Tac Glow</title>
+
+    <style>
+        body {
+            background-color: black;
+            margin: 10px;
+            padding: 0px;
+        }
+
+        canvas {
+            outline: none;
+            display: block;
+            margin: auto;
+        }
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/gh/librepaint/drawlite@main/javascript/drawlite.js"></script>
+</head>
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <script type>
+/**175 votes
+
+  KA Boy's Second Game
+  
+  In the comments I see people hinting that this is plagarism. I assure you that every single line of code was written by TheCrazyCat or KA Boys although we were inspired by the game "Circle" on the app store. This program is not plagiarised.
+  
+  LeaderBoard:
+   1) Jacobfakhoury - 43,568
+   2) Magma - 29,147
+   3) KA Boys - 27,438
+   4) Ezra433 - 27,285
+   5) Naruto Uzumaki - 24,847
+   
+  Credits:
+  - KA Boys
+  - The Crazy Cat
+  
+  Thanks:
+  - Tanmay N. for the mousePressed suggestion
+  - CompoundMaster for the bigger dead screen particles suggestion.
+
+**/
+
+
+var canvas = document.getElementById("canvas");
+var dl = Drawlite(canvas);
+var { PI, TWO_PI, EPSILON, CORNER, CORNERS, LEFT, RIGHT, TOP, CENTER, BOTTOM, BASELINE, RADIUS, DEGREES, RADIANS, POINTS, LINES, TRIANGLES, TRIANGLE_STRIP, TRIANGLE_FAN, QUADS, QUAD_STRIP, CLOSE, ROUND, PROJECT, SQUARE, BEVEL, MITER, RGB, HSB, NATIVE, canvas, Color, PerlinNoise, PRNG, vec3, ctx, size, angleMode, noLoop, loop, frameRate, min, max, floor, round, ceil, abs, constrain, sq, sqrt, pow, sin, cos, tan, asin, acos, atan, atan2, log, random, dist, map, lerp, radians, degrees, color, lerpColor, fill, stroke, strokeWeight, strokeCap, strokeJoin, noStroke, noFill, beginShape, vertex, splineVertex, bezierVertex, bezierPoint, bezierTangent, splineTightness, splineVertex, splinePoint, splineTangent, lerpSpline, endShape, spline, snip, getColor, imageMode, image, loadImage, font, textSize, textAlign, textWidth, textAscent, textDescent, textLeading, text, background, point, line, rectMode, rect, triangle, quad, arc, circle, ellipseMode, ellipse, bezier, get, pushMatrix, popMatrix, resetMatrix, scale, translate, rotate, loadPixels, updatePixels, colorMode, enableContextMenu, millis, second, minute, hour, day, month, year, smooth, nosmooth, createGraphics, getProperties } = dl;
+
+function getSound(s) {
+    let url = 'https://cdn.kastatic.org/third_party/javascript-khansrc/live-editor/sounds/' + s + '.mp3';
+    return new Audio(url);
+}
+function playSound(s) {
+    s.play();
+}
+
+var originalWidth = 600;
+var originalHeight = 600;
+var globalScale = 1;
+
+size(originalWidth, originalHeight);
+
+function adjustCanvasSize() {
+    var targetRatio = originalWidth/originalHeight;
+    var maxWidth = window.innerWidth-20;
+    var maxHeight = window.innerHeight-20;
+
+    if (maxWidth / maxHeight > targetRatio) {
+        // height is the limiting factor
+        size(maxHeight * targetRatio, maxHeight);
+        globalScale = maxHeight / originalHeight;
+    } else {
+        // width is the limiting factor
+        size(maxWidth, maxWidth / targetRatio);
+        globalScale = maxWidth / originalWidth;
+    }
+}
+adjustCanvasSize();
+// window.addEventListener("resize", adjustCanvasSize);
+
+function cursor(style) {
+    document.body.style.cursor = style;
+}
+
+function mouseX() {
+    return get.mouseX / globalScale;
+}
+
+function mouseY() {
+    return get.mouseY / globalScale;
+}
+
+// ----------------------------------------------------------------------------
+
+var perlinNoise = new PerlinNoise();
+function noise(x, y = 0, z = 0) {
+    return perlinNoise.get(x, y, z);
+}
+
+var scene = 0;
+
+var difficulty = 1;
+
+var ringY = 300;
+var yVel = 0;
+
+var highScore = 0;
+
+var travel = 0;
+var travelSpeed = 3;
+var noiseScale = 1000;
+
+function colorFade(listOfColors, amount) {
+    amount = map(amount, 0, 1, 0, arguments[0].length - 1);
+    var amt = amount - floor(amount);
+    amount = floor(amount);
+    return lerpColor(arguments[0][amount], arguments[0][amount + 1], amt);
+}
+
+function strokeText(txt, x, y, fillColor, strokeColor, strokeSize, borderQuality) {
+    borderQuality = constrain(borderQuality, 1, 180);
+    fill(strokeColor);
+    for (var i = 0; i < 360; i += borderQuality) {
+        text(txt, x + sin(i) * strokeSize, y + cos(i) * strokeSize);
+    }
+    fill(fillColor);
+    text(txt, x, y);
+};
+
+function drawCave() {
+    var startX = 0;
+    var endX = 0;
+    for (var x = 0; x <= 600 + 225; x += 5) {
+        if (round(travel + x) % 3000 > 1500) {
+            if (startX === 0) {
+                vertex(x, 0);
+                startX = x;
+            }
+            endX = x;
+        }
+    }
+
+    noStroke();
+    for (var x = 0; x < 255; x += 25) {
+        for (var y = 0; y < 600; y += 25) {
+            if (startX - x > -50 && startX - x < 600 && startX !== 0) {
+                fill(colorFade([color(3, 4, 8, 250 - x), color(16, 31, 50, 250 - x), color(53, 106, 158, 250 - x), color(16, 31, 50, 250 - x), color(3, 4, 8, 250 - x)], y / 600));
+                rect(startX - x, y, 25, 25);
+            }
+        }
+    }
+
+
+
+    fill(53, 106, 158);
+    rect(startX, 0, endX - startX, 600);
+
+    fill(30, 61, 90);
+    beginShape();
+    vertex(startX, 0);
+    for (var x = 0; x <= 600; x += 5) {
+        if (round(travel + x) % 3000 > 1500) {
+            vertex(x, -150 + noise((travel * 0.5 + x + 2000) / 100) * 800);
+        }
+    }
+    vertex(endX, 0);
+    endShape();
+    beginShape();
+    vertex(startX, 600);
+    for (var x = 0; x <= 600; x += 5) {
+        if (round(travel + x) % 3000 > 1500) {
+            vertex(x, 750 - noise((travel * 0.5 + x + 2000) / 100) * 800);
+        }
+    }
+    vertex(endX, 600);
+    endShape();
+
+    fill(16, 31, 50);
+    beginShape();
+    vertex(startX, 0);
+    for (var x = 0; x <= 600; x += 3) {
+        if (round(travel + x) % 3000 > 1500) {
+            vertex(x, -100 + noise((travel * 0.7 + x + 1000) / 75) * 700);
+        }
+    }
+    vertex(endX, 0);
+    endShape();
+    beginShape();
+    vertex(startX, 600);
+    for (var x = 0; x <= 600; x += 3) {
+        if (round(travel + x) % 3000 > 1500) {
+            vertex(x, 700 - noise((travel * 0.7 + x + 1000) / 75) * 700);
+        }
+    }
+    vertex(endX, 600);
+    endShape();
+
+    fill(4, 13, 21);
+    beginShape();
+    vertex(startX, 0);
+    for (var x = 0; x <= 600; x += 5) {
+        if (round(travel + x) % 3000 > 1500) {
+            vertex(x, -130 + noise((travel + x) / noiseScale) * 600);
+        }
+    }
+    vertex(endX, 0);
+    endShape();
+    beginShape();
+    vertex(startX, 600);
+    for (var x = 0; x <= 600; x += 5) {
+        if (round(travel + x) % 3000 > 1500) {
+            vertex(x, 130 + noise((travel + x) / noiseScale) * 600);
+        }
+    }
+    vertex(endX, 600);
+    endShape();
+}
+
+var clouds = [];
+for (var i = 0; i < 5; i++) {
+    clouds.push([random(0, 600), random(0, 600), random(0.2, 0.5)]);
+}
+function drawCloud(x, y, s) {
+    pushMatrix();
+        translate(x, y);
+        scale(s);
+
+        noStroke();
+        fill(255, 255, 255);
+        beginShape();
+        splineVertex(27, 153);
+        splineVertex(9, 155);
+        splineVertex(14, 138);
+        splineVertex(25, 128);
+        splineVertex(39, 123);
+        splineVertex(53, 124);
+        splineVertex(52, 117);
+        splineVertex(52, 104);
+        splineVertex(56, 89);
+        splineVertex(67, 75);
+        splineVertex(84, 65);
+        splineVertex(103, 62);
+        splineVertex(116, 63);
+        splineVertex(119, 56);
+        splineVertex(123, 47);
+        splineVertex(139, 34);
+        splineVertex(158, 25);
+        splineVertex(181, 21);
+        splineVertex(210, 23);
+        splineVertex(229, 31);
+        splineVertex(241, 42);
+        splineVertex(246, 54);
+        splineVertex(250, 55);
+        splineVertex(259, 57);
+        splineVertex(271, 67);
+        splineVertex(279, 82);
+        splineVertex(286, 85);
+        splineVertex(299, 81);
+        splineVertex(319, 80);
+        splineVertex(341, 88);
+        splineVertex(359, 106);
+        splineVertex(367, 124);
+        splineVertex(368, 132);
+        splineVertex(373, 131);
+        splineVertex(381, 133);
+        splineVertex(391, 144);
+        splineVertex(396, 163);
+        splineVertex(387, 163);
+        splineVertex(372, 163);
+        splineVertex(26, 156);
+        splineVertex(80, 155);
+        splineVertex(8, 154);
+        endShape();
+
+        fill(231, 245, 254);
+        beginShape();
+        splineVertex(8, 169);
+        splineVertex(8, 169);
+        splineVertex(8, 149);
+        splineVertex(23, 132);
+        splineVertex(43, 127);
+        splineVertex(59, 126);
+        splineVertex(73, 116);
+        splineVertex(90, 107);
+        splineVertex(115, 104);
+        splineVertex(136, 111);
+        splineVertex(143, 109);
+        splineVertex(139, 103);
+        splineVertex(128, 102);
+        splineVertex(120, 96);
+        splineVertex(124, 81);
+        splineVertex(136, 69);
+        splineVertex(158, 65);
+        splineVertex(171, 72);
+        splineVertex(175, 64);
+        splineVertex(186, 54);
+        splineVertex(203, 51);
+        splineVertex(221, 55);
+        splineVertex(232, 69);
+        splineVertex(231, 82);
+        splineVertex(204, 92);
+        splineVertex(176, 99);
+        splineVertex(186, 107);
+        splineVertex(192, 109);
+        splineVertex(207, 101);
+        splineVertex(232, 96);
+        splineVertex(257, 98);
+        splineVertex(274, 105);
+        splineVertex(284, 101);
+        splineVertex(298, 95);
+        splineVertex(316, 96);
+        splineVertex(341, 108);
+        splineVertex(357, 130);
+        splineVertex(361, 144);
+        splineVertex(366, 139);
+        splineVertex(381, 140);
+        splineVertex(395, 153);
+        splineVertex(395, 172);
+        splineVertex(378, 183);
+        splineVertex(327, 189);
+        splineVertex(238, 218);
+        splineVertex(168, 209);
+        splineVertex(123, 212);
+        splineVertex(79, 190);
+        splineVertex(46, 200);
+        splineVertex(14, 184);
+        splineVertex(8, 168);
+        endShape();
+
+        fill(180, 215, 253);
+        beginShape();
+        splineVertex(6, 159);
+        splineVertex(6, 159);
+        splineVertex(12, 179);
+        splineVertex(32, 191);
+        splineVertex(57, 191);
+        splineVertex(71, 178);
+        splineVertex(73, 172);
+        splineVertex(62, 165);
+        splineVertex(57, 157);
+        splineVertex(69, 162);
+        splineVertex(90, 167);
+        splineVertex(116, 168);
+        splineVertex(140, 157);
+        splineVertex(150, 154);
+        splineVertex(143, 161);
+        splineVertex(129, 172);
+        splineVertex(113, 177);
+        splineVertex(81, 173);
+        splineVertex(81, 178);
+        splineVertex(96, 191);
+        splineVertex(114, 200);
+        splineVertex(136, 204);
+        splineVertex(152, 201);
+        splineVertex(166, 191);
+        splineVertex(172, 196);
+        splineVertex(192, 203);
+        splineVertex(218, 205);
+        splineVertex(236, 200);
+        splineVertex(248, 190);
+        splineVertex(241, 189);
+        splineVertex(220, 187);
+        splineVertex(202, 179);
+        splineVertex(184, 169);
+        splineVertex(182, 162);
+        splineVertex(194, 168);
+        splineVertex(220, 175);
+        splineVertex(246, 176);
+        splineVertex(272, 171);
+        splineVertex(293, 162);
+        splineVertex(310, 151);
+        splineVertex(323, 144);
+        splineVertex(316, 155);
+        splineVertex(297, 172);
+        splineVertex(274, 184);
+        splineVertex(260, 186);
+        splineVertex(261, 191);
+        splineVertex(274, 195);
+        splineVertex(295, 196);
+        splineVertex(317, 186);
+        splineVertex(327, 173);
+        splineVertex(336, 178);
+        splineVertex(355, 183);
+        splineVertex(367, 182);
+        splineVertex(391, 175);
+        splineVertex(387, 184);
+        splineVertex(374, 195);
+        splineVertex(356, 197);
+        splineVertex(340, 191);
+        splineVertex(338, 199);
+        splineVertex(329, 208);
+        splineVertex(311, 209);
+        splineVertex(309, 208);
+        splineVertex(305, 216);
+        splineVertex(288, 232);
+        splineVertex(264, 244);
+        splineVertex(227, 248);
+        splineVertex(193, 240);
+        splineVertex(173, 225);
+        splineVertex(167, 214);
+        splineVertex(162, 219);
+        splineVertex(148, 226);
+        splineVertex(124, 227);
+        splineVertex(103, 218);
+        splineVertex(89, 206);
+        splineVertex(80, 198);
+        splineVertex(76, 205);
+        splineVertex(66, 211);
+        splineVertex(51, 211);
+        splineVertex(29, 204);
+        splineVertex(16, 193);
+        splineVertex(9, 179);
+        splineVertex(6, 160);
+        endShape();
+    popMatrix();
+}
+
+function pointBoxColl(px, py, x, y, w, h) {
+    return (px > x && py > y && px < x + w && py < y + h);
+}
+
+var deathTiles = [];
+
+function titleScreen_pg0() {
+    travel += 5;
+
+    textAlign(CENTER, CENTER);
+
+    textSize(70);
+    pushMatrix();
+        translate(300, 90);
+        rotate(sin(get.frameCount * 5) * 10);
+
+        strokeText("Tappy Ring", 0, -15, color(0), color(255), 6, 10);
+    popMatrix();
+
+
+    textSize(25);
+    strokeText("Click, Tap, or Press a key to fly. \nDon't touch anything red", 300, 200, color(0), color(255), 2, 10);
+
+    textSize(35);
+    strokeText("Difficulty", 300, 300, color(0), color(255), 3, 10);
+
+    textSize(25);
+    if (pointBoxColl(mouseX(), mouseY(), 120, 338, 61, 29)) {
+        strokeText("Easy", 150, 350, color(0), color(0), 5, 10);
+    }
+    if (pointBoxColl(mouseX(), mouseY(), 254, 338, 93, 29)) {
+        strokeText("Medium", 300, 350, color(0), color(0), 5, 10);
+    }
+    if (pointBoxColl(mouseX(), mouseY(), 422, 338, 57, 29)) {
+        strokeText("Hard", 450, 350, color(0), color(0), 5, 10);
+    }
+
+    strokeText("Easy", 150, 350, color(0), difficulty === 1 ? color(0, 255, 0) : color(255), 3, 10);
+    strokeText("Medium", 300, 350, color(0), difficulty === 2 ? color(255, 200, 0) : color(255), 3, 10);
+    strokeText("Hard", 450, 350, color(0), difficulty === 3 ? color(255, 0, 0) : color(255), 3, 10);
+
+    stroke(0, 150, 0);
+    strokeWeight(4);
+    fill(0, 200, 0);
+    ellipse(300, 480, 140, 140);
+    fill(200);
+    triangle(275, 450, 275, 510, 340, 480);
+
+    if (dist(mouseX(), mouseY(), 300, 480) < 140 / 2) {
+        stroke(0, 200, 0);
+        strokeWeight(4);
+        fill(0, 255, 0);
+        ellipse(300, 480, 140, 140);
+        fill(255);
+        triangle(275, 450, 275, 510, 340, 480);
+    }
+
+    textAlign(BASELINE);
+}
+
+function game_pg1() {
+    if (round(travel + 300) % 3000 > 1500) {
+        noStroke();
+        fill(255, 239, 94, 15);
+        for (var i = 0; i < 25; i++) {
+            ellipse(300, ringY, i * 5, i * 10);
+        }
+    }
+
+    noFill();
+    strokeWeight(4);
+    stroke(0, 0, 0);
+    arc(300, ringY, 25, 130, -95, 95);
+
+    strokeWeight(3);
+    stroke(255, 0, 0);
+    beginShape();
+    if (round(travel) % 3000 < 1500) {
+        splineVertex(0, noise((travel) / noiseScale) * 600);
+    }
+    for (var x = 0; x < 600; x += 10) {
+        if (round(travel + x) % 3000 < 1500) {
+            splineVertex(x, noise((travel + x) / noiseScale) * 600);
+        }
+    }
+    if (round(travel + 600) % 3000 < 1500) {
+        splineVertex(600, noise((travel + 600) / noiseScale) * 600);
+        splineVertex(600, noise((travel + 600) / noiseScale) * 600);
+    }
+    endShape();
+
+    beginShape();
+    if (round(travel) % 3000 > 1500) {
+        splineVertex(0, -130 + noise((travel) / noiseScale) * 600);
+    }
+    for (var x = 0; x < 600; x += 10) {
+        if (round(travel + x) % 3000 > 1500) {
+            splineVertex(x, -130 + noise((travel + x) / noiseScale) * 600);
+        }
+    }
+    if (round(travel + 600) % 3000 > 1500) {
+        splineVertex(600, -130 + noise((travel + 600) / noiseScale) * 600);
+        splineVertex(600, -130 + noise((travel + 600) / noiseScale) * 600);
+    }
+    endShape();
+
+    beginShape();
+    if (round(travel) % 3000 > 1500) {
+        splineVertex(0, 130 + noise((travel) / noiseScale) * 600);
+    }
+    for (var x = 0; x < 600; x += 10) {
+        if (round(travel + x) % 3000 > 1500) {
+            splineVertex(x, 130 + noise((travel + x) / noiseScale) * 600);
+        }
+    }
+    if (round(travel + 600) % 3000 > 1500) {
+        splineVertex(600, 130 + noise((travel + 600) / noiseScale) * 600);
+        splineVertex(600, 130 + noise((travel + 600) / noiseScale) * 600);
+    }
+    endShape();
+
+
+    noFill();
+    strokeWeight(5);
+    stroke(0, 0, 0);
+    arc(300, ringY, 25, 130, 85, 270);
+
+    ringY += yVel;
+    yVel += 0.4;
+
+    travel += travelSpeed;
+    travelSpeed += 0.002;
+
+    font("sans-serif", 20);
+    strokeText("Distance Traveled: " + round(travel), 10, 25, color(0), color(255), 2, 45);
+    strokeText("FPS: " + round(frameRate()), 10, 50, color(0), color(255), 2, 45);
+
+    if (abs(ringY - noise((travel + 300) / noiseScale) * 600) > 65) {
+        deathTiles = [];
+        for (var x = 0; x < 600; x += 80) {
+            for (var y = 0; y < 600; y += 80) {
+                deathTiles.push([snip(x, y, 80, 80), x, y, random(2, 5)]);
+            }
+        }
+        scene = 2;
+    }
+}
+
+function death_pg3() {
+    background(69, 170, 242);
+
+    textAlign(CENTER, CENTER);
+    textSize(70);
+    pushMatrix();
+        translate(300, 90);
+        rotate(sin(get.frameCount * 5) * 10);
+
+        strokeText("You Died", 0, -15, color(0), color(255), 6, 10);
+    popMatrix();
+
+    if (travel > highScore) {
+        highScore = round(travel);
+    }
+
+    textSize(35);
+    strokeText("Your Score: " + round(travel), 300, 275, color(0), color(255), 3, 10);
+    strokeText("HighScore: " + highScore, 300, 330, color(0), color(255), 3, 10);
+
+    if (round(travel) === highScore) {
+        textSize(30);
+        pushMatrix();
+            translate(300 + sin(get.frameCount * 3) * 50, 220);
+
+            strokeText("New Highscore!", 0, -15, color(0), color(255), 3, 10);
+        popMatrix();
+    }
+
+    textSize(40);
+    if (pointBoxColl(mouseX(), mouseY(), 189, 418, 223, 43)) {
+        strokeText("-Play Again-", 300, 435, color(0), color(0), 6, 10);
+    }
+    strokeText("-Play Again-", 300, 435, color(0), color(255), 3, 10);
+
+    if (pointBoxColl(mouseX(), mouseY(), 235, 487, 134, 37)) {
+        strokeText("-Menu-", 300, 505, color(0), color(0), 6, 10);
+    }
+    strokeText("-Menu-", 300, 505, color(0), color(255), 3, 10);
+
+    textAlign(BASELINE);
+
+    imageMode(CENTER);
+    for (var i = 0; i < deathTiles.length; i++) {
+        if (25 + deathTiles[i][2] < 700) {
+            pushMatrix();
+                translate(40 + deathTiles[i][1], 40 + deathTiles[i][2]);
+                rotate(sin((i * get.frameCount) / 150) * 360);
+
+                image(deathTiles[i][0], 0, 0);
+            popMatrix();
+
+            deathTiles[i][1] += sin(i * 100) * 5;
+            deathTiles[i][2] -= deathTiles[i][3];
+            deathTiles[i][3] -= 0.3;
+        }
+    }
+
+    var allGone = true;
+    for (var i = 0; i < deathTiles.length; i++) {
+        if (25 + deathTiles[i][2] < 700) {
+            allGone = false;
+            break;
+        }
+    }
+
+    if (allGone) {
+        deathTiles = [];
+    }
+}
+
+dl.draw = function() {
+    pushMatrix();
+        scale(globalScale);
+        
+        background(69, 170, 242);
+
+        for (var i = 0; i < clouds.length; i++) {
+            drawCloud(clouds[i][0], clouds[i][1], clouds[i][2]);
+
+            clouds[i][0] -= (1 - clouds[i][2]) * 2 + travelSpeed / 5;
+
+            if (clouds[i][0] < -clouds[i][2] * 400) {
+                clouds[i] = [600, random(0, 600), random(0.2, 0.5)];
+            }
+        }
+
+        drawCave();
+
+        switch (scene) {
+            case 0:
+                titleScreen_pg0();
+                break;
+            case 1:
+                game_pg1();
+                break;
+            case 2:
+                death_pg3();
+                break;
+        }
+    popMatrix();
+};
+
+dl.mousePressed = function() {
+    switch (scene) {
+        case 0:
+            if (pointBoxColl(mouseX(), mouseY(), 120, 338, 61, 29)) {
+                difficulty = 1;
+            }
+            if (pointBoxColl(mouseX(), mouseY(), 254, 338, 93, 29)) {
+                difficulty = 2;
+            }
+            if (pointBoxColl(mouseX(), mouseY(), 422, 338, 57, 29)) {
+                difficulty = 3;
+            }
+            if (dist(mouseX(), mouseY(), 300, 480) < 140 / 2) {
+                scene = 1;
+                travel = 0;
+                travelSpeed = 3;
+                yVel = -5;
+                if (difficulty === 1) {
+                    noiseScale = 1000;
+                } else if (difficulty === 2) {
+                    noiseScale = 700;
+                } else if (difficulty === 3) {
+                    noiseScale = 400;
+                }
+                ringY = noise((travel + 300) / noiseScale) * 600;
+            }
+            break;
+        case 1:
+            yVel = -6;
+            break;
+        case 2:
+            if (pointBoxColl(mouseX(), mouseY(), 189, 418, 223, 43) && deathTiles.length < 1) {
+                scene = 1;
+                travel = 0;
+                travelSpeed = 3;
+                yVel = -5;
+                if (difficulty === 1) {
+                    noiseScale = 1000;
+                } else if (difficulty === 2) {
+                    noiseScale = 700;
+                } else if (difficulty === 3) {
+                    noiseScale = 400;
+                }
+                ringY = noise((travel + 300) / noiseScale) * 600;
+            }
+            if (pointBoxColl(mouseX(), mouseY(), 235, 487, 134, 37) && deathTiles.length < 1) {
+                scene = 0;
+            }
+            break;
+    }
+};
+
+dl.keyPressed = function() {
+    switch (scene) {
+        case 0:
+            scene = 1;
+            travel = 0;
+            travelSpeed = 3;
+            yVel = -5;
+            if (difficulty === 1) {
+                noiseScale = 1000;
+            } else if (difficulty === 2) {
+                noiseScale = 700;
+            } else if (difficulty === 3) {
+                noiseScale = 400;
+            }
+            ringY = noise((travel + 300) / noiseScale) * 600;
+            break;
+        case 1:
+            yVel = -6;
+            break;
+        case 2:
+            if (deathTiles.length < 1) {
+                scene = 1;
+                travel = 0;
+                travelSpeed = 3;
+                yVel = -5;
+                if (difficulty === 1) {
+                    noiseScale = 1000;
+                } else if (difficulty === 2) {
+                    noiseScale = 700;
+                } else if (difficulty === 3) {
+                    noiseScale = 400;
+                }
+                ringY = noise((travel + 300) / noiseScale) * 600;
+            }
+            break;
+    }
+};
+
+    </script>
+
+
+</body>
+</html>
