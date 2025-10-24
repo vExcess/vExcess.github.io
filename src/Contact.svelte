@@ -4,10 +4,14 @@
 
 <div style="padding: 10px; background-color: transparent;">
     <a class="contact-box hover-glow" href="{link}" target="_blank">
-        <img src="{img}" height="95px" style="{imgStyle}" alt="">
-        <strong>{site}<strong>
-        <div style="height: 14px;"></div>
-        <strong style="font-family: Consolas, monospace;">@{tag}<strong>
+        <div style="height: 95px; margin-bottom: 10px;">
+            <img src="{img}" height="95px" style="{imgStyle}" alt="">
+        </div>
+        <div>
+            <strong>{site}<strong>
+            <div style="height: 14px;"></div>
+            <strong style="font-family: Consolas, monospace;">{tag}<strong>
+        </div>
     </a>
 </div>
 
@@ -17,13 +21,10 @@
         border-radius: 10px;
         overflow: hidden;
         border: 3px solid rgb(15, 110, 40);
-        width: 150px;
-        height: 85px;
-        background-color: rgb(0, 0, 0, 0.7);
-        background-size: cover;
-        background-repeat: no-repeat;
+        width: 225px;
+        height: 150px;
+        background-color: rgb(0, 0, 0, 0.75);
         padding: 10px;
-        padding-top: 65px;
         text-align: center;
         text-decoration: none;
         position: relative;

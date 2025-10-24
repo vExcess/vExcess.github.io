@@ -102,18 +102,13 @@
 		{
 			link: "https://github.com/vExcess/svquery",
 			name: "SvQuery",
-			description: "SvQuery is essentially a subsset of Svelte mixed together with jQuery."
+			description: "SvQuery is essentially a subset of Svelte mixed together with jQuery."
 		},
 		// {
 		// 	link: "https://github.com/vExcess/JITLang",
 		// 	name: "JITLang",
 		// 	description: "JavaScript is my favorite language, however JS has many stupid features that make the language worse. In addition, JS  lacks many features that would make it better. JITLang is a Just In Time compiled Language that aims to be JavaScript the way that JS ought to have been designed. Not only can JITLang be JIT compiled, but with the use of compiler flags it will be able to be compiled to native binaries. The main target for this is being able to dynamically compile JITLang code to WebAssembly on the fly. The language is still in development and is far from completion however you can run the latest version here: https://vxsacademy.org/computer-programming/new/jitlang"
 		// },
-		{
-			link: "https://vxsacademy.org/computer-programming/op21YXlmoae7fl",
-			name: "Flappy Bird Clone",
-			description: "I've made multiple video games, but this is probably my most polished one."
-		},
 		{
 			link: "https://github.com/vExcess/ka-monitor",
 			name: "VexTron (previously KA Monitor)",
@@ -176,31 +171,38 @@
 		{
 			link: "https://www.github.com/vExcess",
 			img: "./images/github.png",
-			imgStyle: "transform: translate(4px, 0px) scale(0.82);margin-top: -60px;margin-bottom: 5px;filter: invert(1);",
+			imgStyle: "transform: translate(1px, -2px) scale(0.75); filter: invert(1);",
 			site: "Github",
-			tag: "vExcess"
+			tag: "@vExcess"
 		},
 		{
 			link: "https://discord.com",
 			img: "./images/discord.png",
-			imgStyle: "margin-top: -60px;margin-bottom: 3px;transform: scale(1.2);",
+			imgStyle: "transform: translate(0px, -1px) scale(1.2);",
 			site: "Discord",
-			tag: "vexcess"
+			tag: "@vexcess"
 		},
 		{
 			link: "https://replit.com/@vexcess",
 			img: "./images/replit.png",
-			imgStyle: "transform: scale(0.6);margin-top: -62px;margin-bottom: 4px;",
+			imgStyle: "transform: translate(0px, -1px) scale(0.6);",
 			site: "Replit",
-			tag: "vexcess"
+			tag: "@vexcess"
 		},
 		{
 			link: "https://vxsacademy.org/profile/vexcess",
 			img: "./images/logo.png",
-			imgStyle: "transform: scale(0.75);margin-top: -62px;margin-bottom: 4px;",
+			imgStyle: "transform: translate(0px, -1px) scale(0.75);",
 			site: "VExcess Academy",
-			tag: "vexcess"
-		}
+			tag: "@vexcess"
+		},
+		{
+			link: "https://proton.me/mail",
+			img: "./images/protonmail.png",
+			imgStyle: "transform: translate(0px, -1px) scale(0.63);",
+			site: "Email",
+			tag: "vexcess@proton.me"
+		},
 	];
 
 	
@@ -212,22 +214,21 @@
 <Navbar/>
 
 <!-- ABOUT -->
-<div class="page">
-	<h1 style="margin-top: 10px;">VExcess</h1>
+<div class="page crop-center">
+	<h1>VExcess</h1>
 	
-	<pre><code class="language-javascript" style="font-size: 14px;">let VExcess = &#123;
+	<pre><code class="language-javascript" style="font-size: 0.8em;">let VExcess = &#123;
 	name: "Vincent S.",
-	location: "United States",
+	location: "California, U.S.A",
 	description: `
-		I'm a self taught, self proclaimed, full-stack web developer 
-		who enjoys programming in JavaScript, Dart, and Zig. 
-		My choice 
+		Self-taught self-proclaimed full-stack web developer;
+		Enjoys programming in JavaScript, Dart, and Zig;
+		Choice Softwares
 			OS: Linux Mint
 			IDE: VS Code
-			WebFramework: Svelte
+			Web Framework: Svelte
 		My current passion project is creating a FOSS clone of MS 
 		Paint 3D.
-
 	`
 };</code></pre>
 	
@@ -279,45 +280,59 @@
 <!-- GAMES -->
 <div class="page">
 	<h1>Games</h1>
-	<p>I've started many games. Here are some that I've bothered porting to Drawlite.</p>
+	<div class="crop-center page-content">
+		<p>I've started many games. Here are some that I've bothered porting to Drawlite.</p>
+	</div>
 
-	{#each games as gameInfo}
-		<Game {...gameInfo}/>
-	{/each}
+	<div id="games" class="page-content">
+		{#each games as gameInfo}
+			<Game {...gameInfo}/>
+		{/each}
+	</div>
+
+	<style>
+		#games {
+			display: flex;
+			flex-flow: wrap;
+			justify-content: center;
+		}
+	</style>
 </div>
 
-<!-- SHOWCASE -->
-<div class="page">
-	<h1>Showcase</h1>
-	<p>I have about 450 different programming projects I've started, but here are some of my more interesting ones. For useful projects check out the Tools tab</p>
-
-	{#each projects as projectInfo}
-		<Project {...projectInfo}/>
-	{/each}
+<!-- PROJECTS -->
+<div class="page crop-center">
+	<h1>Projects</h1>
+	<div class="page-content">
+		<p>I have about 450 different programming projects I've started, but here are some of my more interesting ones. For useful projects check out the Tools tab</p>
+		{#each projects as projectInfo}
+			<Project {...projectInfo}/>
+		{/each}
+	</div>
 </div>
 
 <!-- TOOLS -->
-<div class="page">
-	<h2>Tools</h2>
-	
-	{#each tools as projectInfo}
-		<Project {...projectInfo}/>
-	{/each}
+<div class="page crop-center">
+	<h1>Tools</h1>
+	<div class="page-content">
+		{#each tools as projectInfo}
+			<Project {...projectInfo}/>
+		{/each}
+	</div>
 </div>
 
 <!-- BLOG -->
-<div class="page">
-	<h2>Blog</h2>
-	
-	{#each blog as projectInfo}
-		<Project {...projectInfo}/>
-	{/each}
+<div class="page crop-center">
+	<h1>Blog</h1>
+	<div class="page-content">
+		{#each blog as projectInfo}
+			<Project {...projectInfo}/>
+		{/each}
+	</div>
 </div>
 
 <!-- CONTACT -->
-<div class="page">
-	<h1 style="margin-bottom: 0px; margin-top: 0px;">Contacts:</h1>
-	<br><br>
+<div class="page crop-center">
+	<h1 style="margin-bottom: 40px;">Contacts</h1>
 	
 	<div id="contacts-table">
 		{#each contacts as contactInfo}
@@ -340,20 +355,36 @@
 		const pageHashes = [
 			"about",
 			"games",
-			"showcase",
+			"projects",
 			"tools",
 			"blog",
 			"contact"
 		];
 
 		let pages = document.getElementsByClassName('page');
+		let navItems = document.getElementsByClassName('navitem');
 		function changePage(index) {
 			window.location.hash = pageHashes[index];
+
+			for (let i = 0; i < navItems.length; i++) {
+				navItems[i].classList.remove("navitem-selected");
+			}
+			
 			for (let i = 0; i < pages.length; i++) {
 				pages[i].style.display = 'none';
 			}
+
+			navItems[index].classList.add("navitem-selected");
 			pages[index].style.display = 'block';
-			window.scroll(0, 0);
+			
+			// gotta wait for page to rerender before scrolling
+			setTimeout(() => {
+				window.scrollTo({
+					left: 0,
+					top: 0,
+					behavior: "smooth"
+				});
+			}, 100);
 		}
 
 		let firstPageIndex = pageHashes.indexOf(window.location.hash.slice(1));

@@ -8,7 +8,13 @@
         <strong style="display: inline-block; margin-left: 6px; margin-top: 6px;">VExcess</strong>
     </a>
 
-    {#each ["About", "Games", "Showcase", "Tools", "Blog", "Contact"] as tabLabel, i}
+    <style>
+        .navitem-selected {
+            border-bottom: 2px solid green;
+        }
+    </style>
+
+    {#each ["About", "Games", "Projects", "Tools", "Blog", "Contact"] as tabLabel, i}
         <NavItem label={tabLabel} pageId={i}/>
     {/each}
 </div>

@@ -11,7 +11,7 @@
 <style>
     .resource-box {
         display: block;
-        background-color: rgb(0, 0, 0, 0.7);
+        background-color: rgb(0, 0, 0, 0.75);
         border: 3px solid rgb(15, 110, 40);
         border-radius: 10px;
         margin-bottom: 6px;
