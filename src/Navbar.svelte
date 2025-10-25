@@ -36,6 +36,14 @@
         font-family: cyborg, sans-serif;
     }
 
+    @media screen and (max-width: 770px) {
+        #navTool {
+            position: relative;
+            flex-direction: column;
+            margin-bottom: -50px;
+        }
+    }
+
     #navTool :global(a) {
         color: white;
         text-decoration: none;

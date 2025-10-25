@@ -17,12 +17,15 @@
 
 <style>
     .contact-box {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         border-radius: 10px;
         overflow: hidden;
         border: 3px solid rgb(15, 110, 40);
-        width: 225px;
-        height: 150px;
+        width: 235px;
+        height: 170px;
         background-color: rgb(0, 0, 0, 0.75);
         padding: 10px;
         text-align: center;
@@ -30,6 +33,12 @@
         position: relative;
         font-size: 20px;
         color: white;
+    }
+    @media screen and (max-width: 576px) {
+        .contact-box {
+            width: calc(100vw - 40px);
+            height: clamp(150px, 50vw, 200px);
+        }
     }
     .contact-box strong {
         display: block;
