@@ -228,13 +228,12 @@
 			IDE: VS Code
 			Web Framework: Svelte
 		My current passion project is creating a FOSS clone of MS 
-		Paint 3D.
+		Paint 3D;
 	`
 };</code></pre>
 	
 	<br><br>
 	
-	<h2 style="margin-bottom: 12px; margin-top: 0px;">Tooling:</h2>
 	<div class="tooling">
 		<h2>Much Experience With:</h2>
 		<div id="proficient">
@@ -258,7 +257,7 @@
 			background-color: rgb(15, 140, 50);
 			padding: 10px;
 			border-radius: 12px;
-			width: min(730px, 100%);
+			width: min(770px, 100%);
 			margin: auto;
 		}
 	

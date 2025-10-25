@@ -8,7 +8,7 @@
     <div>{description}</div>
     <br>
     <div class="resource-image-wrapper">
-        <img src="/games/{name.toLowerCase().replaceAll(" ", "-")}/thumbnail.png" alt="thumbnail" height="400">
+        <img src="/games/{name.toLowerCase().replaceAll(" ", "-")}/thumbnail.png" alt="thumbnail">
     </div>
 </a>
 
@@ -23,8 +23,9 @@
         margin: 10px;
         text-decoration: none;
         color: white;
-        width: 500px;
-        height: 600px;
+        width: 30vw;
+        min-width: 300px;
+        height: fit-content;
     }
 
     .resource-box div {
@@ -33,9 +34,19 @@
     }
 
     .resource-image-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        position: relative;
+        width: 100%;
+        padding-top: 100%;
+        display: block;
+    }
+
+    .resource-image-wrapper img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; 
         height: 100%;
+        object-fit: contain;
+        object-position: center;
     }
 </style>

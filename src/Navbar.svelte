@@ -3,7 +3,7 @@
 </script>
 
 <div id="navTool">
-    <a href="https://vexcess.github.io/" target="_self" style="padding: 13px; padding-left: 18px;">
+    <a href="https://vexcess.github.io/" target="_self" style="padding: 13px; padding-left: 18px; min-width: 115px;">
         <img src="./images/logo.png" width="16" height="16" style="transform: scale(2); display: inline-block; margin-top: 2px; margin-right: 4px;" alt="">
         <strong style="display: inline-block; margin-left: 6px; margin-top: 6px;">VExcess</strong>
     </a>
@@ -23,6 +23,9 @@
     #navTool {
         display: flex;
         position: fixed;
+        overflow: auto;
+        scrollbar-color: gray black;
+        scrollbar-width: thin;
         z-index: 10;
         top: 0px;
         left: 0px;
@@ -32,6 +35,7 @@
         font-size: 22px;
         font-family: cyborg, sans-serif;
     }
+
     #navTool :global(a) {
         color: white;
         text-decoration: none;
@@ -40,6 +44,7 @@
         padding-bottom: 15px;
         background-color: rgb(0, 0, 0);
     }
+
     #navTool :global(a:hover) {
         background-color: rgb(50, 50, 50);
     }

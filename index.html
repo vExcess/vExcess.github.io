@@ -4,13 +4,15 @@
         <meta charset='utf-8'>
         <meta name='viewport' content='width=device-width,initial-scale=1'>
 
-        <title>vExcess</title>
+        <title>VExcess</title>
 
         <link rel='icon' type='image/png' href='./images/logo.png'>
         <link rel='stylesheet' href='./public/build/bundle.css'>
 
         <!-- global css -->
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
             @font-face {
                 font-family: cyborg;
                 src: url("https://www.onyedika.xyz/static/media/ExoSpace.606b1a1e5fed2c8afb24.ttf");
@@ -18,19 +20,30 @@
             }
 
             body {
-                font-family: cyborg, sans-serif;
+                font-family: "JetBrains Mono", monospace;
                 margin: auto;
                 color: white;
                 font-size: 1.2em;
             }
 
+            h1, h2 {
+                font-family: cyborg, sans-serif;
+            }
+
             .page {
                 background-color: transparent;
                 margin: auto;
-                padding: 50px;
+                padding: 10vw;
                 padding-top: 80px;
                 min-height: calc(100vh - 52px - 98px);
             }
+            @media (max-width: 1000px) {
+                .page {
+                    padding: 0px;
+                    padding-top: 80px;
+                }
+            }
+
             .page h1 {
                 text-align: center;
                 text-shadow: rgb(0, 0, 0) 0px 2px 8px;

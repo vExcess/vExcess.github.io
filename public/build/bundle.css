@@ -1,7 +1,10 @@
 
-    #navTool.svelte-1wcr75l {
+    #navTool.svelte-17qo7kv {
         display: flex;
         position: fixed;
+        overflow: auto;
+        scrollbar-color: gray black;
+        scrollbar-width: thin;
         z-index: 10;
         top: 0px;
         left: 0px;
@@ -11,7 +14,8 @@
         font-size: 22px;
         font-family: cyborg, sans-serif;
     }
-    #navTool.svelte-1wcr75l a {
+
+    #navTool.svelte-17qo7kv a {
         color: white;
         text-decoration: none;
         padding: 25px;
@@ -19,12 +23,13 @@
         padding-bottom: 15px;
         background-color: rgb(0, 0, 0);
     }
-    #navTool.svelte-1wcr75l a:hover {
+
+    #navTool.svelte-17qo7kv a:hover {
         background-color: rgb(50, 50, 50);
     }
 
 
-    .resource-box.svelte-byuvvd {
+    .resource-box.svelte-1th3pcn {
         display: flex;
         flex-direction: column;
         background-color: rgb(0, 0, 0, 0.75);
@@ -34,20 +39,31 @@
         margin: 10px;
         text-decoration: none;
         color: white;
-        width: 500px;
-        height: 600px;
+        width: 30vw;
+        min-width: 300px;
+        height: fit-content;
     }
 
-    .resource-box.svelte-byuvvd div:where(.svelte-byuvvd) {
+    .resource-box.svelte-1th3pcn div:where(.svelte-1th3pcn) {
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, Helvetica, sans-serif;
         font-size: 0.9em;
     }
 
-    .resource-image-wrapper.svelte-byuvvd {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .resource-image-wrapper.svelte-1th3pcn {
+        position: relative;
+        width: 100%;
+        padding-top: 100%;
+        display: block;
+    }
+
+    .resource-image-wrapper.svelte-1th3pcn img:where(.svelte-1th3pcn) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; 
         height: 100%;
+        object-fit: contain;
+        object-position: center;
     }
 
 
