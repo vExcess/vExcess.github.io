@@ -257,7 +257,7 @@
 			background-color: rgb(15, 140, 50);
 			padding: 10px;
 			border-radius: 12px;
-			width: min(770px, 100%);
+			width: min(770px, calc(100% - 25px));
 			margin: auto;
 		}
 	
@@ -268,8 +268,8 @@
 		}
 	
 		.tooling div {
-			display: flex;
-			flex-wrap: wrap;
+			display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(250px, calc(100vw - 35px)), 1fr));
 			justify-content: center;
 			align-content: center;
 		}
@@ -291,8 +291,8 @@
 
 	<style>
 		#games {
-			display: flex;
-			flex-flow: wrap;
+			display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 			justify-content: center;
 		}
 	</style>

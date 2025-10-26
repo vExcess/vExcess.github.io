@@ -23,9 +23,6 @@
         margin: 10px;
         text-decoration: none;
         color: white;
-        width: 30vw;
-        min-width: 300px;
-        height: fit-content;
     }
 
     .resource-box div {
@@ -38,6 +35,7 @@
         width: 100%;
         padding-top: 100%;
         display: block;
+        aspect-ratio: 1:1;
     }
 
     .resource-image-wrapper img {
