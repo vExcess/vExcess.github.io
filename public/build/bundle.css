@@ -1,5 +1,5 @@
 
-    #navTool.svelte-1tz0u69 {
+    #navTool.svelte-ctep8z {
         display: flex;
         position: fixed;
         overflow: auto;
@@ -16,14 +16,14 @@
     }
 
     @media screen and (max-width: 770px) {
-        #navTool.svelte-1tz0u69 {
+        #navTool.svelte-ctep8z {
             position: relative;
             flex-direction: column;
             margin-bottom: -50px;
         }
     }
 
-    #navTool.svelte-1tz0u69 a {
+    #navTool.svelte-ctep8z a {
         color: white;
         text-decoration: none;
         padding: 25px;
@@ -32,12 +32,12 @@
         background-color: rgb(0, 0, 0);
     }
 
-    #navTool.svelte-1tz0u69 a:hover {
+    #navTool.svelte-ctep8z a:hover {
         background-color: rgb(50, 50, 50);
     }
 
 
-    .resource-box.svelte-15ozuht {
+    .resource-box.svelte-11aj6xd {
         display: flex;
         flex-direction: column;
         background-color: rgb(0, 0, 0, 0.75);
@@ -49,12 +49,12 @@
         color: white;
     }
 
-    .resource-box.svelte-15ozuht div:where(.svelte-15ozuht) {
+    .resource-box.svelte-11aj6xd div:where(.svelte-11aj6xd) {
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, Helvetica, sans-serif;
         font-size: 0.9em;
     }
 
-    .resource-image-wrapper.svelte-15ozuht {
+    .resource-image-wrapper.svelte-11aj6xd {
         position: relative;
         width: 100%;
         padding-top: 100%;
@@ -62,7 +62,7 @@
         aspect-ratio: 1:1;
     }
 
-    .resource-image-wrapper.svelte-15ozuht img:where(.svelte-15ozuht) {
+    .resource-image-wrapper.svelte-11aj6xd img:where(.svelte-11aj6xd) {
         position: absolute;
         top: 0;
         left: 0;
@@ -73,7 +73,7 @@
     }
 
 
-    .resource-box.svelte-1pcxwn4 {
+    .resource-box.svelte-e5bjio {
         display: block;
         background-color: rgb(0, 0, 0, 0.75);
         border: 3px solid rgb(15, 110, 40);
@@ -85,13 +85,13 @@
         margin-bottom: 18px;
     }
 
-    .resource-box.svelte-1pcxwn4 div:where(.svelte-1pcxwn4) {
+    .resource-box.svelte-e5bjio div:where(.svelte-e5bjio) {
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, Helvetica, sans-serif;
         font-size: 0.9em;
     }
 
 
-    .contact-box.svelte-1e6c78j {
+    .contact-box.svelte-ecjno1 {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -110,12 +110,12 @@
         color: white;
     }
     @media screen and (max-width: 576px) {
-        .contact-box.svelte-1e6c78j {
+        .contact-box.svelte-ecjno1 {
             width: calc(100vw - 40px);
             height: clamp(150px, 50vw, 200px);
         }
     }
-    .contact-box.svelte-1e6c78j strong:where(.svelte-1e6c78j) {
+    .contact-box.svelte-ecjno1 strong:where(.svelte-ecjno1) {
         display: block;
         position: relative;
         top: -8px;

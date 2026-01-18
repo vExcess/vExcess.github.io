@@ -146,7 +146,7 @@
 
 	const tools = [
 		{
-			link: "https://github.com/ka-extension/ka-extension-ts",
+			link: "https://tildegit.org/matthias/ka-extension-ts",
 			name: "Extension for Khan Academy",
 			description: "I've contributed to the creation of the Extension for Khan Academy (formerly \"The Khan Academy Extension\") which is a browser extension that has over 600 users. It adds features to Khan Academy that make it more user friendly and customizable."
 		},
@@ -182,13 +182,13 @@
 			site: "Discord",
 			tag: "@vexcess"
 		},
-		{
-			link: "https://replit.com/@vexcess",
-			img: "./images/replit.png",
-			imgStyle: "transform: translate(0px, -1px) scale(0.6);",
-			site: "Replit",
-			tag: "@vexcess"
-		},
+		// {
+		// 	link: "https://replit.com/@vexcess",
+		// 	img: "./images/replit.png",
+		// 	imgStyle: "transform: translate(0px, -1px) scale(0.6);",
+		// 	site: "Replit",
+		// 	tag: "@vexcess"
+		// },
 		{
 			link: "https://vxsacademy.org/profile/vexcess",
 			img: "./images/logo.png",
@@ -221,7 +221,7 @@
 	name: "Vincent S.",
 	location: "California, U.S.A",
 	description: `
-		Self-taught self-proclaimed full-stack web developer;
+		Self-proclaimed full-stack web developer;
 		Enjoys programming in JavaScript, Dart, and Zig;
 		Choice Softwares
 			OS: Linux Mint
