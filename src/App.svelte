@@ -221,7 +221,7 @@
 	name: "Vincent S.",
 	location: "California, U.S.A",
 	description: `
-		Self-proclaimed full-stack web developer;
+		Open-Source full-stack web developer;
 		Enjoys programming in JavaScript, Dart, and Zig;
 		Choice Softwares
 			OS: Linux Mint
