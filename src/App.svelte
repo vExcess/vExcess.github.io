@@ -138,6 +138,11 @@
 			description: "More of a mini book than a blog post. ImageData tutorials for beginners."
 		},
 		{
+			link: "https://vexcess.github.io/blog/updating-lenovo-bios",
+			name: "Updating Lenovo Bios",
+			description: "My rant about doing a BIOS update turning into a 6 hour adventure. Hope this helps if you ever run into the same issues."
+		},
+		{
 			link: "https://vexcess.github.io/blog/zig-for-webassembly-guide",
 			name: "Zig for WebAssembly guide",
 			description: "Tutorial on how to use Zig for web assembly. Guide is outdated, but most concepts still apply. If you want me to update it just let me know."
