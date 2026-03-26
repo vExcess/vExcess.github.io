@@ -9,7 +9,7 @@
 
 A letter that I wrote to my state representatives. As per the expected, they simply ignored it. So now it's posted on my blog for everyone else to read.
 
-## 
+<div style="height: 1px; background: gray; margin-bottom: 1em;"></div>
 
 As a constituent and software developer, I am writing to urge you to introduce or support legislation to repeal California's Digital Age Assurance Act (AB 1043). This law requires that, beginning January 1, 2027, all operating systems require users to indicate their age at account setup. In addition, the operating system must make the user's age information available through a real-time application programming interface (API) to all websites or software applications that facilitate downloading third-party applications. The law is enforced under threat of a fine to the entity that develops the operating system, of up to $7,500 per child "affected" (it is unclear what is meant by affected).
 
