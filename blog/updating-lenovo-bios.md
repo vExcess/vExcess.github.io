@@ -8,7 +8,7 @@
 <br>
 My rant about doing a BIOS update turning into a 6 hour adventure. Hope this helps if you ever run into the same issues.
 
-## [title to seperate summary from content]
+## 
 My 5.1 Ghz CPU is being underclocked to 0.8 GHz.  
 Doing anything on my laptop is excruciatingly slow.  
 I complain in the Linux Mint Discord because I think it's a kernel issue.  
